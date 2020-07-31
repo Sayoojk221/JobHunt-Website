@@ -1,0 +1,71 @@
+{% extends 'login&register/base.html' %}
+{% block content %}
+<section>
+        <div class="block no-padding  gray">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="inner2">
+                            <div class="inner-title2">
+                                <h3>Login</h3>
+                                <span>Keep up to date with the latest news</span>
+                            </div>
+                            <div class="page-breacrumbs">
+                                <ul class="breadcrumbs">
+                                    <li><a href="/" title="">Home</a></li>
+<!--                                     <li><a href="#" title="">Pages</a></li>
+ -->                                    <li><a href="/login/" title="">Login</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="block remove-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="account-popup-area signin-popup-box static">
+                            <div class="account-popup">
+                                {{error}}{{success}}
+                                <h3>Sign In</h3>
+                                <form method='POST' action='/login/'>
+                                    {% csrf_token %}
+                                    <div class="select-user">
+                                        <span><input type="radio"  name="usertype" value='Candidate'>Candidate</span>
+                                        <span><input type="radio" checked=""  name="usertype" value='Employer'>Employer</span>
+                                    </div>
+                                    <div></div>
+                                    <div class="cfield">
+                                        <input type="email" name='email' placeholder="Email" />
+                                        <i class="la la-user"></i>
+                                    </div>
+                                    <div class="cfield">
+                                        <input type="password" name='pass' placeholder="********" />
+                                        <i class="la la-key"></i>
+                                    </div>
+                                    <p class="remember-label">
+                                        <input type="checkbox" name="cb" id="cb1"><label for="cb1">Remember me</label>
+                                    </p>
+                                    <a href="#" title="">Forgot Password?</a>
+                                    <button type="submit">Login</button>
+                                </form>
+                                <div class="extra-login">
+                                    <span>Or</span>
+                                    <div class="login-social">
+                                        <a class="fb-login" href="#" title=""><i class="fa fa-facebook"></i></a>
+                                        <a class="tw-login" href="#" title=""><i class="fa fa-twitter"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- LOGIN POPUP -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
