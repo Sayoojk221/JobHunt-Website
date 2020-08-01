@@ -4,21 +4,19 @@ from django.db import models
 # Create your models here.
 
 class EmployerRegister(models.Model):
+    logo = models.ImageField(upload_to='employerlogo',null='True')
     companyname = models.CharField(max_length=200,null='True')
     companyemail = models.CharField(max_length=200,null='True')
     password = models.CharField(max_length=50,null='True')
     phoneno = models.CharField(max_length=200,null='True')
     country = models.CharField(max_length=200,null='True')
     state = models.CharField(max_length=200,null='True')
-    city = models.CharField(max_length=200,null='True')
-    authentication = models.CharField(max_length=200,default='')
-class EmployerDetails(models.Model):
-    logo = models.ImageField(upload_to='employerlogo',null='True')
-    employerid = models.ForeignKey(EmployerRegister,on_delete=models.CASCADE)
     since = models.CharField(max_length=200,null='True')
     teamsize = models.CharField(max_length=200,null='True')
     category = models.CharField(max_length=200,null='True')
     description = models.CharField(max_length=2000,null='True')
+    website = models.CharField(max_length=200,null='True')
+    authentication = models.CharField(max_length=200,default='')
 
 class EmployerSocialDetails(models.Model):
     employerid = models.ForeignKey(EmployerRegister,on_delete=models.CASCADE)

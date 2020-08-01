@@ -1,0 +1,262 @@
+{% extends 'employer/base2.html' %}
+{% block content %}
+<section class="overlape">
+        <div class="block no-padding">
+            <div data-velocity="-.1" style="background: url(/static/images/resource/mslider1.jpg) repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible no-parallax"></div><!-- PARALLAX BACKGROUND IMAGE -->
+            <div class="container fluid">
+                <div class="row">
+                    {% for item in employer_reg %}
+                    <div class="col-lg-12">
+                        <div class="inner-header">
+                            <h3>Welcome {{item.companyname}}</h3>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+</section>
+
+<section>
+    <div class="block no-padding">
+        <div class="container">
+             <div class="row no-gape">
+                <aside class="col-lg-3 column border-right">
+                    <div class="widget">
+                        <div class="tree_widget-sec">
+                            <ul>
+                                <li><a href="/employerprofile/" title=""><i class="la la-file-text"></i>Company Profile</a></li>
+                                <li><a href="employer_manage_jobs.html" title=""><i class="la la-briefcase"></i>Manage Jobs</a></li>
+                                <li><a href="employer_transactions.html" title=""><i class="la la-money"></i>Transactions</a></li>
+                                <li><a href="employer_resume.html" title=""><i class="la la-paper-plane"></i>Resumes</a></li>
+                                <li><a href="employer_packages.html" title=""><i class="la la-user"></i>Packages</a></li>
+                                <li><a href="employer_post_new.html" title=""><i class="la la-file-text"></i>Post a New Job</a></li>
+                                <li><a href="employer_job_alert.html" title=""><i class="la la-flash"></i>Job Alerts</a></li>
+                                <li><a href="employer_change_password.html" title=""><i class="la la-lock"></i>Change Password</a></li>
+                                <li><a href="#" title=""><i class="la la-unlink"></i>Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </aside>
+                <div class="col-lg-9 column">
+                    <div class="padding-left">
+                        <div class="profile-title" id="mp">
+                            <h3>My Profile</h3>
+                            <div class="profile-form-edit">
+                                <form method='POST' action='/employerprofile/'  enctype='multipart/form-data'>
+                                    {% csrf_token %}
+                                    {% for item in employer_reg %}
+                                    <div class="row">
+                                        <div class="upload-img-bar">
+                                            <span><img src="{{item.logo.url}}" alt="" /><i>x</i></span>
+                                            <div class="upload">
+                                                <label for="file-upload" class="custom-file-upload">
+
+<!--                                                     <i class="la la-cloud-upload"></i> <span>Upload Image</span>
+ -->                                                </label>
+                                                <input id="file-upload" type="file" name='logo' style="display: none;" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <span class="pf-title">Company Name</span>
+                                            <div class="pf-field">
+                                                <input type="text" name='companyname' value='{{item.companyname}}' />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <span class="pf-title">Company Category:</span>
+                                            <div class="pf-field">
+                                                <select data-placeholder="Please Select Specialism" name='category' class="chosen">
+                                                    <option value='Web Development'>Web Development</option>
+                                                    <option value='Web Designing'>Web Designing</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <span class="pf-title">Since</span>
+                                            <div class="pf-field">
+                                                <input type="text" name='since' value='{{item.since}}' />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <span class="pf-title">Team Size</span>
+                                            <div class="pf-field">
+                                                <input type="text" name='teamsize' value='{{item.teamsize}}' />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <span class="pf-title">Description</span>
+                                            <div class="pf-field">
+                                                <textarea name='description'>{{item.description}}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <button type="submit">Update</button>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </form>
+                            </div>
+                            <div class="social-edit"  id="sn">
+                                <h3>Social Edit</h3>
+                                <form method='POST' action="/employersocialnetworks/">
+                                    {%  csrf_token %}
+                                    {% if employer_social %}
+                                    {% for item in employer_social %}
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <span class="pf-title">Facebook</span>
+                                            <div class="pf-field">
+                                                <input type="text" name='facebook' value='{{item.facebook}}' />
+                                                <i class="fa fa-facebook"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <span class="pf-title">Twitter</span>
+                                            <div class="pf-field">
+                                                <input type="text" name='twitter' value='{{item.twitter}}' />
+                                                <i class="fa fa-twitter"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <span class="pf-title">Google</span>
+                                            <div class="pf-field">
+                                                <input type="text" name='google' value='{{item.google}}' />
+                                                <i class="la la-google"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <span class="pf-title">Linkedin</span>
+                                            <div class="pf-field">
+                                                <input type="text" name='linkedin' value='{{item.linkedin}}' />
+                                                <i class="fa fa-linkedin"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <button type="submit">Update</button>
+                                        </div>
+                                    {% endfor %}
+                                    {% else %}
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <span class="pf-title">Facebook</span>
+                                            <div class="pf-field">
+                                                <input type="text" name='facebook' value='None' />
+                                                <i class="fa fa-facebook"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <span class="pf-title">Twitter</span>
+                                            <div class="pf-field">
+                                                <input type="text" name='twitter' value='None' />
+                                                <i class="fa fa-twitter"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <span class="pf-title">Google</span>
+                                            <div class="pf-field">
+                                                <input type="text" name='google' value='None' />
+                                                <i class="la la-google"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <span class="pf-title">Linkedin</span>
+                                            <div class="pf-field">
+                                                <input type="text" name='linkedin' value='None' />
+                                                <i class="fa fa-linkedin"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <button type="submit">Update</button>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </form>
+                            </div>
+
+                            <div class="contact-edit" id="ci">
+                                <h3>Contact</h3>
+                                <form method='POST' action="/employercontact/">
+                                    {% csrf_token %}
+                                    {% for item in employer_reg%}
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <span class="pf-title">Phone Number</span>
+                                            <div class="pf-field">
+                                                <input type="text" value="{{item.phoneno}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <span class="pf-title">Email</span>
+                                            <div class="pf-field">
+                                                <input type="text" value="{{item.companyemail}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <span class="pf-title">Website</span>
+                                            <div class="pf-field">
+                                                <input type="text" name='website' value="{{item.website}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <span class="pf-title">Country</span>
+                                            <div class="pf-field">
+                                                <select data-placeholder="Please Select Specialism" name='country' class="chosen">
+                                                    <option value='india'>INDIA</option>
+                                                    <option value='us'>US</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <span class="pf-title">State</span>
+                                            <div class="pf-field">
+                                                <select data-placeholder="Please Select Specialism" name='state' class="chosen">
+                                                    <option value='kerala'>Kerala</option>
+                                                    <option value='chennai'>Chennai</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-lg-6">
+                                            <span class="pf-title">Find On Map</span>
+                                            <div class="pf-field">
+                                                <input type="text" placeholder="Collins Street West, Victoria 8007, Australia." />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <span class="pf-title">Latitude</span>
+                                            <div class="pf-field">
+                                                <input type="text" placeholder="41.1589654" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <span class="pf-title">Longitude</span>
+                                            <div class="pf-field">
+                                                <input type="text" placeholder="21.1589654" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <a href="#" title="" class="srch-lctn">Search Location</a>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <span class="pf-title">Maps</span>
+                                            <div class="pf-map">
+                                                <div id="map_div"></div>
+                                            </div>
+                                        </div> -->
+                                        <div class="col-lg-12">
+                                            <button type="submit">Update</button>
+                                        </div>
+
+                                    </div>
+                                    {% endfor %}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
