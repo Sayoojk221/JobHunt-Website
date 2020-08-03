@@ -43,7 +43,7 @@
                         <li><a href="employer_transactions.html" title=""><i class="la la-money"></i>Transactions</a></li>
                         <li><a href="employer_resume.html" title=""><i class="la la-paper-plane"></i>Resumes</a></li>
                         <li><a href="employer_packages.html" title=""><i class="la la-user"></i>Packages</a></li>
-                        <li><a href="employer_post_new.html" title=""><i class="la la-file-text"></i>Post a New Job</a></li>
+                        <li><a href="/postnewjob/" title=""><i class="la la-file-text"></i>Post a New Job</a></li>
                         <li><a href="employer_job_alert.html" title=""><i class="la la-flash"></i>Job Alerts</a></li>
                         <li><a href="employer_change_password.html" title=""><i class="la la-lock"></i>Change Password</a></li>
                         <li><a href="/employerlogout/" title=""><i class="la la-unlink"></i>Logout</a></li>
@@ -92,16 +92,17 @@
                 <div class="logo">
                     <a href="index.html" title=""><img class="hidesticky" src="/static/images/resource/logo.png" alt="" /><img class="showsticky" src="/static/images/resource/logo10.png" alt="" /></a>
                 </div><!-- Logo -->
+
                 {% for item in employer_reg %}
                 <div class="btns-profiles-sec">
-                    <span><img src="/static/images/resource/profile.jpg" class='menu' alt="" title='' /> {{item.companyname}} <i class="la la-angle-down"></i></span>
+                    <span><img src="{{item.logo.url}}" width="45px" height="45px" class='menu' alt="" title='' /> {{item.companyname}} <i class="la la-angle-down"></i></span>
                     <ul>
                         <li><a href="/employerprofile/" title=""><i class="la la-file-text"></i>Company Profile</a></li>
                         <li><a href="employer_manage_jobs.html" title=""><i class="la la-briefcase"></i>Manage Jobs</a></li>
                         <li><a href="employer_transactions.html" title=""><i class="la la-money"></i>Transactions</a></li>
                         <li><a href="employer_resume.html" title=""><i class="la la-paper-plane"></i>Resumes</a></li>
                         <li><a href="employer_packages.html" title=""><i class="la la-user"></i>Packages</a></li>
-                        <li><a href="employer_post_new.html" title=""><i class="la la-file-text"></i>Post a New Job</a></li>
+                        <li><a href="/postnewjob/" title=""><i class="la la-file-text"></i>Post a New Job</a></li>
                         <li><a href="employer_job_alert.html" title=""><i class="la la-flash"></i>Job Alerts</a></li>
                         <li><a href="employer_change_password.html" title=""><i class="la la-lock"></i>Change Password</a></li>
                         <li><a href="/employerlogout/" title=""><i class="la la-unlink"></i>Logout</a></li>
