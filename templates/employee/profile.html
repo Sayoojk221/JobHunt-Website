@@ -2,9 +2,10 @@
 {% block content %}
 
                 <div class="col-lg-9 column">
+
                     <div class="padding-left">
                         <div class="profile-title">
-                            <h3>My Profile</h3>
+                        <h3>My Profile</h3>
                         </div>
                         <div class="profile-form-edit">
                             <form method='POST' action='/employeeprofile/' enctype='multipart/form-data'>
@@ -18,7 +19,6 @@
                                         <input id="file-upload" type="file" name='image' style="display: none;" />
                                     </div>
                                 </div>
-
                                 {% endfor %}
                                 {% for item in employee_per %}
                                 <div class="row">
@@ -40,13 +40,32 @@
                                             <input type="text" name='age' placeholder="age" value='{{item.age}}' />
                                         </div>
                                     </div>
+                                    <div class="col-lg-6">
+                                        <span class="pf-title">Gender</span>
+                                        <div class="pf-field">
+                                            <input type="text" name='gender' placeholder="gender" value='{{item.gender}}' />
+                                        </div>
+                                    </div>
                                     {% endfor %}
                                     {% for item in employee_job %}
                                     <div class="col-lg-6">
-                                        <span class="pf-title">Job Title</span>
+                                        <span class="pf-title">Company Name</span>
                                         <div class="pf-field">
-                                            <input type="text" name="jobtitle" placeholder="Job title " value='{{item.jobtitle}}' />
+                                            <input type="text" name="company" placeholder="Job title " value='{{item.company}}' />
                                         </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                            <span class="pf-title">Job Title</span>
+                                            <div class="pf-field">
+                                                <select data-placeholder="Please Select Specialism" name='jobtitle'  class="chosen">
+                                                    <option value='{{item.jobtitle}}'>{{item.jobtitle}}</option>
+                                                    <option value='Web Designer'>Web Designer</option>
+                                                    <option value='Web Developer'>Web Developer</option>
+                                                    <option value='UX / UI Designer'>UX / UI Designer</option>
+                                                    <option value='Sales / Marketing'>Sales / Marketing</option>
+
+                                                </select>
+                                            </div>
                                     </div>
 
                                     <div class="col-lg-6">

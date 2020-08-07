@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'jobportal.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'jobportal',
+        'NAME': 'jobhunt',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
@@ -134,9 +134,11 @@ MEDIA_URL = '/images/'
 
 
 
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST_USER = "sayoojk2201@gmail.com"
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'sayoojk2201@gmail.com'
-EMAIL_HOST_PASSWORD = 'rajeevanK1'
+EMAIL_USE_TLS = True
+EMAIL_HOST_PASSWORD = "rajeevanK1"
+

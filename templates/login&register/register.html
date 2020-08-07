@@ -32,12 +32,13 @@
                         <div class="account-popup-area signup-popup-box static">
                             <div class="account-popup">
                                 {{error}}
-                                <h3>Sign Up</h3>
-                                <form method='POST' action='/register/'>
+<!--                                 <h3>Sign Up</h3>
+ -->                                <form method='POST' action='/register/'>
                                     {% csrf_token %}
                                     <div class="select-user" >
-                                    <span ><input type="radio"    name="select" value='Candidate'>Candidate</span>
-                                    <span ><input type="radio" checked="" name="select" value='Employer'>Employer</span>
+                                    <span ><input type="radio"   name="select" value='Candidate'>Candidate</span>
+                                    <span ><input type="radio"  checked="" name="select" value='Employer'>Employer</span>
+                                    <br><br>
                                     </div>
 
                                     <div class="cfield">
@@ -62,8 +63,8 @@
                                 <div class="extra-login">
                                     <span>Or</span>
                                     <div class="login-social">
-                                        <a class="fb-login" href="#" title=""><i class="fa fa-facebook"></i></a>
-                                        <a class="tw-login" href="#" title=""><i class="fa fa-twitter"></i></a>
+                                        <a class="fb-login" href="#" title=""><i class="la la-facebook"></i></a>
+                                        <a class="tw-login" href="#" title=""><i class="la la-twitter"></i></a>
                                     </div>
                                 </div>
                             </div>

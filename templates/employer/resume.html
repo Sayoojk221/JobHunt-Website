@@ -1,0 +1,77 @@
+{% extends 'employer/base2.html' %}
+{% block content %}
+<div class="col-lg-9 column">
+                        <div class="padding-left">
+                            <div class="emply-resume-sec">
+                                <h3>Resume</h3>
+                                <div class="emply-resume-list">
+                                    {% for item in resume %}
+                                    <div class="emply-resume-thumb">
+                                        <img src="{{item.employeeid.profileimage.url}}" alt="" />
+                                    </div>
+                                    <div class="emply-resume-info">
+                                        <h3><a href="#" title="">{{item.employeepersonalid.fullname}}</a></h3>
+                                        <span><i>{{item.employeejobid.jobtitle}}</i> at {{item.employeejobid.company}}</span>
+                                        <span><i>{{item.employeeid.email}}</i></span>
+                                        <p><i class="la la-map-marker"></i>{{item.employeepersonalid.country}} / {{item.employeepersonalid.city}}</p>
+                                    </div>
+                                    <div class="action-resume">
+                                        <div class="action-center">
+                                            <span>Action <i class="la la-angle-down"></i></span>
+                                            <ul>
+                                                <li class="open-letter"><a href="#" title="">Cover Letter</a></li>
+<!--                                                 <li><a href="#" title="">Download CV</a></li>
+ --><!--                                                 <li><a href="{{item.empl}}" title="">Linked-in Profile</a></li>
+ -->                                                <li class="open-contact"><a href="#" title="">Send a Message</a></li>
+                                                <li><a href="/employeeprofileview/?id={{item.employeeid.id}}" title="">View Profile</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    <div class="del-resume">
+                                        <a href="#" title=""><i class="la la-trash-o"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </section>
+    <div class="coverletter-popup">
+        <div class="cover-letter">
+            <i class="la la-close close-letter"></i>
+            <h3>Ali TUFAN - UX / UI Designer</h3>
+            <p>My name is Ali TUFAN I am thrilled to be applying for the [position] role in your company. After reviewing your job description, it’s clear that you’re looking for an enthusiastic applicant that can be relied upon to fully engage with the role and develop professionally in a self-motivated manner. Given these requirements, I believe I am the perfect candidate for the job.</p>
+        </div>
+    </div>
+    <div class="contactus-popup">
+    {% for item in resume %}
+    <div class="contact-popup">
+        <i class="la la-close close-contact"></i>
+        <h3>Send Message to {{item.employeepersonalid.fullname}}</h3>
+        <form method='POST' action='/interviewmessage/'>
+            {% csrf_token %}
+            <input type="hidden" name='companyemail' value={{item.employerid.email}} />
+            <div class="popup-field">
+                <input type="text" name='company' value='{{item.employerid.companyname}}' />
+                <i class="la la-user"></i>
+            </div>
+            <div class="popup-field">
+                <input type="text" name='email' value={{item.employeeid.email}} />
+                <i class="la la-envelope-o"></i>
+            </div>
+            <div class="popup-field">
+                <input type="text" name='phone' value={{item.employerid.phoneno}} />
+                <i class="la la-phone"></i>
+            </div>
+            <div class="popup-field">
+                <textarea name='message' placeholder="Message"></textarea>
+            </div>
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

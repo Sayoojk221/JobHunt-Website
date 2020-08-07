@@ -1,0 +1,28 @@
+{% extends 'employee/base2.html' %}
+{% block content %}
+<div class="col-lg-9 column">
+                    <div class="padding-left">
+                        <div class="manage-jobs-sec">
+                            <div class="border-title"><h3>Shortlisted jobs</h3></div>
+                            {% for item in shortlist %}
+                            <div class="job-listing wtabs">
+                                <div class="job-title-sec">
+                                    <div class="c-logo"> <img src="{{item.shortlistedjobid.employerid.logo.url}}" alt="" /> </div>
+                                    <h3><a href="/employeejob/?id={{item.shortlistedjobid.id}}" title="">{{item.shortlistedjobid.jobtitle}}</a></h3>
+                                    <span>{{item.shortlistedjobid.employerid.companyname}}</span>
+                                    <div class="job-lctn">{{item.date|date:"d-m-Y"}}</div>
+                                </div>
+                                <div class="job-list-del">
+                                    <a href="/jobshortlistapply/?removeid={{item.id}}" title=""><i class="la la-trash-o"></i></a>
+                                </div>
+                            </div><!-- Job -->
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

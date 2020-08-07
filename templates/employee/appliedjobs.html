@@ -1,0 +1,50 @@
+{% extends 'employee/base2.html' %}
+{% block content %}
+<!--  -->
+                    <div class="col-lg-9 column">
+                        <div class="padding-left">
+                            <div class="manage-jobs-sec">
+                                <h3>Manage Jobs</h3>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td>Applied Job</td>
+                                            <td>Position</td>
+                                            <td>Date</td>
+                                            <td></td>
+                                        </tr>
+                                    </thead>
+                                    {% for item in applied%}
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="table-list-title">
+                                                    <i>{{item.jobid.employerid.companyname}}</i><br />
+                                                    <span><i class="la la-map-marker"></i>{{item.jobid.country}}, {{item.jobid.city}}</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="table-list-title">
+                                                    <h3><a href="/employeejob/?id={{item.jobid.id}}" title="">{{item.jobid.jobtitle}}</a></h3>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span>{{item.date|date:'d-m-Y'}}</span><br />
+                                            </td>
+                                            <td>
+                                                <ul class="action_job">
+                                                    <li><span>Delete</span><a href="/jobapply/?removeid={{item.id}}" title=""><i class="la la-trash-o"></i></a></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

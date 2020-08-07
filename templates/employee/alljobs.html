@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from grandetest.com/theme/jobhunt-html/index4.html by HTTrack Website Copier/3.x [XR&CO'2017], Sat, 23 May 2020 13:14:38 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+    <title>Job Hunt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="CreativeLayers">
+
+    <!-- Styles -->
+
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap-grid.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/icons.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/responsive.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/chosen.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/colors/colors.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/html" href="../../../maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+
+</head>
+<body>
+
+<div class="page-loading">
+    <img src="/static/images/loader.gif" alt="" />
+    <span>Skip Loader</span>
+</div>
+
+<div class="theme-layout" id="scrollup">
+
+    <div class="responsive-header">
+        <div class="responsive-menubar">
+            <div class="res-logo"><a href="index.html" title=""><img src="/static/images/resource/logo.png" alt="" /></a></div>
+            <div class="menu-resaction">
+                <div class="res-openmenu">
+                    <img src="/static/images/icon.png" alt="" /> Menu
+                </div>
+                <div class="res-closemenu">
+                    <img src="/static/images/icon2.png" alt="" /> Close
+                </div>
+            </div>
+        </div>
+        <div class="responsive-opensec">
+            <div class="btn-extars">
+                <a href="#" title="" class="post-job-btn"><i class="la la-plus"></i>Post Jobs</a>
+                <ul class="account-btns">
+                    <li class="signup-popup"><a title=""><i class="la la-key"></i> Sign Up</a></li>
+                    <li class="signin-popup"><a title=""><i class="la la-external-link-square"></i> Login</a></li>
+                </ul>
+            </div><!-- Btn Extras -->
+            <form class="res-search">
+                <input type="text" placeholder="Job title, keywords or company name" />
+                <button type="submit"><i class="la la-search"></i></button>
+            </form>
+            <div class="responsivemenu">
+                <ul>
+                        <li class="menu">
+                            <a href="/employeehome/" title="">Home</a>
+
+                        </li>
+                        <li class="menu">
+                            <a href="/totalemployers/" title="">Employers</a>
+
+                        </li>
+
+                        <li class="menu">
+                            <a href="/alljobs/" title="">Blog</a>
+
+                        </li>
+                        <li class="menu">
+                            <a href="/alljobs/" title="">Job</a>
+
+                        </li>
+
+                    </ul>
+            </div>
+        </div>
+    </div>
+
+    <header class="stick-top">
+        <div class="menu-sec">
+            <div class="container">
+                <div class="logo">
+                    <a href="index.html" title=""><img src="/static/images/resource/logo.png" alt="" /></a>
+                </div>
+                {% for item in employee_reg%}
+                <div class="my-profiles-sec">
+                    <span><img src="{{item.profileimage.url}}"  width="50px" height="50px" alt="" /> {{item.username}} <i class="la la-bars"></i></span>
+                </div>
+                {% endfor %}
+                <!-- <div class="btn-extars">
+                    <a href="#" title="" class="post-job-btn"><i class="la la-plus"></i>Post Jobs</a>
+                    <ul class="account-btns">
+                        <li class="signup-popup"><a title=""><i class="la la-key"></i> Sign Up</a></li>
+                        <li class="signin-popup"><a title=""><i class="la la-external-link-square"></i> Login</a></li>
+                    </ul>
+                </div> --><!-- Btn Extras -->
+                <nav>
+                    <ul>
+                        <li class="menu">
+                            <a href="/employeehome/" title="">Home</a>
+
+                        </li>
+                        <li class="menu">
+                            <a href="/totalemployers/" title="">Employers</a>
+
+                        </li>
+
+                        <li class="menu">
+                            <a href="#" title="">Blog</a>
+
+                        </li>
+                        <li class="menu">
+                            <a href="/alljobs/" title="">Job</a>
+
+                        </li>
+                    </ul>
+                </nav><!-- Menus -->
+            </div>
+        </div>
+    </header>
+
+    <section class="overlape">
+        <div class="block no-padding">
+            <div data-velocity="-.1" style="background: url(/static/images/resource/mslider1.jpg) repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible no-parallax"></div><!-- PARALLAX BACKGROUND IMAGE -->
+            <div class="container fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="inner-header wform">
+                            <div class="job-search-sec">
+                                <div class="job-search">
+                                    <h4>Explore Thousand Of Jobs With Just Simple Search...</h4>
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-lg-7">
+                                                <div class="job-field">
+                                                    <input type="text" placeholder="Job title, keywords or company name" />
+                                                    <i class="la la-keyboard-o"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="job-field">
+                                                    <select data-placeholder="City, province or region" class="chosen-city">
+                                                        <option>Instambul</option>
+                                                        <option>New York</option>
+                                                        <option>London</option>
+                                                        <option>Russia</option>
+                                                    </select>
+                                                    <i class="la la-map-marker"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-1">
+                                                <button type="submit"><i class="la la-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="block">
+            <div class="container">
+                 <div class="row">
+                    <div class="col-lg-12">
+                        <div class="filterbar">
+                            <h5>{{count}} Jobs & Vacancies</h5>
+                            <div class="sortby-sec">
+                                <span>Sort by</span>
+                                <select data-placeholder="Most Recent" name='update' class="chosen">
+                                    <option value='-id'>Most Recent</option>
+                                    <option value='id'>Most oldest</option>
+
+                                </select>
+                                <!-- <select data-placeholder="20 Per Page" class="chosen">
+                                    <option>30 Per Page</option>
+                                    <option>40 Per Page</option>
+                                    <option>50 Per Page</option>
+                                    <option>60 Per Page</option>
+                                </select> -->
+                            </div>
+                        </div>
+                        <div class="job-grid-sec">
+                            <div class="row">
+                                {% for item in alljobs %}
+                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <div class="job-grid border">
+                                        <div class="job-title-sec">
+                                            <div class="c-logo"> <img src="{{item.employerid.logo.url}}" width="235px" height="115px" alt="" /> </div>
+                                            <h3><a href="/employeejob/?id={{item.id}}" title="">{{item.jobtitle}}</a></h3>
+                                            <span>{{item.employerid.companyname}}</span>
+                                            <span  class="fav-job"><i class="la la-heart-o"></i></span>
+                                        </div>
+                                        <span class="job-lctn">{{item.country}}, {{item.state}}</span>
+                                        <a  href="/employeejob/?id={{item.id}}" title="">APPLY NOW</a>
+                                    </div><!-- JOB Grid -->
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                     <!--    {% if page_obj.has_previous %}
+                        <div class="pagination">
+
+                            <ul>
+
+                                <li class="prev"><a href="/alljobs/?page={{ page_obj.previous_page_number }}"><i class="la la-long-arrow-left"></i> Prev</a></li>
+                                <li><a href="/alljobs/?page=1">1</a></li>
+                                <li class="active"><a href="/alljobs/?page=2">2</a></li>
+
+                                {% if page_obj.has_next %}
+                                <li class="next"><a href="/alljobs/?page={{ page_obj.next_page_number }}">Next <i class="la la-long-arrow-right"></i></a></li>
+                                {% endif %} -->
+                            <!-- </ul>
+
+                        </div>
+                        {% endif %} -->
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="block">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 column">
+                        <div class="widget">
+                            <div class="about_widget">
+                                <div class="logo">
+                                    <a href="index.html" title=""><img src="/static/images/resource/logo.png" alt="" /></a>
+                                </div>
+                                <span>Collin Street West, Victor 8007, Australia.</span>
+                                <span>+1 246-345-0695</span>
+                                <span><a href="../../../external.html?link=https://grandetest.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3c55525a537c56535e54495248125f5351">[email&#160;protected]</a></span>
+                                <div class="social">
+                                    <a href="#" title=""><i class="fa fa-facebook"></i></a>
+                                    <a href="#" title=""><i class="fa fa-twitter"></i></a>
+                                    <a href="#" title=""><i class="fa fa-linkedin"></i></a>
+                                    <a href="#" title=""><i class="fa fa-pinterest"></i></a>
+                                    <a href="#" title=""><i class="fa fa-behance"></i></a>
+                                </div>
+                            </div><!-- About Widget -->
+                        </div>
+                    </div>
+                    <div class="col-lg-4 column">
+                        <div class="widget">
+                            <h3 class="footer-title">Frequently Asked Questions</h3>
+                            <div class="link_widgets">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <a href="#" title="">Privacy & Seurty </a>
+                                        <a href="#" title="">Terms of Serice</a>
+                                        <a href="#" title="">Communications </a>
+                                        <a href="#" title="">Referral Terms </a>
+                                        <a href="#" title="">Lending Licnses </a>
+                                        <a href="#" title="">Disclaimers </a>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <a href="#" title="">Support </a>
+                                        <a href="#" title="">How It Works </a>
+                                        <a href="#" title="">For Employers </a>
+                                        <a href="#" title="">Underwriting </a>
+                                        <a href="#" title="">Contact Us</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 column">
+                        <div class="widget">
+                            <h3 class="footer-title">Find Jobs</h3>
+                            <div class="link_widgets">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <a href="#" title="">US Jobs</a>
+                                        <a href="#" title="">Canada Jobs</a>
+                                        <a href="#" title="">UK Jobs</a>
+                                        <a href="#" title="">Emplois en Fnce</a>
+                                        <a href="#" title="">Jobs in Deuts</a>
+                                        <a href="#" title="">Vacatures China</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 column">
+                        <div class="widget">
+                            <div class="download_widget">
+                                <a href="#" title=""><img src="/static/images/resource/dw1.png" alt="" /></a>
+                                <a href="#" title=""><img src="/static/images/resource/dw2.png" alt="" /></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-line">
+            <span>© 2020 Jobhunt All rights reserved. Design by Creative Layers</span>
+            <a href="#scrollup" class="scrollup" title=""><i class="la la-arrow-up"></i></a>
+        </div>
+    </footer>
+
+    {% for item in employee_reg %}
+    <div class="profile-sidebar">
+    <span class="close-profile"><i class="la la-close"></i></span>
+    <div class="can-detail-s">
+        <div class="cst"><img src="{{item.profileimage.url}}"  width="50px" height="50px" alt="" /></div>
+        {% endfor%}
+        {% for i in employee_per %}
+        <h3>{{i.employeeid.username}}</h3>
+        {% endfor %}
+        {% for item in employee_job %}
+        <span><i>{{item.jobtitle}}</i> at {{item.company}}</span>
+        {% endfor %}
+        {%  for item in employee_per %}
+        <p><a href="#" class="__cf_email__" data-cfemail="0467766165706d726168657d617677343c3c446369656d682a676b69">{{item.employeeid.email}}</a></p>
+<!--         <p>Member Since, 2017</p>
+ -->        <p><i class="la la-map-marker"></i>{{item.country}} / {{item.city}}</p>
+        {% endfor %}
+    </div>
+
+    <div class="tree_widget-sec">
+        <ul>
+            <li><a href="/employeesingleprofile/" title=""><i class="la la-file-text"></i>Dashboard</a></li>
+            <li><a href="/employeeprofile/" title=""><i class="la la-file-text"></i>My Profile</a></li>
+            <li><a href="/employeeresume/" title=""><i class="la la-briefcase"></i>My Resume</a></li>
+            <li><a href="/jobshortlist/" title=""><i class="la la-money"></i>Shorlisted Job</a></li>
+            <li><a href="/appliedjobs/" title=""><i class="la la-paper-plane"></i>Applied Job</a></li>
+            <li><a href="candidates_cv_cover_letter.html" title=""><i class="la la-file-text"></i>Cv & Cover Letter</a></li>
+            <li><a href="candidates_change_password.html" title=""><i class="la la-flash"></i>Change Password</a></li>
+            <li><a href="/employeelogout/" title=""><i class="la la-unlink"></i>Logout</a></li>
+        </ul>
+    </div>
+</div>
+<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="/static/js/jquery.min.js" type="text/javascript"></script>
+<script src="/static/js/modernizr.js" type="text/javascript"></script>
+<script src="/static/js/script.js" type="text/javascript"></script>
+<script src="/static/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/static/js/wow.min.js" type="text/javascript"></script>
+<script src="/static/js/slick.min.js" type="text/javascript"></script>
+<script src="/static/js/parallax.js" type="text/javascript"></script>
+<script src="/static/js/select-chosen.js" type="text/javascript"></script>
+
+</body>
+
+<!-- Mirrored from grandetest.com/theme/jobhunt-html/job_list_grid.html by HTTrack Website Copier/3.x [XR&CO'2017], Sat, 23 May 2020 13:16:56 GMT -->
+</html>
+

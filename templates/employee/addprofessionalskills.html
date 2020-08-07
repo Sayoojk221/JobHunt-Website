@@ -1,0 +1,68 @@
+{% extends 'employee/base2.html' %}
+{% block content %}
+                            <div class="col-lg-9 column">
+                                <div class="padding-left">
+                                    <div class="manage-jobs-sec">
+                                        <div class="border-title"><h3>Professional Skills</h3><a class="back" href="/employeeresume/" title=""><i class="la la-close"></i> Back</a></div>
+                                            <div class="resumeadd-form">
+                                            <form method='POST' >
+                                                {% csrf_token %}
+                                                {% if update %}
+                                                {% for item in update%}
+                                                <div class="row align-items-end">
+                                                    <div class="col-lg-7">
+                                                        <span class="pf-title">Skill Heading</span>
+                                                        <div class="pf-field">
+                                                            <input placeholder="" value='{{item.skillname}}' name='skill' type="text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <span class="pf-title">Percentage</span>
+                                                        <div class="pf-field">
+                                                            <input placeholder="" value={{item.percentage}} name='percentage' type="number">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                         <button type="submit">Save</button>
+                                                    </div>
+                                                    <div class="border-title"><h3></h3>
+                                                    <div class="resumeadd-form">
+                                                        <div class="row">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                                {% else %}
+                                                <div class="row align-items-end">
+                                                    <div class="col-lg-7">
+                                                        <span class="pf-title">Skill Heading</span>
+                                                        <div class="pf-field">
+                                                            <input placeholder="" name='skill' type="text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <span class="pf-title">Percentage</span>
+                                                        <div class="pf-field">
+                                                            <input placeholder="0" name='percentage' type="number">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                         <button type="submit">Save</button>
+                                                    </div>
+                                                    <div class="border-title"><h3></h3>
+                                                    <div class="resumeadd-form">
+                                                        <div class="row">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endif %}
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+        </section>
+{% endblock %}
