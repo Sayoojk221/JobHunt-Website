@@ -34,9 +34,8 @@
                                                 <h3>{{item.employerid.companyname}}</h3>
                                                 <span><i class="la la-map-marker"></i>{{item.employerid.country}}, {{item.employerid.city}}</span><span class="job-is ft">{{item.jobtype}}</span>
                                                 <ul class="tags-jobs">
-                                                    <li><i class="la la-file-text"></i> Applications 1</li>
-                                                    <li><i class="la la-calendar-o"></i> Post Date: {{item.createddate|date:'d-m-Y'}}</li>
-                                                    <li><i class="la la-eye"></i> Views 5683</li>
+                                                    <li><i class="la la-file-text"></i> Applications {{applicationcount}}</li>
+                                                    <li><i class="la la-calendar-o"></i> End Date: {{item.deadline}}</li>
                                                 </ul>
                                             </div>
 
@@ -45,18 +44,20 @@
                                     </div>
                                     <div class="col-lg-4">
                                         {% if exist %}
-                                        <span class="job-is ft"><h5>APPLIED</b></h5></span>
+                                        <span class="job-is ft"><h6>Applied</b></h6></span>
                                         {% else %}
                                         <a class="apply-thisjob" href="/jobapply/?id={{item.id}}" title=""><i class="la la-paper-plane"></i>Apply for job</a>
+<!--                                         <a href="{{item.linkedinurl}}" title=""><i class="la la-linkedin"></i> Apply with Linkedin</a> -->
+                                        {% endif%}
                                         <div class="apply-alternative">
-                                            <a href="{{item.linkedinurl}}" title=""><i class="la la-linkedin"></i> Apply with Linkedin</a>
-                                            {% if shortlistexist%}
-                                            <a href="/jobshortlistapply/?id2={{item.id}}" title=""><i class="la la-heart"></i> Shortlist</a>
-                                            {% else %}
+
+                                            {% if not shortlistexist%}
                                             <a href="/jobshortlistapply/?id2={{item.id}}" title=""><i class="la la-heart-o"></i> Shortlist</a>
+                                            {% else %}
+                                            <a href="/jobshortlistapply/?id2={{item.id}}" title=""><i class="la la-heart"></i> Shortlist</a>
                                             {% endif %}
                                         </div>
-                                        {% endif %}
+
                                     </div>
                                 </div>
                             </div>
@@ -99,7 +100,7 @@
                                                         </div>
                                                         <div class="job-style-bx">
                                                             <span class="job-is ft">{{item.jobtype}}</span>
-                                                            <span name='heart' class="fav-job"><i class="la la-heart-o"></i></span>
+                                                           <!--  <span name='heart' class="fav-job"><i class="la la-heart-o"></i></span> -->
                                                           <!--   <i>5 months ago</i> -->
                                                         </div>
 
@@ -120,19 +121,23 @@
                                                 <li><i class="la la-shield"></i><h3>Experience</h3><span>{{item.experience}}</span></li>
                                             </ul>
                                         </div>
-                                            {% endfor %}<!-- Job Overview -->
+                                            <!-- Job Overview -->
                                         <div class="quick-form-job">
                                             <h3>Contact</h3>
-                                            <form>
-                                                <input type="text" placeholder="Enter your Name *" />
-                                                <input type="text" placeholder="Email Address*" />
-                                                <input type="text" placeholder="Phone Number" />
-                                                <textarea placeholder="Message should have more than 50 characters"></textarea>
+                                            <form method='POST' action="/messagetoemployer/">
+                                                {% csrf_token %}
+                                                 <input type="hidden" name='jobid' value={{item.id}}>
+                                                <input type="hidden" name='companymail' value={{item.employerid.companyemail}}>
+                                                <input type="text" name='name' input field required placeholder="Enter your Name *" />
+                                                <input type="text" name='email' input field required placeholder="Email Address*" />
+                                                <input type="text" name='phone' input field required placeholder="Phone Number" />
+                                                <textarea name='message' input field required placeholder="Message should have more than 50 characters"></textarea>
                                                 <button class="submit">Send Email</button>
                                                 <span>You accepts our <a href="#" title="">Terms and Conditions</a></span>
                                             </form>
                                         </div>
                                     </div>
+                                    {% endfor %}
                                 </div>
                              </div>
                         </div>

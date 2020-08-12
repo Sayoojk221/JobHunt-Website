@@ -1,0 +1,62 @@
+{% extends 'employer/base2.html' %}
+{% block content %}
+                    <div class="col-lg-9 column">
+                        <div class="padding-left">
+                            <div class="manage-jobs-sec">
+                                <h3>Manage Jobs</h3>
+                                <div class="extra-job-info">
+                                    <span><i class="la la-clock-o"></i><strong>{{totaljobs}}</strong> Job Posted</span>
+                                    <span><i class="la la-file-text"></i><strong>{{applications}}</strong> Application</span>
+                                    <span><i class="la la-users"></i><strong>{{active}}</strong> Active Jobs</span>
+                                </div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td>Title</td>
+
+                                            <td>Expire date</td>
+                                            <td>Status</td>
+                                            <td>Action</td>
+                                        </tr>
+                                    </thead>
+                                    {% for item in details %}
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="table-list-title">
+                                                    <h3><a href="/employerjobsingleview/?id={{item.id}}" title="">{{item.jobtitle}}</a></h3>
+                                                    <span><i class="la la-map-marker"></i>{{item.country}}, {{item.city}}</span>
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <span>{{item.deadline}}</span><br />
+                                                <!-- <span>April 25, 2011</span> -->
+                                            </td>
+                                            <td>
+                                                {% if item.status == 'active' %}
+                                                <span class="status active">Active</span>
+                                                {% else %}
+                                                <span class="status">Inactive</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <ul class="action_job">
+                                                    <li><span>View Job</span><a href="/employerjobsingleview/?id={{item.id}}" title=""><i class="la la-eye"></i></a></li>
+                                                    <li><span>Edit</span><a href="/jobedit/?id={{item.id}}" title=""><i class="la la-pencil"></i></a></li>
+                                                    <li><span>Delete</span><a href="/employerjobsingleview/?id2={{item.id}}" title=""><i class="la la-trash-o"></i></a></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

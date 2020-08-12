@@ -75,6 +75,7 @@ class EmployerNewJobPost(models.Model):
     educationandexperience = models.CharField(max_length=2000,null='empty')
     positionnumber =  models.CharField(max_length=200,null='empty')
     linkedinurl = models.URLField(max_length=200,null='empty')
+    status = models.CharField(max_length=200,null='empty')
 
 class EmployeeEducation(models.Model):
     employeeid = models.ForeignKey(EmployeeRegister,on_delete=models.CASCADE)
@@ -124,6 +125,8 @@ class CandidatesList(models.Model):
 
 class JobApplication(models.Model):
     employeeid = models.ForeignKey(EmployeeRegister,on_delete=models.CASCADE)
+    employeepersonalid = models.ForeignKey(EmployeePersonalDetails,on_delete=models.CASCADE,default='')
+    employeejobdetails = models.ForeignKey(EmployeeJobDetails,on_delete=models.CASCADE,default='')
     jobid = models.ForeignKey(EmployerNewJobPost,on_delete=models.CASCADE)
     date = models.DateTimeField(default=now())
     status = models.CharField(max_length=200,default='')
@@ -134,6 +137,9 @@ class JobShortlists(models.Model):
     date = models.DateTimeField(default=now())
     status = models.CharField(max_length=200,default='')
 
+class EmployeeCoverLetter(models.Model):
+    employeeid = models.ForeignKey(EmployeeRegister,on_delete=models.CASCADE)
+    description = models.CharField(max_length=2000,default='')
 
 class EmployeeProfileShortlists(models.Model):
     employerid = models.ForeignKey(EmployerRegister,on_delete=models.CASCADE)
@@ -143,7 +149,6 @@ class EmployeeProfileShortlists(models.Model):
     date = models.DateTimeField(default=now())
     status = models.CharField(max_length=200,default='')
 
-class EmployeeCoverLetter(models.Model):
+class deletedcandidates(models.Model):
     employeeid = models.ForeignKey(EmployeeRegister,on_delete=models.CASCADE)
-    description = models.CharField(max_length=300,default='')
-
+    employerid = models.ForeignKey(EmployerRegister,on_delete=models.CASCADE)

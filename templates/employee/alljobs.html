@@ -24,17 +24,17 @@
 
 </head>
 <body>
-
-<div class="page-loading">
-    <img src="/static/images/loader.gif" alt="" />
-    <span>Skip Loader</span>
-</div>
+    <div class="page-loading">
+        <img src="/static/images/loader.gif" alt="" />
+        <span>Skip Loader</span>
+    </div>
 
 <div class="theme-layout" id="scrollup">
 
     <div class="responsive-header">
         <div class="responsive-menubar">
-            <div class="res-logo"><a href="index.html" title=""><img src="/static/images/resource/logo.png" alt="" /></a></div>
+            <div class="res-logo"><a href="/static/index.html" title=""><img src="/static/images/resource/logo.png" alt="" /></a></div>
+
             <div class="menu-resaction">
                 <div class="res-openmenu">
                     <img src="/static/images/icon.png" alt="" /> Menu
@@ -45,42 +45,45 @@
             </div>
         </div>
         <div class="responsive-opensec">
-            <div class="btn-extars">
-                <a href="#" title="" class="post-job-btn"><i class="la la-plus"></i>Post Jobs</a>
-                <ul class="account-btns">
-                    <li class="signup-popup"><a title=""><i class="la la-key"></i> Sign Up</a></li>
-                    <li class="signin-popup"><a title=""><i class="la la-external-link-square"></i> Login</a></li>
-                </ul>
-            </div><!-- Btn Extras -->
+
             <form class="res-search">
                 <input type="text" placeholder="Job title, keywords or company name" />
                 <button type="submit"><i class="la la-search"></i></button>
             </form>
+            <div class="btn-extars">
+                {% for item in employee_reg %}
+                    <div class="btns-profiles-sec">
+                        <span><img src="{{item.profileimage.url}}" width="45px" height="45px" class='menu' alt="" title='' /> </span>
+                        <ul>
+                           <li><a href="/employeesingleprofile/" title=""><i class="la la-tachometer"></i>Dashboard</a></li>
+                            <li><a href="/employeeprofile/" title=""><i class="la la-user"></i>Profile</a></li>
+                            <li><a href="/employeeresume/" title=""><i class="la la-plus-circle"></i>Resume</a></li>
+                            <li><a href="/jobshortlist/" title=""><i class="la la-list"></i>Shorlisted Job</a></li>
+                            <li><a href="/appliedjobs/" title=""><i class="la la-list"></i>Applied Job</a></li>
+                            <li><a href="/employeecv/" title=""><i class="la la-file-text"></i>Cover Letter</a></li>
+                            <li><a href="/employeechangepassword/" title=""><i class="la la-lock"></i>Change Password</a></li>
+                            <li><a href="/employeelogout/" title=""><i class="la la-sign-out"></i>Logout</a></li>
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
             <div class="responsivemenu">
                 <ul>
-                        <li class="menu">
-                            <a href="/employeehome/" title="">Home</a>
-
-                        </li>
-                        <li class="menu">
-                            <a href="/totalemployers/" title="">Employers</a>
-
-                        </li>
-
-                        <li class="menu">
-                            <a href="/alljobs/" title="">Blog</a>
-
-                        </li>
-                        <li class="menu">
-                            <a href="/alljobs/" title="">Job</a>
-
-                        </li>
-
-                    </ul>
+                    <li class="menu">
+                        <a href="/employerhome/" title="">Home</a>
+                    </li>
+                    <li class="menu">
+                        <a href="/totalemployers/" title="">Employers</a>
+                    </li>
+                    <li class="menu">
+                        <a href="/alljobs/" title="">Job</a>
+                    </li>
+                    <!-- <li class="menu">
+                        <a href="#" title="">Blog</a> -->
+                </ul>
             </div>
         </div>
     </div>
-
     <header class="stick-top">
         <div class="menu-sec">
             <div class="container">
@@ -89,7 +92,7 @@
                 </div>
                 {% for item in employee_reg%}
                 <div class="my-profiles-sec">
-                    <span><img src="{{item.profileimage.url}}"  width="50px" height="50px" alt="" /> {{item.username}} <i class="la la-bars"></i></span>
+                    <span><img src="{{item.profileimage.url}}"  width="50px" height="50px" alt="" /> </span>
                 </div>
                 {% endfor %}
                 <!-- <div class="btn-extars">
@@ -99,6 +102,25 @@
                         <li class="signin-popup"><a title=""><i class="la la-external-link-square"></i> Login</a></li>
                     </ul>
                 </div> --><!-- Btn Extras -->
+                <!-- <div class="wishlist-dropsec">
+                    <span><i class="la la-heart"></i><strong>{{count}}</strong></span>
+                    <div class="wishlist-dropdown">
+                        <ul class="scrollbar">
+                            {% for item in shortlist%}
+                            <li>
+                                <div class="job-listing">
+                                    <div class="job-title-sec">
+                                        <div class="c-logo"> <img src="{{item.shortlistedjobid.employerid.logo.url}}" alt="" /> </div>
+                                        <h3><a href="/employeejob/?id={{item.shortlistedjobid.id}}" title="">{{item.shortlistedjobid.jobtitle}}</a></h3>
+                                        <span>{{item.shortlistedjobid.employerid.companyname}}</span>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div> -->
+
                 <nav>
                     <ul>
                         <li class="menu">
@@ -110,10 +132,10 @@
 
                         </li>
 
-                        <li class="menu">
+                       <!--  <li class="menu">
                             <a href="#" title="">Blog</a>
 
-                        </li>
+                        </li> -->
                         <li class="menu">
                             <a href="/alljobs/" title="">Job</a>
 
@@ -134,22 +156,18 @@
                             <div class="job-search-sec">
                                 <div class="job-search">
                                     <h4>Explore Thousand Of Jobs With Just Simple Search...</h4>
-                                    <form>
+                                    <form method='POST' action="/employeesearch/">
+                                        {% csrf_token %}
                                         <div class="row">
                                             <div class="col-lg-7">
                                                 <div class="job-field">
-                                                    <input type="text" placeholder="Job title, keywords or company name" />
+                                                    <input type="text" name='key' placeholder="Job title, keywords " />
                                                     <i class="la la-keyboard-o"></i>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="job-field">
-                                                    <select data-placeholder="City, province or region" class="chosen-city">
-                                                        <option>Instambul</option>
-                                                        <option>New York</option>
-                                                        <option>London</option>
-                                                        <option>Russia</option>
-                                                    </select>
+                                                    <input type="text" name="location">
                                                     <i class="la la-map-marker"></i>
                                                 </div>
                                             </div>
@@ -166,14 +184,13 @@
             </div>
         </div>
     </section>
-
+    {% if alljobs%}
     <section>
         <div class="block">
             <div class="container">
                  <div class="row">
                     <div class="col-lg-12">
                         <div class="filterbar">
-                            <h5>{{count}} Jobs & Vacancies</h5>
                             <div class="sortby-sec">
                                 <span>Sort by</span>
                                 <select data-placeholder="Most Recent" name='update' class="chosen">
@@ -198,7 +215,7 @@
                                             <div class="c-logo"> <img src="{{item.employerid.logo.url}}" width="235px" height="115px" alt="" /> </div>
                                             <h3><a href="/employeejob/?id={{item.id}}" title="">{{item.jobtitle}}</a></h3>
                                             <span>{{item.employerid.companyname}}</span>
-                                            <span  class="fav-job"><i class="la la-heart-o"></i></span>
+                                            <!-- <span  class="fav-job"><i class="la la-heart-o"></i></span> -->
                                         </div>
                                         <span class="job-lctn">{{item.country}}, {{item.state}}</span>
                                         <a  href="/employeejob/?id={{item.id}}" title="">APPLY NOW</a>
@@ -207,27 +224,36 @@
                                 {% endfor %}
                             </div>
                         </div>
-                     <!--    {% if page_obj.has_previous %}
-                        <div class="pagination">
-
+                     <div class="pagination">
                             <ul>
-
-                                <li class="prev"><a href="/alljobs/?page={{ page_obj.previous_page_number }}"><i class="la la-long-arrow-left"></i> Prev</a></li>
-                                <li><a href="/alljobs/?page=1">1</a></li>
-                                <li class="active"><a href="/alljobs/?page=2">2</a></li>
-
-                                {% if page_obj.has_next %}
-                                <li class="next"><a href="/alljobs/?page={{ page_obj.next_page_number }}">Next <i class="la la-long-arrow-right"></i></a></li>
-                                {% endif %} -->
-                            <!-- </ul>
-
+                                <li class="prev"><a href="#"><i class="la la-long-arrow-left"></i> Prev</a></li>
+                                <li class="active"><a href="#">1</a></li>
+                                <li ><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <!-- <li><span class="delimeter">...</span></li>
+                                <li><a href="#">14</a></li> -->
+                                <li class="next"><a href="#">Next <i class="la la-long-arrow-right"></i></a></li>
+                            </ul>
                         </div>
-                        {% endif %} -->
                     </div>
                  </div>
             </div>
         </div>
     </section>
+    {% else %}
+    <section>
+        <div class="block">
+            <div class="container">
+                 <div class="row">
+                    <div class="col-lg-12">
+
+<!--                        <h4 style="text-align: center; margin-left: 150px; " class='text-info'>Not Found</h4>
+ -->                       </div>
+                 </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
     <footer>
         <div class="block">
             <div class="container">
@@ -319,7 +345,11 @@
         <h3>{{i.employeeid.username}}</h3>
         {% endfor %}
         {% for item in employee_job %}
+        {% if item.company  %}
         <span><i>{{item.jobtitle}}</i> at {{item.company}}</span>
+        {% else %}
+        <span>Fresher<i></i> </span>
+        {% endif%}
         {% endfor %}
         {%  for item in employee_per %}
         <p><a href="#" class="__cf_email__" data-cfemail="0467766165706d726168657d617677343c3c446369656d682a676b69">{{item.employeeid.email}}</a></p>
@@ -330,14 +360,14 @@
 
     <div class="tree_widget-sec">
         <ul>
-            <li><a href="/employeesingleprofile/" title=""><i class="la la-file-text"></i>Dashboard</a></li>
-            <li><a href="/employeeprofile/" title=""><i class="la la-file-text"></i>My Profile</a></li>
-            <li><a href="/employeeresume/" title=""><i class="la la-briefcase"></i>My Resume</a></li>
-            <li><a href="/jobshortlist/" title=""><i class="la la-money"></i>Shorlisted Job</a></li>
-            <li><a href="/appliedjobs/" title=""><i class="la la-paper-plane"></i>Applied Job</a></li>
-            <li><a href="candidates_cv_cover_letter.html" title=""><i class="la la-file-text"></i>Cv & Cover Letter</a></li>
-            <li><a href="candidates_change_password.html" title=""><i class="la la-flash"></i>Change Password</a></li>
-            <li><a href="/employeelogout/" title=""><i class="la la-unlink"></i>Logout</a></li>
+            <li><a href="/employeesingleprofile/" title=""><i class="la la-tachometer"></i>Dashboard</a></li>
+            <li><a href="/employeeprofile/" title=""><i class="la la-user"></i>Profile</a></li>
+            <li><a href="/employeeresume/" title=""><i class="la la-plus-circle"></i>Resume</a></li>
+            <li><a href="/jobshortlist/" title=""><i class="la la-list"></i>Shorlisted Job</a></li>
+            <li><a href="/appliedjobs/" title=""><i class="la la-list"></i>Applied Job</a></li>
+            <li><a href="/employeecv/" title=""><i class="la la-file-text"></i>Cover Letter</a></li>
+            <li><a href="/employeechangepassword/" title=""><i class="la la-lock"></i>Change Password</a></li>
+            <li><a href="/employeelogout/" title=""><i class="la la-sign-out"></i>Logout</a></li>
         </ul>
     </div>
 </div>

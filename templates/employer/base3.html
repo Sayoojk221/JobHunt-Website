@@ -43,26 +43,43 @@
             </div>
         </div>
         <div class="responsive-opensec">
-            <div class="btn-extars">
-                <a href="/postnewjob/" title="" class="post-job-btn"><i class="la la-plus"></i>Post Jobs</a>
-            </div><!-- Btn Extras -->
             <form class="res-search">
                 <input type="text" placeholder="Job title, keywords or company name" />
                 <button type="submit"><i class="la la-search"></i></button>
             </form>
+            <div class="btn-extars">
+                <a href="/postnewjob/" title="" class="post-job-btn"><i class="la la-plus"></i>Post Jobs</a>
+                {% for item in employer_reg %}
+                <div class="btns-profiles-sec">
+                    <span><img src="{{item.logo.url}}" width="45px" height="45px" class='menu' alt="" title='' /></span>
+                   <ul>
+                        <li><a href="/employerdashboard/" title=""><i  class="la la-tachometer"></i>Dashboard</a></li>
+                        <li><a href="/employerprofile/" title=""><i class="la la-user"></i>Company Profile</a></li>
+                        <li><a href="/employerjobmanage/" title=""><i class="la la-briefcase"></i>Manage Jobs</a></li>
+                        <li><a href="/resumelists/" title=""><i class="la la-list"></i>Shortlists</a></li>
+                        <li><a href="/incomingapplication/" title=""><i class="la la-list"></i>Job Request</a></li>
+                        <li><a href="/postnewjob/" title=""><i class="la la-file-text"></i>Post a New Job</a></li>
+                        <li><a href="/employerchangepassword/" title=""><i class="la la-lock"></i>Change Password</a></li>
+                        <li><a href="/employerlogout/" title=""><i class="la la-sign-out"></i>Logout</a></li>
+                    </ul>
+                </div>
+                {% endfor %}
+            </div>
+
+
             <div class="responsivemenu">
                 <ul>
                     <li class="menu">
                         <a href="/employerhome/" title="">Home</a>
                     </li>
-                    <li class="menu">
+                    <!-- <li class="menu">
                         <a href="#" title="">Employers</a>
-                    </li>
+                    </li> -->
                     <li class="menu">
                         <a href="/candidates/" title="">Candidates</a>
                     </li>
-                    <li class="menu">
-                        <a href="#" title="">Blog</a>
+                    <!-- <li class="menu">
+                        <a href="#" title="">Blog</a> -->
                 </ul>
             </div>
         </div>
@@ -75,17 +92,16 @@
                 </div><!-- Logo -->
                 {% for item in employer_reg %}
                 <div class="btns-profiles-sec">
-                    <span><img src="{{item.logo.url}}" width="45px" height="45px" class='menu' alt="" title='' /> {{item.companyname}} <i class="la la-angle-down"></i></span>
+                    <span><img src="{{item.logo.url}}" width="45px" height="45px" class='menu' alt="" title='' /> </span>
                     <ul>
-                        <li><a href="/employerprofile/" title=""><i class="la la-file-text"></i>Company Profile</a></li>
-                        <li><a href="employer_manage_jobs.html" title=""><i class="la la-briefcase"></i>Manage Jobs</a></li>
-                        <li><a href="employer_transactions.html" title=""><i class="la la-money"></i>Transactions</a></li>
-                        <li><a href="/resumelists/" title=""><i class="la la-paper-plane"></i>Resumes</a></li>
-                        <li><a href="employer_packages.html" title=""><i class="la la-user"></i>Packages</a></li>
+                        <li><a href="/employerdashboard/" title=""><i  class="la la-tachometer"></i>Dashboard</a></li>
+                        <li><a href="/employerprofile/" title=""><i class="la la-user"></i>Company Profile</a></li>
+                        <li><a href="/employerjobmanage/" title=""><i class="la la-briefcase"></i>Manage Jobs</a></li>
+                        <li><a href="/resumelists/" title=""><i class="la la-list"></i>Shortlists</a></li>
+                        <li><a href="/incomingapplication/" title=""><i class="la la-list"></i>Job Request</a></li>
                         <li><a href="/postnewjob/" title=""><i class="la la-file-text"></i>Post a New Job</a></li>
-                        <li><a href="employer_job_alert.html" title=""><i class="la la-flash"></i>Job Alerts</a></li>
-                        <li><a href="employer_change_password.html" title=""><i class="la la-lock"></i>Change Password</a></li>
-                        <li><a href="/employerlogout/" title=""><i class="la la-unlink"></i>Logout</a></li>
+                        <li><a href="/employerchangepassword/" title=""><i class="la la-lock"></i>Change Password</a></li>
+                        <li><a href="/employerlogout/" title=""><i class="la la-sign-out"></i>Logout</a></li>
                     </ul>
                 </div>
                 {% endfor %}
@@ -94,18 +110,18 @@
                         <li class="menu">
                             <a href="/employerhome/" title="">Home</a>
                         </li>
-                        <li class="menu">
+                        <!-- <li class="menu">
                             <a href="#" title="">Employers</a>
 
-                        </li>
+                        </li> -->
                         <li class="menu">
                             <a href="/candidates/" title="">Candidates</a>
 
                         </li>
-                        <li class="menu">
+                        <<!-- li class="menu">
                             <a href="#" title="">Blog</a>
 
-                        </li>
+                        </li> -->
 
 
                     </ul>

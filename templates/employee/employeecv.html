@@ -1,0 +1,46 @@
+{% extends 'employee/base2.html' %}
+{% block content %}
+<div class="col-lg-9 column">
+                        <div class="padding-left">
+                            <div class="manage-jobs-sec">
+                                <h3>Cover Letter</h3>
+                                <div class="coverletter-sec">
+                                    <form method='POST' action="/employeecv/">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            {% if cv %}
+                                            {% for item in cv%}
+                                            <div class="col-lg-12">
+                                                <span class="pf-title">Cover Letter</span>
+                                                <div class="pf-field">
+                                                    <textarea input field required name='cv'>{{item.description}}</textarea>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                            {% else%}
+                                            <div class="col-lg-12">
+                                                <span class="pf-title">Cover Letter</span>
+                                                <div class="pf-field">
+                                                    <textarea input field required name='cv'></textarea>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            <div class="col-lg-12">
+                                                <button type="submit">Update</button>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <span class="pf-title"></span>
+                                                <!-- <div class="pf-field">
+                                                    <textarea></textarea> -->
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

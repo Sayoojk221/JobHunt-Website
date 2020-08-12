@@ -1,35 +1,30 @@
 {% extends 'home/base.html' %}
 {% block content %}
-
-    <section>
+<section>
         <div class="block no-padding">
             <div class="container fluid">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="main-featured-sec">
-                            <div class="new-slide-2">
-                                <img src="/static/images/resource/vector-2.png">
+                            <div class="new-slide-3">
+                                <img src="/static/images/resource/vector-4.png">
                             </div>
                             <div class="job-search-sec">
                                 <div class="job-search">
                                     <h3>The Easiest Way to Get Your New Job</h3>
                                     <span>Find Jobs, Employment & Career Opportunities</span>
-                                    <form>
+                                    <form method ='POST' action="/employeesearch/">
+                                        {% csrf_token %}
                                         <div class="row">
                                             <div class="col-lg-7 col-md-5 col-sm-12 col-xs-12">
                                                 <div class="job-field">
-                                                    <input type="text" placeholder="Job title, keywords or company name" />
+                                                    <input type="text" name='key' placeholder="Job title, keywords " />
                                                     <i class="la la-keyboard-o"></i>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 col-md-5 col-sm-12 col-xs-12">
                                                 <div class="job-field">
-                                                    <select data-placeholder="City, province or region" class="chosen-city">
-                                                        <option>New York </option>
-                                                        <option>Istanbul</option>
-                                                        <option>London</option>
-                                                        <option>Russia</option>
-                                                    </select>
+                                                    <input type="text" name="location" >
                                                     <i class="la la-map-marker"></i>
                                                 </div>
                                             </div>
@@ -40,7 +35,7 @@
                                     </form>
                                     <div class="or-browser">
                                         <span>Browse job offers by</span>
-                                        <a href="#" title="">Category</a>
+                                        <a href="//" title="">Category</a>
                                     </div>
                                 </div>
                             </div>
@@ -61,43 +56,43 @@
                     <div class="col-lg-12">
                         <div class="heading">
                             <h2>Popular Categories</h2>
-                            <span>37 jobs live - 0 added today.</span>
+                            <span>{{totalcount}} jobs live - {{todaycount}} added today.</span>
                         </div><!-- Heading -->
                         <div class="cat-sec">
                             <div class="row no-gape">
                                 <div class="col-lg-3 col-md-3 col-sm-6">
                                     <div class="p-category">
-                                        <a href="#" title="">
+                                        <a href="/categorysearch/?key=Design, Art & Multimedia" title="">
                                             <i class="la la-bullhorn"></i>
                                             <span>Design, Art & Multimedia</span>
-                                            <p>(22 open positions)</p>
+                                            <!-- <p>(22 open positions)</p> -->
                                         </a>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-6">
                                     <div class="p-category">
-                                        <a href="#" title="">
+                                        <a href="/categorysearch/?key=Education Training" title="">
                                             <i class="la la-graduation-cap"></i>
                                             <span>Education Training</span>
-                                            <p>(6 open positions)</p>
+                                            <!-- <p>(6 open positions)</p> -->
                                         </a>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-6">
                                     <div class="p-category">
-                                        <a href="#" title="">
+                                        <a href="/categorysearch/?key=Software Developer" title="">
                                             <i class="la la-line-chart "></i>
-                                            <span>Accounting / Finance</span>
-                                            <p>(3 open positions)</p>
+                                            <span>It Developement</span>
+                                            <!-- <p>(3 open positions)</p> -->
                                         </a>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-6">
                                     <div class="p-category">
-                                        <a href="#" title="">
+                                        <a href="/categorysearch/?key=Human Resource" title="">
                                             <i class="la la-users"></i>
                                             <span>Human Resource</span>
-                                            <p>(3 open positions)</p>
+                                            <!-- <p>(3 open positions)</p> -->
                                         </a>
                                     </div>
                                 </div>
@@ -107,69 +102,69 @@
                             <div class="row no-gape">
                                 <div class="col-lg-3 col-md-3 col-sm-6">
                                     <div class="p-category">
-                                        <a href="#" title="">
+                                        <a href="/categorysearch/?key=Telecommunications" title="">
                                             <i class="la la-phone"></i>
                                             <span>Telecommunications</span>
-                                            <p>(22 open positions)</p>
+                                            <p><!-- (22 open positions) --></p>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-6">
                                     <div class="p-category">
-                                        <a href="#" title="">
+                                        <a href="/categorysearch/?key=Restaurant / Food Service" title="">
                                             <i class="la la-cutlery"></i>
                                             <span>Restaurant / Food Service</span>
-                                            <p>(6 open positions)</p>
+                                            <!-- <p>(6 open positions)</p> -->
                                         </a>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-6">
                                     <div class="p-category">
-                                        <a href="#" title="">
+                                        <a href="/categorysearch/?key=Construction / Facilities" title="">
                                             <i class="la la-building"></i>
                                             <span>Construction / Facilities</span>
-                                            <p>(3 open positions)</p>
+                                           <!--  <p>(3 open positions)</p> -->
                                         </a>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-6">
                                     <div class="p-category">
-                                        <a href="#" title="">
+                                        <a href="/categorysearch/?key=Health" title="">
                                             <i class="la la-user-md"></i>
                                             <span>Health</span>
-                                            <p>(3 open positions)</p>
+                                            <!-- <p>(3 open positions)</p> -->
                                         </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12">
+                    <!-- <div class="col-lg-12">
                         <div class="browse-all-cat">
                             <a href="#" title="">Browse All Categories</a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
     </section>
 
-    <section>
+   <!--  <section>
         <div class="block double-gap-top double-gap-bottom">
             <div data-velocity="-.1" style="background: url(/static/images/resource/parallax1.jpg) repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible layer color"></div><!-- PARALLAX BACKGROUND IMAGE -->
-            <div class="container">
+            <!-- <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="simple-text-block">
                             <h3>Make a Difference with Your Online Resume!</h3>
                             <span>Your resume in minutes with JobHunt resume assistant is ready!</span>
-                            <a href="/register/" title="">Create an Account</a>
+                            <a href="#" title="">Create an Account</a>
                         </div>
                     </div>
-                </div>
-            </div>
+                </div> -->
+       <!--      </div>
         </div>
-    </section>
+    </section> -->
 
     <section>
         <div class="block">
@@ -181,71 +176,23 @@
                             <span>Leading Employers already using job and talent.</span>
                         </div><!-- Heading -->
                         <div class="job-listings-sec">
+                            {% for item in jobs%}
                             <div class="job-listing">
                                 <div class="job-title-sec">
-                                    <div class="c-logo"> <img src="/static/images/resource/l1.png" alt="" /> </div>
-                                    <h3><a href="#" title="">Web Designer / Developer</a></h3>
-                                    <span>Massimo Artemisis</span>
+                                    <div class="c-logo"> <img src="{{item.employerid.logo.url}}" alt="" /> </div>
+                                    <h3><a href="/employeejob/?id={{item.id}}" title="">{{item.jobtitle}}</a></h3>
+                                    <span>{{item.employerid.companyname}}</span>
                                 </div>
-                                <span class="job-lctn"><i class="la la-map-marker"></i>Sacramento, California</span>
+                                <span class="job-lctn"><i class="la la-map-marker"></i>{{item.country}}, {{item.city}}</span>
                                 <span class="fav-job"><i class="la la-heart-o"></i></span>
-                                <span class="job-is ft">FULL TIME</span>
+                                <span class="job-is ft">{{item.jobtype}}</span>
                             </div><!-- Job -->
-                            <div class="job-listing">
-                                <div class="job-title-sec">
-                                    <div class="c-logo"> <img src="/static/images/resource/l2.png" alt="" /> </div>
-                                    <h3><a href="#" title="">Marketing Director</a></h3>
-                                    <span>Tix Dog</span>
-                                </div>
-                                <span class="job-lctn"><i class="la la-map-marker"></i>Rennes, France</span>
-                                <span class="fav-job"><i class="la la-heart-o"></i></span>
-                                <span class="job-is pt">PART TIME</span>
-                            </div><!-- Job -->
-                            <div class="job-listing">
-                                <div class="job-title-sec">
-                                    <div class="c-logo"> <img src="/static/images/resource/l3.png" alt="" /> </div>
-                                    <h3><a href="#" title="">C Developer (Senior) C .Net</a></h3>
-                                    <span>StarHealth</span>
-                                </div>
-                                <span class="job-lctn"><i class="la la-map-marker"></i>London, United Kingdom</span>
-                                <span class="fav-job"><i class="la la-heart-o"></i></span>
-                                <span class="job-is ft">FULL TIME</span>
-                            </div><!-- Job -->
-                            <div class="job-listing">
-                                <div class="job-title-sec">
-                                    <div class="c-logo"> <img src="/static/images/resource/l4.png" alt="" /> </div>
-                                    <h3><a href="#" title="">Application Developer For Android</a></h3>
-                                    <span>Altes Bank</span>
-                                </div>
-                                <span class="job-lctn"><i class="la la-map-marker"></i>Istanbul, Turkey</span>
-                                <span class="fav-job"><i class="la la-heart-o"></i></span>
-                                <span class="job-is fl">FREELANCE</span>
-                            </div><!-- Job -->
-                            <div class="job-listing">
-                                <div class="job-title-sec">
-                                    <div class="c-logo"> <img src="/static/images/resource/l5.png" alt="" /> </div>
-                                    <h3><a href="#" title="">Regional Sales Manager South east Asia</a></h3>
-                                    <span>Vincent</span>
-                                </div>
-                                <span class="job-lctn"><i class="la la-map-marker"></i>Ajax, Ontario</span>
-                                <span class="fav-job"><i class="la la-heart-o"></i></span>
-                                <span class="job-is tp">TEMPORARY</span>
-                            </div><!-- Job -->
-                            <div class="job-listing">
-                                <div class="job-title-sec">
-                                    <div class="c-logo"> <img src="/static/images/resource/l6.png" alt="" /> </div>
-                                    <h3><a href="#" title="">Social Media and Public Relation Executive </a></h3>
-                                    <span>MediaLab</span>
-                                </div>
-                                <span class="job-lctn"><i class="la la-map-marker"></i>Ankara / Turkey</span>
-                                <span class="fav-job"><i class="la la-heart-o"></i></span>
-                                <span class="job-is ft">FULL TIME</span>
-                            </div><!-- Job -->
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="col-lg-12">
                         <div class="browse-all-cat">
-                            <a href="#" title="">Load more listings</a>
+                            <a href="/alljobs/" title="">Load more listings</a>
                         </div>
                     </div>
                 </div>

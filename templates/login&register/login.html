@@ -31,29 +31,29 @@
                     <div class="col-lg-12">
                         <div class="account-popup-area signin-popup-box static">
                             <div class="account-popup">
-                                {{error}}{{success}}
+                                <div style="color: red;">{{error}}{{success}}</div>
 <!--                                 <h3>Sign In</h3>
  -->                                <form method='POST' action='/login/'>
-                                    {% csrf_token %}
-                                    <div class="select-user">
-                                        <span><input type="radio"     name="usertype" value='Candidate'>Candidate</span>
-                                        <span><input type="radio" checked=""   name="usertype" value='Employer'>Employer</span>
-                                        <br><br>
-                                    </div>
+                                        {% csrf_token %}
+                                        <div class="select-user">
+                                            <h7><input type="radio" name="usertype" value="Candidate" id="22"><label for="22">Candidate</label></h7>
+                                           <h7><input type="radio" name="usertype" value="Employer" id="3"><label for="3">Employer</label></h7>
+                                           <br><br>
+                                        </div>
 
-                                    <div class="cfield">
-                                        <input type="email" name='email' placeholder="Email" />
-                                        <i class="la la-user"></i>
-                                    </div>
-                                    <div class="cfield">
-                                        <input type="password" name='pass' placeholder="********" />
-                                        <i class="la la-key"></i>
-                                    </div>
-                                    <p class="remember-label">
-                                        <input type="checkbox" name="cb" id="cb1"><label for="cb1">Remember me</label>
-                                    </p>
-                                    <a href="#" title="">Forgot Password?</a>
-                                    <button type="submit">Login</button>
+                                        <div class="cfield">
+                                            <input type="email" name='email' placeholder="Email" input field required />
+                                            <i class="la la-user"></i>
+                                        </div>
+                                        <div class="cfield">
+                                            <input type="password" name='pass' placeholder="********" input field required  />
+                                            <i class="la la-key"></i>
+                                        </div>
+                                        <p class="remember-label">
+                                            <input type="checkbox" name="cb" id="cb1"><label for="cb1">Remember me</label>
+                                        </p>
+                                        <a href="/forgotpassword/" title="">Forgot Password?</a>
+                                        <button type="submit">Login</button>
                                 </form>
                                 <div class="extra-login">
                                     <span>Or</span>

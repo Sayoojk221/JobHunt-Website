@@ -25,15 +25,16 @@
 </head>
 <body>
     <div class="page-loading">
-    <img src="/static/images/loader.gif" alt="" />
-    <span>Skip Loader</span>
-</div>
+        <img src="/static/images/loader.gif" alt="" />
+        <span>Skip Loader</span>
+    </div>
 
 <div class="theme-layout" id="scrollup">
 
     <div class="responsive-header">
         <div class="responsive-menubar">
-            <div class="res-logo"><a href="index.html" title=""><img src="/static/images/resource/logo.png" alt="" /></a></div>
+            <div class="res-logo"><a href="/static/index.html" title=""><img src="/static/images/resource/logo.png" alt="" /></a></div>
+
             <div class="menu-resaction">
                 <div class="res-openmenu">
                     <img src="/static/images/icon.png" alt="" /> Menu
@@ -44,27 +45,41 @@
             </div>
         </div>
         <div class="responsive-opensec">
-            <div class="btn-extars">
-<!--                 <a href="#" title="" class="post-job-btn"><i class="la la-plus"></i>Post Jobs</a>
- -->            </div><!-- Btn Extras -->
+
             <form class="res-search">
                 <input type="text" placeholder="Job title, keywords or company name" />
                 <button type="submit"><i class="la la-search"></i></button>
             </form>
+            <div class="btn-extars">
+                {% for item in employee_reg %}
+                    <div class="btns-profiles-sec">
+                        <span><img src="{{item.profileimage.url}}" width="45px" height="45px" class='menu' alt="" title='' /> </span>
+                        <ul>
+                              <li><a href="/employeesingleprofile/" title=""><i class="la la-tachometer"></i>Dashboard</a></li>
+                            <li><a href="/employeeprofile/" title=""><i class="la la-user"></i>Profile</a></li>
+                            <li><a href="/employeeresume/" title=""><i class="la la-plus-circle"></i>Resume</a></li>
+                            <li><a href="/jobshortlist/" title=""><i class="la la-list"></i>Shorlisted Job</a></li>
+                            <li><a href="/appliedjobs/" title=""><i class="la la-list"></i>Applied Job</a></li>
+                            <li><a href="/employeecv/" title=""><i class="la la-file-text"></i>Cover Letter</a></li>
+                            <li><a href="/employeechangepassword/" title=""><i class="la la-lock"></i>Change Password</a></li>
+                            <li><a href="/employeelogout/" title=""><i class="la la-sign-out"></i>Logout</a></li>
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
             <div class="responsivemenu">
                 <ul>
                     <li class="menu">
-                        <a href="/employeehome/" title="">Home</a>
+                        <a href="/employerhome/" title="">Home</a>
                     </li>
                     <li class="menu">
                         <a href="/totalemployers/" title="">Employers</a>
                     </li>
                     <li class="menu">
-                        <a href="#" title="">Blog</a>
-                    </li>
-                    <li class="menu">
                         <a href="/alljobs/" title="">Job</a>
                     </li>
+                   <!--  <li class="menu">
+                        <a href="#" title="">Blog</a> -->
                 </ul>
             </div>
         </div>
@@ -77,61 +92,28 @@
                 </div><!-- Logo -->
                 {% for item in employee_reg%}
                 <div class="my-profiles-sec">
-                    <span><img src="{{item.profileimage.url}}"  width="50px" height="50px" alt="" /> {{item.username}} <i class="la la-bars"></i></span>
+                    <span><img src="{{item.profileimage.url}}"  width="50px" height="50px" alt="" />  <i class="la la-bars"></i></span>
                 </div>
                 {% endfor %}
-                <div class="wishlist-dropsec">
-                    <span><i class="la la-heart"></i><strong>3</strong></span>
+             <!--    <div class="wishlist-dropsec">
+                    <span><i class="la la-heart"></i><strong>{{count}}</strong></span>
                     <div class="wishlist-dropdown">
                         <ul class="scrollbar">
+                            {% for item in shortlist%}
                             <li>
                                 <div class="job-listing">
                                     <div class="job-title-sec">
-                                        <div class="c-logo"> <img src="/static/images/resource/l1.png" alt="" /> </div>
-                                        <h3><a href="#" title="">Web Designer / Developer</a></h3>
-                                        <span>Massimo Artemisis</span>
+                                        <div class="c-logo"> <img src="{{item.shortlistedjobid.employerid.logo.url}}" alt="" /> </div>
+                                        <h3><a href="/employeejob/?id={{item.shortlistedjobid.id}}" title="">{{item.shortlistedjobid.jobtitle}}</a></h3>
+                                        <span>{{item.shortlistedjobid.employerid.companyname}}</span>
                                     </div>
-                                </div><!-- Job -->
+                                </div>
                             </li>
-                            <li>
-                                <div class="job-listing">
-                                    <div class="job-title-sec">
-                                        <div class="c-logo"> <img src="/static/images/resource/l2.png" alt="" /> </div>
-                                        <h3><a href="#" title="">C Developer (Senior) C .Net</a></h3>
-                                        <span>StarHealth</span>
-                                    </div>
-                                </div><!-- Job -->
-                            </li>
-                            <li>
-                                <div class="job-listing">
-                                    <div class="job-title-sec">
-                                        <div class="c-logo"> <img src="/static/images/resource/l3.png" alt="" /> </div>
-                                        <h3><a href="#" title="">Marketing Director</a></h3>
-                                        <span>Tix Dog</span>
-                                    </div>
-                                </div><!-- Job -->
-                            </li>
-                            <li>
-                                <div class="job-listing">
-                                    <div class="job-title-sec">
-                                        <div class="c-logo"> <img src="/static/images/resource/l4.png" alt="" /> </div>
-                                        <h3><a href="#" title="">Web Designer / Developer</a></h3>
-                                        <span>Massimo Artemisis</span>
-                                    </div>
-                                </div><!-- Job -->
-                            </li>
-                            <li>
-                                <div class="job-listing">
-                                    <div class="job-title-sec">
-                                        <div class="c-logo"> <img src="/static/images/resource/l5.png" alt="" /> </div>
-                                        <h3><a href="#" title="">Web Designer / Developer</a></h3>
-                                        <span>Massimo Artemisis</span>
-                                    </div>
-                                </div><!-- Job -->
-                            </li>
+                            {% endfor %}
                         </ul>
                     </div>
-                </div>
+                </div> -->
+
                 <nav>
                     <ul>
                         <li class="menu">
@@ -141,9 +123,9 @@
                             <a href="/totalemployers/" title="">Employers</a>
                         </li>
                         </li>
-                        <li class="menu">
+                        <!-- <li class="menu">
                             <a href="#" title="">Blog</a>
-                        </li>
+                        </li> -->
                         <li class="menu">
                             <a href="/alljobs/" title="">Job</a>
                         </li>
@@ -176,15 +158,14 @@
                         <div class="widget">
                             <div class="tree_widget-sec">
                                 <ul>
-                                    <li><a href="/employeesingleprofile/" title=""><i class="la la-file-text"></i>Dashboard</a></li>
-                                    <li><a href="/employeeprofile/" title=""><i class="la la-file-text"></i>My Profile</a></li>
-                                    <li><a href="/employeeresume/" title=""><i class="la la-briefcase"></i>Resume</a></li>
-                                    <li><a href="/jobshortlist/" title=""><i class="la la-money"></i>Shorlisted Job</a></li>
-                                    <li><a href="/appliedjobs/" title=""><i class="la la-paper-plane"></i>Applied Job</a></li>
-<!--                                     <li><a href="candidates_job_alert.html" title=""><i class="la la-user"></i>Job Alerts</a></li>
- -->                                    <li><a href="candidates_cv_cover_letter.html" title=""><i class="la la-file-text"></i>Cv & Cover Letter</a></li>
-                                    <li><a href="candidates_change_password.html" title=""><i class="la la-flash"></i>Change Password</a></li>
-                                    <li><a href="/employeelogout/" title=""><i class="la la-unlink"></i>Logout</a></li>
+                                    <li><a href="/employeesingleprofile/" title=""><i class="la la-tachometer"></i>Dashboard</a></li>
+                                    <li><a href="/employeeprofile/" title=""><i class="la la-user"></i>Profile</a></li>
+                                    <li><a href="/employeeresume/" title=""><i class="la la-plus-circle"></i>Resume</a></li>
+                                    <li><a href="/jobshortlist/" title=""><i class="la la-list"></i>Shorlisted Job</a></li>
+                                    <li><a href="/appliedjobs/" title=""><i class="la la-list"></i>Applied Job</a></li>
+                                    <li><a href="/employeecv/" title=""><i class="la la-file-text"></i>Cover Letter</a></li>
+                                    <li><a href="/employeechangepassword/" title=""><i class="la la-lock"></i>Change Password</a></li>
+                                    <li><a href="/employeelogout/" title=""><i class="la la-sign-out"></i>Logout</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -281,8 +262,8 @@
             </div>
         </div>
         <div class="bottom-line">
-            <span>© 2018 Jobhunt All rights reserved. Design by Creative Layers</span>
-            <a href="#scrollup" class="scrollup" title=""><i class="la la-arrow-up"></i></a>
+            <span>© 2020 Jobhunt All rights reserved. Design by Creative Layers</span>
+            <a href="#scrollup" class="scrollup" title=""></i></a>
         </div>
     </footer>
 
@@ -297,7 +278,11 @@
         <h3>{{i.employeeid.username}}</h3>
         {% endfor %}
         {% for item in employee_job %}
+        {% if item.company  %}
         <span><i>{{item.jobtitle}}</i> at {{item.company}}</span>
+        {% else %}
+        <span>Fresher<i></i> </span>
+        {% endif%}
         {% endfor %}
         {%  for item in employee_per %}
         <p><a href="#" class="__cf_email__" data-cfemail="0467766165706d726168657d617677343c3c446369656d682a676b69">{{item.employeeid.email}}</a></p>
@@ -308,15 +293,14 @@
 
     <div class="tree_widget-sec">
         <ul>
-            <li><a href="/employeesingleprofile/" title=""><i class="la la-file-text"></i>Dashboard</a></li>
-            <li><a href="/employeeprofile/" title=""><i class="la la-file-text"></i>My Profile</a></li>
-            <li><a href="/employeeresume/" title=""><i class="la la-briefcase"></i>My Resume</a></li>
-            <li><a href="/jobshortlist/" title=""><i class="la la-money"></i>Shorlisted Job</a></li>
-            <li><a href="/appliedjobs/" title=""><i class="la la-paper-plane"></i>Applied Job</a></li>
-<!--             <li><a href="candidates_job_alert.html" title=""><i class="la la-user"></i>Job Alerts</a></li>
- -->            <li><a href="candidates_cv_cover_letter.html" title=""><i class="la la-file-text"></i>Cv & Cover Letter</a></li>
-            <li><a href="candidates_change_password.html" title=""><i class="la la-flash"></i>Change Password</a></li>
-            <li><a href="/employeelogout/" title=""><i class="la la-unlink"></i>Logout</a></li>
+            <li><a href="/employeesingleprofile/" title=""><i class="la la-tachometer"></i>Dashboard</a></li>
+            <li><a href="/employeeprofile/" title=""><i class="la la-user"></i>Profile</a></li>
+            <li><a href="/employeeresume/" title=""><i class="la la-plus-circle"></i>Resume</a></li>
+            <li><a href="/jobshortlist/" title=""><i class="la la-list"></i>Shorlisted Job</a></li>
+            <li><a href="/appliedjobs/" title=""><i class="la la-list"></i>Applied Job</a></li>
+            <li><a href="/employeecv/" title=""><i class="la la-file-text"></i>Cover Letter</a></li>
+            <li><a href="/employeechangepassword/" title=""><i class="la la-lock"></i>Change Password</a></li>
+            <li><a href="/employeelogout/" title=""><i class="la la-sign-out"></i>Logout</a></li>
         </ul>
     </div>
 </div><!-- Profile Sidebar -->

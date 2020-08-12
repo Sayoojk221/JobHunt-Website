@@ -34,7 +34,7 @@
     <section class="overlape">
         <div class="block remove-top">
             <div class="container">
-                <div class="row">
+                <div id='content' class="row">
                     <div class="col-lg-12">
                         <div class="cand-single-user">
                             {% for item in employee_social %}
@@ -48,25 +48,43 @@
                                 <h3>{{item.fullname}}</h3>
                                 {% endfor %}
                                 {% for job in employee_job%}
+                                {% if job.jobtitle%}
                                 <span><i>{{job.jobtitle}}</i> at {{job.company}}</span>
+                                {% else %}
+                                <span><i>Fresher</span>
+                                {% endif%}
                                 <p><a href="#" class="__cf_email__" data-cfemail="2744554246534e51424b465e425554171f1f67404a464e4b0944484a">{{job.employeeid.email}}</a></p>
                                 {% endfor %}
                                 {% for item in employee_per %}
                                 <p><i class="la la-map-marker"></i>{{item.country}} / {{item.city}}</p>
                                 {% endfor %}
                             </div>
+                            {% for item in employee_job %}
                             <div class="download-cv">
-                                <a href="#" title="">Download CV <i class="la la-download"></i></a>
+                                <a href="/downloadpdf/?id={{item.employeeid.id}}" id='btn' title="">Download CV <i class="la la-download"></i></a>
                             </div>
+                            {% endfor %}
                         </div>
                         <ul class="cand-extralink">
                             <li><a href="#about" title="">About</a></li>
+                            {% if education %}
                             <li><a href="#education" title="">Education</a></li>
+                            {% endif%}
+                            {% if workexperience %}
                             <li><a href="#experience" title="">Work Experience</a></li>
+                            {% endif %}
+                            {% if portflio %}
                             <li><a href="#portfolio" title="">Portfolio</a></li>
+                            {% endif %}
+                            {% if professionalskill%}
                             <li><a href="#skills" title="">Professional Skills</a></li>
+                            {% endif %}
+                            {% if languageskill %}
                             <li><a href="#skills" title="">Languages</a></li>
+                            {% endif %}
+                            {% if awards %}
                             <li><a href="#awards" title="">Awards</a></li>
+                            {% endif %}
                         </ul>
                         <div class="cand-details-sec">
                             <div class="row">
@@ -77,6 +95,7 @@
                                         <p>{{job.jobdescription}}</p>
                                         {% endfor %}
                                         <div class="edu-history-sec" id="education">
+                                            {% if education %}
                                             <h2>Education</h2>
                                             {% for edu in education %}
                                             <div class="edu-history">
@@ -89,8 +108,10 @@
                                                 </div>
                                             </div>
                                             {% endfor %}
+                                            {% endif %}
                                         </div>
                                         <div class="edu-history-sec" id="experience">
+                                            {% if workexperience %}
                                             <h2>Work & Experience</h2>
                                             {% for exp in workexperience%}
                                             <div class="edu-history style2">
@@ -102,8 +123,10 @@
                                                 </div>
                                             </div>
                                             {% endfor %}
+                                            {% endif %}
                                         </div>
                                         <div class="mini-portfolio" id="portfolio">
+                                            {% if portflio %}
                                             <h2>Portfolio</h2>
                                             {% for item in portflio %}
                                             <div class="mp-row">
@@ -112,8 +135,10 @@
                                                 </div>
                                             </div>
                                             {% endfor %}
+                                            {% endif %}
                                         </div>
                                         <div class="progress-sec" id="skills">
+                                            {% if professionalskill %}
                                             <h2>Professional Skills</h2>
                                             {% for skill in professionalskill%}
                                             <div class="progress-sec">
@@ -121,8 +146,10 @@
                                                 <div class="progressbar"> <div class="progress" style="width: {{skill.percentage}}%;"><span>{{skill.percentage}}%</span></div> </div>
                                             </div>
                                             {% endfor %}
+                                            {% endif %}
                                         </div>
                                         <div class="progress-sec" id="skills">
+                                            {% if languageskill %}
                                             <h2>Lanquages</h2>
                                             {% for skill in languageskill%}
                                             <div class="progress-sec">
@@ -130,8 +157,10 @@
                                                 <div class="progressbar"> <div class="progress" style="width: {{skill.percentage}}%;"><span>{{skill.percentage}}%</span></div> </div>
                                             </div>
                                             {% endfor %}
+                                            {% endif %}
                                         </div>
                                         <div class="edu-history-sec" id="awards">
+                                            {% if awards %}
                                             <h2>Awards</h2>
                                             {% for item in awards%}
                                             <div class="edu-history style2">
@@ -143,6 +172,7 @@
                                                 </div>
                                             </div>
                                             {% endfor %}
+                                            {% endif %}
                                         </div>
                                         <div class="companyies-fol-sec">
                                             <h2>Companies Followed By</h2>
@@ -205,4 +235,5 @@
             </div>
         </div>
     </section>
+
 {% endblock %}

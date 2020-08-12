@@ -25,46 +25,61 @@
 </head>
 <body>
     <div class="page-loading">
-    <img src="/static//static/images/loader.gif" alt="" />
-    <span>Skip Loader</span>
-</div>
+        <img src="/static/images/loader.gif" alt="" />
+        <span>Skip Loader</span>
+    </div>
 
 <div class="theme-layout" id="scrollup">
 
     <div class="responsive-header">
         <div class="responsive-menubar">
-            <div class="res-logo"><a href="index.html" title=""><img src="/static//static/images/resource/logo.png" alt="" /></a></div>
+            <div class="res-logo"><a href="/static/index.html" title=""><img src="/static/images/resource/logo.png" alt="" /></a></div>
+
             <div class="menu-resaction">
                 <div class="res-openmenu">
-                    <img src="/static//static/images/icon.png" alt="" /> Menu
+                    <img src="/static/images/icon.png" alt="" /> Menu
                 </div>
                 <div class="res-closemenu">
-                    <img src="/static//static/images/icon2.png" alt="" /> Close
+                    <img src="/static/images/icon2.png" alt="" /> Close
                 </div>
             </div>
         </div>
         <div class="responsive-opensec">
-            <div class="btn-extars">
-<!--                 <a href="#" title="" class="post-job-btn"><i class="la la-plus"></i>Post Jobs</a>
- -->            </div><!-- Btn Extras -->
+
             <form class="res-search">
                 <input type="text" placeholder="Job title, keywords or company name" />
                 <button type="submit"><i class="la la-search"></i></button>
             </form>
+            <div class="btn-extars">
+                {% for item in employee_reg %}
+                    <div class="btns-profiles-sec">
+                        <span><img src="{{item.profileimage.url}}" width="45px" height="45px" class='menu' alt="" title='' /></span>
+                        <ul>
+                           <li><a href="/employeesingleprofile/" title=""><i class="la la-tachometer"></i>Dashboard</a></li>
+                            <li><a href="/employeeprofile/" title=""><i class="la la-user"></i>Profile</a></li>
+                            <li><a href="/employeeresume/" title=""><i class="la la-plus-circle"></i>Resume</a></li>
+                            <li><a href="/jobshortlist/" title=""><i class="la la-list"></i>Shorlisted Job</a></li>
+                            <li><a href="/appliedjobs/" title=""><i class="la la-list"></i>Applied Job</a></li>
+                            <li><a href="/employeecv/" title=""><i class="la la-file-text"></i>Cover Letter</a></li>
+                            <li><a href="/employeechangepassword/" title=""><i class="la la-lock"></i>Change Password</a></li>
+                            <li><a href="/employeelogout/" title=""><i class="la la-sign-out"></i>Logout</a></li>
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
             <div class="responsivemenu">
                 <ul>
                     <li class="menu">
-                        <a href="/employeehome/" title="">Home</a>
+                        <a href="/employerhome/" title="">Home</a>
                     </li>
                     <li class="menu">
                         <a href="/totalemployers/" title="">Employers</a>
                     </li>
                     <li class="menu">
-                        <a href="#" title="">Blog</a>
-                    </li>
-                    <li class="menu">
                         <a href="/alljobs/" title="">Job</a>
                     </li>
+                    <!-- <li class="menu">
+                        <a href="#" title="">Blog</a> -->
                 </ul>
             </div>
         </div>
@@ -77,61 +92,28 @@
                 </div><!-- Logo -->
                 {% for item in employee_reg%}
                 <div class="my-profiles-sec">
-                    <span><img src="{{item.profileimage.url}}"  width="50px" height="50px" alt="" /> {{item.username}} <i class="la la-bars"></i></span>
+                    <span><img src="{{item.profileimage.url}}"  width="50px" height="50px" alt="" /></span>
                 </div>
                 {% endfor %}
-                <div class="wishlist-dropsec">
-                    <span><i class="la la-heart"></i><strong>3</strong></span>
+               <!--  <div class="wishlist-dropsec">
+                    <span><i class="la la-heart"></i><strong>{{count}}</strong></span>
                     <div class="wishlist-dropdown">
                         <ul class="scrollbar">
+                            {% for item in shortlist%}
                             <li>
                                 <div class="job-listing">
                                     <div class="job-title-sec">
-                                        <div class="c-logo"> <img src="/static//static/images/resource/l1.png" alt="" /> </div>
-                                        <h3><a href="#" title="">Web Designer / Developer</a></h3>
-                                        <span>Massimo Artemisis</span>
+                                        <div class="c-logo"> <img src="{{item.shortlistedjobid.employerid.logo.url}}" alt="" /> </div>
+                                        <h3><a href="/employeejob/?id={{item.shortlistedjobid.id}}" title="">{{item.shortlistedjobid.jobtitle}}</a></h3>
+                                        <span>{{item.shortlistedjobid.employerid.companyname}}</span>
                                     </div>
-                                </div><!-- Job -->
+                                </div>
                             </li>
-                            <li>
-                                <div class="job-listing">
-                                    <div class="job-title-sec">
-                                        <div class="c-logo"> <img src="/static//static/images/resource/l2.png" alt="" /> </div>
-                                        <h3><a href="#" title="">C Developer (Senior) C .Net</a></h3>
-                                        <span>StarHealth</span>
-                                    </div>
-                                </div><!-- Job -->
-                            </li>
-                            <li>
-                                <div class="job-listing">
-                                    <div class="job-title-sec">
-                                        <div class="c-logo"> <img src="/static//static/images/resource/l3.png" alt="" /> </div>
-                                        <h3><a href="#" title="">Marketing Director</a></h3>
-                                        <span>Tix Dog</span>
-                                    </div>
-                                </div><!-- Job -->
-                            </li>
-                            <li>
-                                <div class="job-listing">
-                                    <div class="job-title-sec">
-                                        <div class="c-logo"> <img src="/static//static/images/resource/l4.png" alt="" /> </div>
-                                        <h3><a href="#" title="">Web Designer / Developer</a></h3>
-                                        <span>Massimo Artemisis</span>
-                                    </div>
-                                </div><!-- Job -->
-                            </li>
-                            <li>
-                                <div class="job-listing">
-                                    <div class="job-title-sec">
-                                        <div class="c-logo"> <img src="/static/images/resource/l5.png" alt="" /> </div>
-                                        <h3><a href="#" title="">Web Designer / Developer</a></h3>
-                                        <span>Massimo Artemisis</span>
-                                    </div>
-                                </div><!-- Job -->
-                            </li>
+                            {% endfor %}
                         </ul>
                     </div>
-                </div>
+                </div> -->
+
                 <nav>
                     <ul>
                         <li class="menu">
@@ -141,9 +123,9 @@
                             <a href="/totalemployers/" title="">Employers</a>
                         </li>
                         </li>
-                        <li class="menu">
+                       <!--  <li class="menu">
                             <a href="#" title="">Blog</a>
-                        </li>
+                        </li> -->
                         <li class="menu">
                             <a href="/alljobs/" title="">Job</a>
                         </li>
@@ -169,10 +151,10 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <div class="action-inner">
+                                        <!-- <div class="action-inner">
                                             <a href="#" title=""><i class="la la-paper-plane"></i>Save Resume</a>
                                             <a href="#" title=""><i class="la la-envelope-o"></i>Contact David</a>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -200,25 +182,42 @@
                                 <h3>{{item.fullname}}</h3>
                                 {% endfor %}
                                 {% for job in employee_job%}
+                                {% if job.jobtitle  %}
                                 <span><i>{{job.jobtitle}}</i> at {{job.company}}</span>
+                                {% else %}
+                                <span><i>Fresher</span>
+                                {% endif%}
                                 <p><a href="#" class="__cf_email__" data-cfemail="2744554246534e51424b465e425554171f1f67404a464e4b0944484a">{{job.employeeid.email}}</a></p>
                                 {% endfor %}
                                 {% for item in employee_per %}
                                 <p><i class="la la-map-marker"></i>{{item.country}} / {{item.city}}</p>
-                                {% endfor %}
+
                             </div>
                             <div class="download-cv">
-                                <a href="#" title="">Download CV <i class="la la-download"></i></a>
+                                <a href="/downloadpdf/?id={{item.employeeid.id}}" title="">Download Resume <i class="la la-download"></i></a>
                             </div>
+                            {% endfor %}
                         </div>
                         <ul class="cand-extralink">
                             <li><a href="#about" title="">About</a></li>
+                            {% if education %}
                             <li><a href="#education" title="">Education</a></li>
+                            {% endif %}
+                            {% if workexperience %}
                             <li><a href="#experience" title="">Work Experience</a></li>
+                            {% endif %}
+                            {% if portflio %}
                             <li><a href="#portfolio" title="">Portfolio</a></li>
+                            {% endif %}
+                            {% if professionalskill%}
                             <li><a href="#skills" title="">Professional Skills</a></li>
+                            {% endif %}
+                            {% if languageskill %}
                             <li><a href="#skills" title="">Languages</a></li>
+                            {% endif %}
+                            {% if awards %}
                             <li><a href="#awards" title="">Awards</a></li>
+                            {% endif %}
                         </ul>
                         <div class="cand-details-sec">
                             <div class="row">
@@ -229,6 +228,7 @@
                                         <p>{{job.jobdescription}}</p>
                                         {% endfor %}
                                         <div class="edu-history-sec" id="education">
+                                            {% if education %}
                                             <h2>Education</h2>
                                             {% for edu in education %}
                                             <div class="edu-history">
@@ -241,8 +241,10 @@
                                                 </div>
                                             </div>
                                             {% endfor %}
+                                            {% endif %}
                                         </div>
                                         <div class="edu-history-sec" id="experience">
+                                            {% if workexperience %}
                                             <h2>Work & Experience</h2>
                                             {% for exp in workexperience%}
                                             <div class="edu-history style2">
@@ -254,8 +256,10 @@
                                                 </div>
                                             </div>
                                             {% endfor %}
+                                            {% endif %}
                                         </div>
                                         <div class="mini-portfolio" id="portfolio">
+                                            {% if portflio %}
                                             <h2>Portfolio</h2>
                                             {% for item in portflio %}
                                             <div class="mp-row">
@@ -264,8 +268,10 @@
                                                 </div>
                                             </div>
                                             {% endfor %}
+                                            {% endif %}
                                         </div>
                                         <div class="progress-sec" id="skills">
+                                            {% if professionalskill %}
                                             <h2>Professional Skills</h2>
                                             {% for skill in professionalskill%}
                                             <div class="progress-sec">
@@ -273,8 +279,10 @@
                                                 <div class="progressbar"> <div class="progress" style="width: {{skill.percentage}}%;"><span>{{skill.percentage}}%</span></div> </div>
                                             </div>
                                             {% endfor %}
+                                            {% endif %}
                                         </div>
                                         <div class="progress-sec" id="skills">
+                                            {% if languageskill %}
                                             <h2>Lanquages</h2>
                                             {% for skill in languageskill%}
                                             <div class="progress-sec">
@@ -282,8 +290,10 @@
                                                 <div class="progressbar"> <div class="progress" style="width: {{skill.percentage}}%;"><span>{{skill.percentage}}%</span></div> </div>
                                             </div>
                                             {% endfor %}
+                                            {% endif %}
                                         </div>
                                         <div class="edu-history-sec" id="awards">
+                                            {% if awards %}
                                             <h2>Awards</h2>
                                             {% for item in awards%}
                                             <div class="edu-history style2">
@@ -295,8 +305,9 @@
                                                 </div>
                                             </div>
                                             {% endfor %}
+                                            {% endif %}
                                         </div>
-                                        <div class="companyies-fol-sec">
+                                        <!-- <div class="companyies-fol-sec">
                                             <h2>Companies Followed By</h2>
                                             <div class="cmp-follow">
                                                 <div class="row">
@@ -320,7 +331,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                                 <div class="col-lg-4 column">
@@ -328,7 +339,10 @@
                                         <h3>Overview</h3>
                                         <ul>
                                             {% for item in employee_job %}
+                                            {% if item.currentsalary != '0' %}
                                             <li><i class="la la-money"></i><h3>Salary</h3><span>{{item.currentsalary}}</span></li>
+                                            {% else %}
+                                            {% endif%}
                                             {% endfor %}
                                             {% for item in employee_per %}
                                             <li><i class="la la-mars-double"></i><h3>Gender</h3><span>{{item.gender}}</span></li>
@@ -451,7 +465,11 @@
         <h3>{{i.employeeid.username}}</h3>
         {% endfor %}
         {% for item in employee_job %}
+        {% if item.company %}
         <span><i>{{item.jobtitle}}</i> at {{item.company}}</span>
+        {% else %}
+        <span>Fresher<i></i> </span>
+        {% endif%}
         {% endfor %}
         {%  for item in employee_per %}
         <p><a href="#" class="__cf_email__" data-cfemail="0467766165706d726168657d617677343c3c446369656d682a676b69">{{item.employeeid.email}}</a></p>
@@ -462,13 +480,14 @@
 
     <div class="tree_widget-sec">
         <ul>
-            <li><a href="/employeeprofile/" title=""><i class="la la-file-text"></i>My Profile</a></li>
-            <li><a href="/employeeresume/" title=""><i class="la la-briefcase"></i>My Resume</a></li>
-            <li><a href="/jobshortlist/" title=""><i class="la la-money"></i>Shorlisted Job</a></li>
-            <li><a href="/appliedjobs/" title=""><i class="la la-paper-plane"></i>Applied Job</a></li>
-            <li><a href="candidates_cv_cover_letter.html" title=""><i class="la la-file-text"></i>Cv & Cover Letter</a></li>
-            <li><a href="candidates_change_password.html" title=""><i class="la la-flash"></i>Change Password</a></li>
-            <li><a href="/employeelogout/" title=""><i class="la la-unlink"></i>Logout</a></li>
+           <li><a href="/employeesingleprofile/" title=""><i class="la la-tachometer"></i>Dashboard</a></li>
+            <li><a href="/employeeprofile/" title=""><i class="la la-user"></i>Profile</a></li>
+            <li><a href="/employeeresume/" title=""><i class="la la-plus-circle"></i>Resume</a></li>
+            <li><a href="/jobshortlist/" title=""><i class="la la-list"></i>Shorlisted Job</a></li>
+            <li><a href="/appliedjobs/" title=""><i class="la la-list"></i>Applied Job</a></li>
+            <li><a href="/employeecv/" title=""><i class="la la-file-text"></i>Cover Letter</a></li>
+            <li><a href="/employeechangepassword/" title=""><i class="la la-lock"></i>Change Password</a></li>
+            <li><a href="/employeelogout/" title=""><i class="la la-sign-out"></i>Logout</a></li>
         </ul>
     </div>
 </div><!-- Profile Sidebar -->

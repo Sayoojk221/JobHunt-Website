@@ -22,15 +22,12 @@
                     <div class="widget">
                         <form method ='POST' action='/candidates/'>
                             {% csrf_token %}
-                            <div class="search_widget_job">
-                                <div class="field_w_search">
-                                    <input type="text" name='key' placeholder="Search Keywords" />
-                                    <i class="la la-search"></i>
-                                </div><!-- Search Widget -->
-                                <!-- <div class="field_w_search">
-                                    <input type="text" placeholder="All Locations" />
-                                    <i class="la la-map-marker"></i>
-                                </div> --><!-- Search Widget -->
+                                <div class="search_widget_job">
+                                    <div class="field_w_search">
+                                        <input type="text" name='key' placeholder="Search Keywords" />
+                                        <i class="la la-search"></i>
+                                    </div>
+
                             </div>
                         </form>
                     </div>
@@ -48,48 +45,6 @@
                         </div>
                     </div> -->
 
-                    <div class="widget">
-                        <h3 class="sb-title open">Job Category</h3>
-                        <div class="specialism_widget">
-                            <div class="simple-checkbox scrollbar">
-                                <p><input type="checkbox" name="spealism" value ='Web Developer' id="as"><label for="as">Web Developer </label></p>
-                                <p><input type="checkbox" name="spealism" value ='Web Designer' id="asd"><label for="asd">Web Designer </label></p>
-                                <p><input type="checkbox" name="spealism" value ='UX / UI Designer' id="errwe"><label for="errwe">UX / UI Designer </label></p>
-                                <p><input type="checkbox" name="spealism" value ='Sales / Marketing' id="fdg"><label for="fdg">Sales / Marketing</label></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="widget">
-                        <h3 class="sb-title closed">Experince</h3>
-                        <div class="specialism_widget">
-                            <div class="simple-checkbox">
-                                <p><input type="checkbox" name="smplechk" value='1-2' id="9"><label for="9">1Year to 2Year</label></p>
-                                <p><input type="checkbox" name="smplechk" value='2-3' id="10"><label for="10">2Year to 3Year</label></p>
-                                <p><input type="checkbox" name="smplechk"  value='3-4' id="11"><label for="11">3Year to 4Year</label></p>
-                                <p><input type="checkbox" name="smplechk" value='4-5'id="12"><label for="12">4Year to 5Year</label></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="widget">
-                        <h3 class="sb-title closed">Qualification</h3>
-                        <div class="specialism_widget">
-                            <div class="simple-checkbox">
-                                <p><input type="checkbox" name="smplechk" value='Under Graduate' id="13"><label for="13">Under Graduate</label></p>
-                                <p><input type="checkbox" name="smplechk"  value='Graduate'id="14"><label for="14">Graduate</label></p>
-                                <p><input type="checkbox" name="smplechk" value='Professional' id="15"><label for="15">Professional</label></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="widget">
-                        <h3 class="sb-title closed">Gender</h3>
-                        <div class="specialism_widget">
-                            <div class="simple-checkbox">
-                                <p><input type="checkbox" name="smplechk" value='Male' id="13"><label for="13">Male</label></p>
-                                <p><input type="checkbox" name="smplechk" value='Female' id="14"><label for="14">Female</label></p>
-                                <p><input type="checkbox" name="smplechk" value='Others' id="15"><label for="15">Others</label></p>
-                            </div>
-                        </div>
-                    </div>
 
                    <!--  <div class="widget">
                         <h3 class="sb-title open">Offerd Salary</h3>
@@ -121,7 +76,9 @@
                 <div class="col-lg-9 column">
                     <div class="padding-left">
                         <div class="emply-resume-sec">
+                            {% if candidate %}
                             {% for item in candidate %}
+                            {% if item.employeeid.id not in list %}
                             <div class="emply-resume-list">
                                 <div class="emply-resume-thumb">
                                     <img src="{{item.employeepersonalid.employeeid.profileimage.url}}" width="90px" height="90px" alt="" />
@@ -135,7 +92,13 @@
                                     <a href="/employeeprofileshortlist/?id={{item.employeepersonalid.employeeid.id}}" title="">Shortlist <i class="la la-plus"></i></a>
                                 </div>
                             </div>
-                            {% endfor %}<!-- Emply List -->
+                            {% endif %}
+                            {% endfor %}
+                            {% else %}
+
+<!--                                 <span style="text-align: center; margin-left: 150px; " class='text-info'><h3>Not Found</h3></span>
+ -->
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -143,4 +106,22 @@
         </div>
     </div>
 </section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    function value(){
+        var value =
+        $.ajax({
+            url:'/candidatesearch/',
+            date:{
+                'value':value
+            },
+            dataType:'json',
+            success: function(){
+                return success;
+            }
+        });
+
+    }
+</script>
 {% endblock %}

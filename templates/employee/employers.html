@@ -19,20 +19,20 @@
         <div class="block less-top">
             <div class="container">
                  <div class="row">
-                    <aside class="col-lg-3 column margin_widget">
-                        <div class="widget">
+                    <!-- <aside class="col-lg-3 column margin_widget">
+                        <!-- <div class="widget"> -->
                             <div class="search_widget_job">
-                                <div class="field_w_search">
+                                <!-- <div class="field_w_search">
                                     <input type="text" placeholder="Search Keywords" />
                                     <i class="la la-search"></i>
-                                </div><!-- Search Widget -->
-                                <div class="field_w_search">
+                                </div> -->
+                                <!-- <div class="field_w_search">
                                     <input type="text" placeholder="All Locations" />
                                     <i class="la la-map-marker"></i>
-                                </div><!-- Search Widget -->
-                            </div>
-                        </div>
-                        <div class="widget border">
+                                </div> -->
+                        <!--     </div>
+                        </div> -->
+                        <!-- <div class="widget border">
                             <h3 class="sb-title open">Specialism</h3>
                             <div class="specialism_widget">
                                 <div class="simple-checkbox">
@@ -45,8 +45,8 @@
                                     <p><input type="checkbox" name="spealism" id="ui"><label for="ui">IT Contractor (7)</label></p>
                                 </div>
                             </div>
-                        </div>
-                        <div class="widget border">
+                        </div> -->
+                        <!-- <div class="widget border">
                             <h3 class="sb-title open">Team Size</h3>
                             <div class="specialism_widget">
                                 <div class="simple-checkbox">
@@ -71,11 +71,11 @@
                                 <div class="leftLabel"></div>
                                 <div class="rightLabel"></div>
                             </div>
-                        </div>
+                        </div> -->
                     </aside>
                     <div class="col-lg-9 column">
                         <div class="filterbar">
-                            <p>Total of {{employercount}} Employer</p>
+                            <!-- <p>Total of {{employercount}} Employer</p> -->
                             <!-- <div class="sortby-sec">
                                 <span>Sort by</span>
                                 <select data-placeholder="20 Per Page" class="chosen">
@@ -90,6 +90,7 @@
                         <div class="emply-list-sec">
                             <div class="row" id="masonry">
                                 {% for item in employerdetails%}
+                                {% if item.id in employerlist %}
                                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                                     <div class="emply-list box">
                                         <div class="emply-list-thumb">
@@ -103,20 +104,20 @@
                                         </div>
                                     </div><!-- Employe List -->
                                 </div>
+                                {% endif %}
                                 {% endfor %}
                                 <!-- <div class="col-lg-12">
                                     <div class="pagination">
                                         <ul>
                                             <li class="prev"><a href="#"><i class="la la-long-arrow-left"></i> Prev</a></li>
-                                            <li><a href="#">1</a></li>
-                                            <li class="active"><a href="#">2</a></li>
+                                            <li class="active"><a href="#">1</a></li>
+                                            <li ><a href="#">2</a></li>
                                             <li><a href="#">3</a></li>
-                                            <li><span class="delimeter">...</span></li>
-                                            <li><a href="#">14</a></li>
+
                                             <li class="next"><a href="#">Next <i class="la la-long-arrow-right"></i></a></li>
                                         </ul>
-                                    </div> --><!-- Pagination -->
-                                <!-- </div> -->
+                                    </div> --> <!-- Pagination
+                                </div> -->
                             </div>
                         </div>
                     </div>

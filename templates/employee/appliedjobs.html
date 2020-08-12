@@ -1,15 +1,16 @@
 {% extends 'employee/base2.html' %}
 {% block content %}
-<!--  -->
+
                     <div class="col-lg-9 column">
                         <div class="padding-left">
                             <div class="manage-jobs-sec">
-                                <h3>Manage Jobs</h3>
+                                <h3>Applied Jobs</h3>
                                 <table>
                                     <thead>
                                         <tr>
                                             <td>Applied Job</td>
                                             <td>Position</td>
+                                            <td>Status</td>
                                             <td>Date</td>
                                             <td></td>
                                         </tr>
@@ -27,6 +28,9 @@
                                                 <div class="table-list-title">
                                                     <h3><a href="/employeejob/?id={{item.jobid.id}}" title="">{{item.jobid.jobtitle}}</a></h3>
                                                 </div>
+                                            </td>
+                                            <td>
+                                                <span>{{item.status}}</span><br />
                                             </td>
                                             <td>
                                                 <span>{{item.date|date:'d-m-Y'}}</span><br />

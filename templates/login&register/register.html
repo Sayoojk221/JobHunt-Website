@@ -31,31 +31,31 @@
                     <div class="col-lg-12">
                         <div class="account-popup-area signup-popup-box static">
                             <div class="account-popup">
-                                {{error}}
+                                <div style="color: red;">{{error}}</div>
 <!--                                 <h3>Sign Up</h3>
  -->                                <form method='POST' action='/register/'>
                                     {% csrf_token %}
                                     <div class="select-user" >
-                                    <span ><input type="radio"   name="select" value='Candidate'>Candidate</span>
-                                    <span ><input type="radio"  checked="" name="select" value='Employer'>Employer</span>
-                                    <br><br>
+                                        <h7><input type="radio" name="usertype" value="Candidate" id="22"><label for="22">Candidate</label></h7>
+                                       <h7><input type="radio" name="usertype" value="Employer" id="3"><label for="3">Employer</label></h7>
+                                       <br><br>
                                     </div>
 
                                     <div class="cfield">
-                                        <input type="text" placeholder="Name" name='name' />
+                                        <input type="text" placeholder="Name" name='name' input field required />
                                         <i class="la la-user"></i>
                                     </div>
                                     <div class="cfield">
-                                        <input type="password" placeholder="********" name='pass'/>
+                                        <input type="password" placeholder="********" name='pass' input field required/>
                                         <i class="la la-key"></i>
                                     </div>
                                     <div class="cfield">
-                                        <input type="text" placeholder="Email" name='email'/>
+                                        <input type="text" placeholder="Email" name='email' input field required/>
                                         <i class="la la-envelope-o"></i>
                                     </div>
 
                                     <div class="cfield">
-                                        <input type="text" placeholder="Phone Number" name='phone' />
+                                        <input type="text" placeholder="Phone Number" name='phone' input field required />
                                         <i class="la la-phone"></i>
                                     </div>
                                     <button type="submit">Signup</button>

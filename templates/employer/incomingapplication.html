@@ -1,0 +1,85 @@
+{% extends 'employer/base2.html' %}
+{% block content %}
+<div class="col-lg-9 column">
+                        <div class="padding-left">
+                            <div class="emply-resume-sec">
+                                <h3>Application Request</h3>
+                                {% for item in job %}
+
+                                <div class="emply-resume-list">
+
+                                    <div class="emply-resume-thumb">
+                                        <img src="{{item.employeeid.profileimage.url}}" alt="" />
+                                    </div>
+                                    <div class="emply-resume-info">
+                                        <h3><a href="/employeeprofileview/?id={{item.employeeid.id}}" title="">{{item.employeepersonalid.fullname}}</a></h3>
+                                        {% if item.jobid.jobtitle %}
+                                        <span><i>{{item.jobid.jobtitle}}</i> </span>
+                                        {% else %}
+                                        <span><i>Fresher</i> </span>
+                                        {% endif%}
+                                        <span><i>{{item.employeeid.email}}</i></span>
+                                        <p><i class="la la-map-marker"></i>{{item.employeepersonalid.country}} / {{item.employeepersonalid.city}}</p>
+                                    </div>
+                                    <div class="action-resume">
+                                        <div class="action-center">
+                                            <span>Action <i class="la la-angle-down"></i></span>
+                                            <ul>
+
+                                               <li class="open-contact"><a href="#" title="">Send a Message</a></li>
+                                                <li><a href="/employeeprofileview/?id={{item.employeeid.id}}" title="">View Profile</a></li>
+                                                <li class=""><a href="/interviewselection/?id={{item.id}}" title="">Pass</a></li>
+                                                 <li class=""><a href="/interviewselection/?id1={{item.id}}" title="">Reject</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </section>
+    <!-- <div class="coverletter-popup">
+        <div class="cover-letter">
+            <i class="la la-close close-letter"></i>
+            <h3></h3>
+            <p>My name is Ali TUFAN I am thrilled to be applying for the [position] role in your company. After reviewing your job description, it’s clear that you’re looking for an enthusiastic applicant that can be relied upon to fully engage with the role and develop professionally in a self-motivated manner. Given these requirements, I believe I am the perfect candidate for the job.</p>
+        </div>
+    </div> -->
+    <div class="contactus-popup">
+    {% for item in job %}
+    <div class="contact-popup">
+        <i class="la la-close close-contact"></i>
+        <h3>Send Message to {{item.employeepersonalid.fullname}}</h3>
+        <form method='POST' action='/interviewmessage/'>
+            {% csrf_token %}
+            {% for i in employer_reg%}
+            <input type='hidden' value='incomingrequest' name='test'>
+            <input type="hidden" name='companyemail' required="" value={{i.email}} />
+            <div class="popup-field">
+                <input type="text" name='company' required="" value='{{i.companyname}}' />
+                <i class="la la-user"></i>
+            </div>
+            {% endfor %}
+            <div class="popup-field">
+                <input type="text" name='email' required="" value={{item.employeeid.email}} />
+                <i class="la la-envelope-o"></i>
+            </div>
+            {% for i in employer_reg %}
+            <div class="popup-field">
+                <input type="text" name='phone' value={{i.phoneno}} />
+                <i class="la la-phone"></i>
+            </div>
+            {% endfor %}
+            <div class="popup-field">
+                <textarea name='message' placeholder="Message"></textarea>
+            </div>
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

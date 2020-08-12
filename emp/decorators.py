@@ -34,3 +34,25 @@ def unauthenticated_employer(view_func):
                 return render(request,'login&register/login.html',{'error':'Login Please'})
     return check_employer
 
+def unauthenticated_employer_postjob(view_func):
+    def check_postjob(request):
+        if request.session.has_key('employer-id'):
+            return view_func(request)
+        else:
+            if request.session.has_key('employee-id'):
+                return render(request,'login&register/login.html',{'error':'Your not authorized access this page'})
+            else:
+                return render(request,'login&register/login.html',{'error':'Login Please'})
+
+    return check_postjob
+
+def unauthenticated_download(view_func):
+    def check(request):
+        if request.session.has_key('employer-id'):
+            return view_func(request)
+        elif request.session.has_key('employee-id'):
+            return view_func(request)
+        else:
+            return render(request,'login&register/login.html',{'error':'Login Please'})
+
+    return check

@@ -1,0 +1,144 @@
+{% extends 'employer/base3.html' %}
+{% block content %}
+<section class="overlape">
+        <div class="block no-padding">
+            <div data-velocity="-.1" style="background: url(/static/images/resource/mslider1.jpg) repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible no-parallax"></div><!-- PARALLAX BACKGROUND IMAGE -->
+            <div class="container fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        {% for item in job %}
+                        <div class="inner-header">
+                            <h3>{{item.jobtitle}}</h3>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="block">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 column">
+                        <div class="job-single-sec style3">
+                            <div class="job-head-wide">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        {% for item in job %}
+                                        <div class="job-single-head3">
+                                            <div class="job-thumb"> <img src="{{item.employerid.logo.url}}" alt="" /><span>{{item.positionnumber}} Open Position</span> </div>
+
+                                            <div class="job-single-info3">
+                                                <h3>{{item.employerid.companyname}}</h3>
+                                                <span><i class="la la-map-marker"></i>{{item.employerid.country}}, {{item.employerid.city}}</span><span class="job-is ft">{{item.jobtype}}</span>
+                                                <ul class="tags-jobs">
+                                                    <li><i class="la la-file-text"></i> Applications {{applicationcount}}</li>
+                                                    <li><i class="la la-calendar-o"></i> Post Date: {{item.createddate|date:'d-m-Y'}}</li>
+<!--                                                     <li><i class="la la-eye"></i> Views 5683</li>
+ -->                                                </ul>
+                                            </div>
+
+                                        </div>
+                                        <!-- Job Head -->
+                                    </div>
+                                    <!-- <div class="col-lg-4">
+                                        {% if exist %}
+                                        <span class="job-is ft"><h5>APPLIED</b></h5></span>
+                                        {% else %}
+                                        <a class="apply-thisjob" href="/jobapply/?id={{item.id}}" title=""><i class="la la-paper-plane"></i>Apply for job</a>
+                                        <div class="apply-alternative">
+                                            <a href="{{item.linkedinurl}}" title=""><i class="la la-linkedin"></i> Apply with Linkedin</a>
+                                            {% if shortlistexist%}
+                                            <a href="/jobshortlistapply/?id2={{item.id}}" title=""><i class="la la-heart"></i> Shortlist</a>
+                                            {% else %}
+                                            <a href="/jobshortlistapply/?id2={{item.id}}" title=""><i class="la la-heart-o"></i> Shortlist</a>
+                                            {% endif %}
+                                        </div>
+                                        {% endif %}
+                                    </div> -->
+                                </div>
+                            </div>
+                            <div class="job-wide-devider">
+                                <div class="row">
+                                    <div class="col-lg-8 column">
+                                        <div class="job-details">
+                                            <h3>Job Description</h3>
+                                            <p>{{item.description}}</p>
+                                            <h3>Required Knowledge, Skills, and Abilities</h3>
+                                            <ul>
+                                                <p>{{item.requiredknowledge}}</p>
+
+                                            </ul>
+                                            <h3>Education + Experience</h3>
+                                            <ul>
+                                                <p>{{item.educationandexperience}}</p>
+                                            </ul>
+                                        </div>
+                                        <div class="share-bar">
+                                            <span>Share</span><a href="#" title="" class="share-fb"><i class="la la-facebook"></i></a><a href="#" title="" class="share-twitter"><i class="la la-twitter"></i></a>
+                                        </div>
+                                        <!-- <div class="extra-job-info">
+                                            <span><i class="la la-clock-o"></i><strong>35</strong> Days</span>
+                                            <span><i class="la la-file-text"></i><strong>300-500</strong> Application</span>
+                                            <span><i class="la la-search-plus"></i><strong>35697</strong> Displayed</span>
+                                        </div> -->
+                                        <div class="recent-jobs">
+                                            <!-- <h3>Recent Jobs</h3> -->
+
+                                            <div class="job-list-modern">
+                                                <div class="job-listings-sec no-border">
+                                                    {% for item in alljobs %}
+                                                    <div class="job-listing wtabs">
+                                                        <div class="job-title-sec">
+                                                            <div class="c-logo"> <img src="{{item.employerid.logo.url}}" width="98px" height="51px" alt="" /> </div>
+                                                            <h3><a href="/employeejob/?id={{item.id}}" title="">{{item.jobtitle}}</a></h3>
+                                                            <span>{{item.employerid.companyname}}</span>
+                                                            <div class="job-lctn"><i class="la la-map-marker"></i>{{item.country}}, {{item.state}}</div>
+                                                        </div>
+                                                        <div class="job-style-bx">
+                                                            <span class="job-is ft">{{item.jobtype}}</span>
+                                                            <span name='heart' class="fav-job"><i class="la la-heart-o"></i></span>
+                                                          <!--   <i>5 months ago</i> -->
+                                                        </div>
+
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
+                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 column">
+                                        <div class="job-overview">
+                                            <h3>Job Overview</h3>
+                                            <ul>
+                                                <li><i class="la la-money"></i><h3>Offerd Salary</h3><span>{{item.offerdsalary}}</span></li>
+                                                <li><i class="la la-mars-double"></i><h3>Gender</h3><span>{{item.gender}}</span></li>
+                                                <li><i class="la la-thumb-tack"></i><h3>Career Level</h3><span>{{item.careerlevel}}</span></li>
+                                                <li><i class="la la-puzzle-piece"></i><h3>Industry</h3><span>{{item.industry}}</span></li>
+                                                <li><i class="la la-shield"></i><h3>Experience</h3><span>{{item.experience}}</span></li>
+                                            </ul>
+                                        </div>
+                                            {% endfor %}<!-- Job Overview -->
+                                        <!-- <div class="quick-form-job">
+                                            <h3>Contact</h3>
+                                            <form>
+                                                <input type="text" placeholder="Enter your Name *" />
+                                                <input type="text" placeholder="Email Address*" />
+                                                <input type="text" placeholder="Phone Number" />
+                                                <textarea placeholder="Message should have more than 50 characters"></textarea>
+                                                <button class="submit">Send Email</button>
+                                                <span>You accepts our <a href="#" title="">Terms and Conditions</a></span>
+                                            </form>
+                                        </div> -->
+                                    </div>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

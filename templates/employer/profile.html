@@ -21,9 +21,10 @@
                                         <div class="col-lg-6">
                                             <span class="pf-title">Company Name</span>
                                             <div class="pf-field">
-                                                <input type="text" name='companyname' value='{{item.companyname}}' />
+                                                <input type="text" input field required name='companyname' value='{{item.companyname}}' />
                                             </div>
                                         </div>
+                                        {% if item.category %}
                                         <div class="col-lg-6">
                                             <span class="pf-title">Company Category:</span>
                                             <div class="pf-field">
@@ -35,24 +36,64 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        {% else %}
+                                        <div class="col-lg-6">
+                                            <span class="pf-title">Company Category:</span>
+                                            <div class="pf-field">
+                                                <select data-placeholder="Please Select Specialism" name='category'  class="chosen">
+                                                    <option value=''>Select Option</option>
+                                                    <option value='Web Designing'>Web Designing</option>
+                                                    <option value='Web Development'>Web Development</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        {% if item.since %}
                                         <div class="col-lg-3">
                                             <span class="pf-title">Since</span>
                                             <div class="pf-field">
-                                                <input type="text" name='since' value='{{item.since}}' />
+                                                <input type="text" input field required name='since' value='{{item.since}}' />
                                             </div>
                                         </div>
+                                        {% else %}
+                                        <div class="col-lg-3">
+                                            <span class="pf-title">Since</span>
+                                            <div class="pf-field">
+                                                <input type="text" input field required name='since' placeholder="since" />
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        {% if item.teamsize %}
                                         <div class="col-lg-3">
                                             <span class="pf-title">Team Size</span>
                                             <div class="pf-field">
-                                                <input type="text" name='teamsize' value='{{item.teamsize}}' />
+                                                <input type="text" input field required name='teamsize' value='{{item.teamsize}}' />
                                             </div>
                                         </div>
+                                        {% else %}
+                                        <div class="col-lg-3">
+                                            <span class="pf-title">Team Size</span>
+                                            <div class="pf-field">
+                                                <input type="text" input field required name='teamsize' placeholder="size" />
+                                            </div>
+                                        </div>
+                                        {% endif%}
+                                        {% if item.description%}
                                         <div class="col-lg-12">
                                             <span class="pf-title">Description</span>
                                             <div class="pf-field">
-                                                <textarea name='description'>{{item.description}}</textarea>
+                                                <textarea input field required name='description'>{{item.description}}</textarea>
                                             </div>
                                         </div>
+                                        {% else%}
+                                        <div class="col-lg-12">
+                                            <span class="pf-title">Description</span>
+                                            <div class="pf-field">
+                                                <textarea input field required name='description'></textarea>
+                                            </div>
+                                        </div>
+                                        {% endif%}
                                         <div class="col-lg-12">
                                             <button type="submit">Update</button>
                                         </div>
@@ -70,28 +111,28 @@
                                         <div class="col-lg-6">
                                             <span class="pf-title">Facebook</span>
                                             <div class="pf-field">
-                                                <input type="url" name='facebook' value='{{item.facebook}}' />
+                                                <input type="url" input field required name='facebook' value='{{item.facebook}}' />
                                                 <i class="fa fa-facebook"></i>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <span class="pf-title">Twitter</span>
                                             <div class="pf-field">
-                                                <input type="url" name='twitter' value='{{item.twitter}}' />
+                                                <input type="url" input field required name='twitter' value='{{item.twitter}}' />
                                                 <i class="fa fa-twitter"></i>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <span class="pf-title">Google</span>
                                             <div class="pf-field">
-                                                <input type="url" name='google' value='{{item.google}}' />
+                                                <input type="url" name='google' input field required value='{{item.google}}' />
                                                 <i class="la la-google"></i>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <span class="pf-title">Linkedin</span>
                                             <div class="pf-field">
-                                                <input type="url" name='linkedin' value='{{item.linkedin}}' />
+                                                <input type="url" name='linkedin' input field required value='{{item.linkedin}}' />
                                                 <i class="fa fa-linkedin"></i>
                                             </div>
                                         </div>
@@ -104,28 +145,28 @@
                                         <div class="col-lg-6">
                                             <span class="pf-title">Facebook</span>
                                             <div class="pf-field">
-                                                <input type="text" name='facebook' value='None' />
+                                                <input type="text" name='facebook' input field required placeholder="facebook link" />
                                                 <i class="fa fa-facebook"></i>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <span class="pf-title">Twitter</span>
                                             <div class="pf-field">
-                                                <input type="text" name='twitter' value='None' />
+                                                <input type="text" name='twitter' input field required placeholder="twitter link" />
                                                 <i class="fa fa-twitter"></i>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <span class="pf-title">Google</span>
                                             <div class="pf-field">
-                                                <input type="text" name='google' value='None' />
+                                                <input type="text" name='google' input field required placeholder="google link" />
                                                 <i class="la la-google"></i>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <span class="pf-title">Linkedin</span>
                                             <div class="pf-field">
-                                                <input type="text" name='linkedin' value='None' />
+                                                <input type="text" input field required name='linkedin' placeholder="linkedin link" />
                                                 <i class="fa fa-linkedin"></i>
                                             </div>
                                         </div>
@@ -146,26 +187,40 @@
                                         <div class="col-lg-4">
                                             <span class="pf-title">Phone Number</span>
                                             <div class="pf-field">
-                                                <input type="text" value="{{item.phoneno}}" />
+                                                <input type="text" input field required value="{{item.phoneno}}" />
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <span class="pf-title">Email</span>
                                             <div class="pf-field">
-                                                <input type="text" value="{{item.companyemail}}" />
+                                                <input type="text" input field required value="{{item.companyemail}}" />
                                             </div>
                                         </div>
+                                        {% if item.webiste %}
+
                                         <div class="col-lg-4">
                                             <span class="pf-title">Website</span>
                                             <div class="pf-field">
-                                                <input type="text" name='website' value="{{item.website}}" />
+                                                <input type="text" input field required name='website' value="{{item.website}}" />
                                             </div>
                                         </div>
+                                        {% else %}
+                                        <div class="col-lg-4">
+                                            <span class="pf-title">Website</span>
+                                            <div class="pf-field">
+                                                <input type="text" input field required name='website' placeholder="Company website link" />
+                                            </div>
+                                        </div>
+                                        {% endif %}
                                         <div class="col-lg-6">
                                             <span class="pf-title">Country</span>
                                             <div class="pf-field">
                                                 <select data-placeholder="Please Select Specialism" name='country' class="chosen">
+                                                    {% if item.country%}
                                                     <option value='{{item.country}}'>{{item.country}}</option>
+                                                    {% else %}
+                                                    <option value=''>Select Option</option>
+                                                    {% endif%}
                                                     <option value="Albania">Albania</option>
                                                 <option value="Algeria">Algeria</option>
                                                 <option value="American Samoa">American Samoa</option>
@@ -312,12 +367,21 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        {% if item.state%}
                                         <div class="col-lg-4">
                                             <span class="pf-title">State</span>
                                             <div class="pf-field">
-                                                <input type="text" name='state' value="{{item.state}}" />
+                                                <input type="text" input field required name='state' value="{{item.state}}" />
                                             </div>
                                         </div>
+                                        {% else%}
+                                        <div class="col-lg-4">
+                                            <span class="pf-title">State</span>
+                                            <div class="pf-field">
+                                                <input type="text" input field required name='state' placeholder="state" />
+                                            </div>
+                                        </div>
+                                        {% endif%}
                                         <!-- <div class="col-lg-6">
                                             <span class="pf-title">Find On Map</span>
                                             <div class="pf-field">
