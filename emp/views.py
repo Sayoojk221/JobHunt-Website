@@ -15,7 +15,8 @@ def home(request):
 	alljobs = EmployerNewJobPost.objects.all().filter(status='active')
 	totalcount = EmployerNewJobPost.objects.all().filter(status='active').count()
 	todaycount = EmployerNewJobPost.objects.all().filter(createddate__gt=datetime.date.today()).count()
-	context = {'totalcount':totalcount,'todaycount':todaycount,'jobs':alljobs}
+	employee_review = EmployeeReview.objects.all()
+	context = {'review':employee_review,'totalcount':totalcount,'todaycount':todaycount,'jobs':alljobs}
 	return render(request,'home/home.html',context)
 
 @unauthenticated
@@ -83,40 +84,51 @@ def login_both(request):
 		email = request.POST['email']
 		password = request.POST['pass']
 		usertype = request.POST.get('usertype')
-		employer_existcheck = EmployerRegister.objects.all().filter(companyemail=email,password=password).count()
-		employee_existcheck = EmployeeRegister.objects.all().filter(email=email,password=password).count()
+		employer_existcheck = EmployerRegister.objects.all().filter(companyemail=email).count()
+		employee_existcheck = EmployeeRegister.objects.all().filter(email=email).count()
 		print(usertype)
 		if usertype == 'Employer' and employer_existcheck == 1:
 			employer_existcheck = 0
 			employer_details = EmployerRegister.objects.all().filter(companyemail=email,authentication='success')
-			for item in employer_details:
-				request.session['employer-id']=item.id
 			if employer_details:
-				return redirect('/employerprofile/')
+				email_password_validation = EmployerRegister.objects.all().filter(companyemail=email,password=password)
+				if email_password_validation:
+					for item in employer_details:
+						request.session['employer-id']=item.id
+					return redirect('/employerprofile/')
+				else:
+					return render(request,'login&register/login.html',{'passworderror':'Invalid  Passsword' })
+
 			else:
 				return render(request,'login&register/login.html',{'error':'Please check '+email+' for activate account'})
 		elif usertype == 'Candidate' and employee_existcheck == 1:
 			employee_existcheck = 0
 			employee_details = EmployeeRegister.objects.all().filter(email=email,authentication='success')
 			for item in employee_details:
-				request.session['employee-id']=item.id
 				employeeid = item.id
 			if employee_details:
-				employeeid_exist = EmployeePersonalDetails.objects.all().filter(employeeid=employeeid).values_list('employeeid')
-				exist_value = 0
-				for item in employeeid_exist:
-					exist_value = item
-				if exist_value == 0:
-					employee_foriegn_data = EmployeeRegister.objects.get(id=employeeid)
-					personaldetails = EmployeePersonalDetails(employeeid=employee_foriegn_data)  #creating the database for storing
-					jobdetails = EmployeeJobDetails(employeeid=employee_foriegn_data)			 #employee personal,job,social details
-					socialdetails = EmployeeSocialDetails(employeeid=employee_foriegn_data)
-					personaldetails.save()
-					jobdetails.save()
-					socialdetails.save()
-					return redirect('/employeeprofile/')
+				email_password_validation = EmployeeRegister.objects.all().filter(email=email,password=password)
+				if email_password_validation:
+					for item in employee_details:
+						request.session['employee-id']=item.id
+					employeeid_exist = EmployeePersonalDetails.objects.all().filter(employeeid=employeeid).values_list('employeeid')
+					exist_value = 0
+					for item in employeeid_exist:
+						exist_value = item
+					if exist_value == 0:
+						employee_foriegn_data = EmployeeRegister.objects.get(id=employeeid)
+						personaldetails = EmployeePersonalDetails(employeeid=employee_foriegn_data)  #creating the database for storing
+						jobdetails = EmployeeJobDetails(employeeid=employee_foriegn_data)			 #employee personal,job,social details
+						socialdetails = EmployeeSocialDetails(employeeid=employee_foriegn_data)
+						personaldetails.save()
+						jobdetails.save()
+						socialdetails.save()
+						return redirect('/employeeprofile/')
+					else:
+						return redirect('/employeeprofile/')
 				else:
-					return redirect('/employeeprofile/')
+					return render(request,'login&register/login.html',{'passworderror':'Invalid  Password'})
+
 			else:
 				return render(request,'login&register/login.html',{'error':'Please check '+email+' for activate account'})
 		else:
@@ -206,19 +218,6 @@ def employer_home(request):
 @unauthenticated_employer
 def employer_profile_edit(request):
 	employer = request.session['employer-id']
-	jobs = EmployerNewJobPost.objects.all().filter(employerid=employer).values_list('id')
-	jobsid = [i for j in jobs for i in j ]
-	for item in jobsid:
-		expire = EmployerNewJobPost.objects.all().filter(id=item,deadline=datetime.date.today())
-		position = EmployerNewJobPost.objects.all().filter(id=item,positionnumber=0)
-		if expire:
-			EmployerNewJobPost.objects.all().filter(id=item).update(status='inactive')
-			expire = False
-
-		if position:
-			EmployerNewJobPost.objects.all().filter(id=item).update(status='inactive')
-			position = False
-
 	if request.method == 'POST':
 		logo = request.FILES.get('logo')
 		name = request.POST['companyname']
@@ -302,15 +301,15 @@ def postnew_job(request):
 		positionno = request.POST['position']
 		level = request.POST['careerlevel']
 		experience = request.POST['experience']
+		qualification = request.POST['qual']
 		gender = request.POST['gender']
 		industry = request.POST['industry']
-		qualification = request.POST.get('qualification')
 		country = request.POST['country']
 		city = request.POST['city']
 		deadline = request.POST['deadline']
 		knowledge = request.POST['requiredknowledge']
 		educationandexperience = request.POST['edu+exp']
-		job_detais = EmployerNewJobPost(employerid=employerid,linkedinurl=linkedin,positionnumber=positionno,jobtitle=jobtitle,description=description,email=email,jobtype=jobtype,offerdsalary=salary,careerlevel=level,experience=experience,gender=gender,industry=industry,country=country,city=city,deadline=deadline,requiredknowledge=knowledge,educationandexperience=educationandexperience,status='active')
+		job_detais = EmployerNewJobPost(employerid=employerid,qualification=qualification,linkedinurl=linkedin,positionnumber=positionno,jobtitle=jobtitle,description=description,email=email,jobtype=jobtype,offerdsalary=salary,careerlevel=level,experience=experience,gender=gender,industry=industry,country=country,city=city,deadline=deadline,requiredknowledge=knowledge,educationandexperience=educationandexperience,status='active')
 		job_detais.save()
 		return redirect('/postnewjob/')
 	else:
@@ -326,10 +325,11 @@ def employee_home(request):
 	value = [j for i in candidatelist for j in i]
 	if employee not in value:
 		personal_data = EmployeePersonalDetails.objects.all().filter(employeeid=employee).values_list('fullname','country','city')
-		job_data = EmployeeJobDetails.objects.all().filter(employeeid=employee).values_list('jobtitle','company')
+		job_data = EmployeeJobDetails.objects.all().filter(employeeid=employee,jobtitle='',company='')
+
 		v1 = [i for j in personal_data for i in j]
-		v2 = [k for i in job_data for k in i]
-		if not None in v1 and not 'Nil' in v2:
+
+		if not None in v1 and not job_data :
 			job = EmployeeJobDetails.objects.all().filter(employeeid=employee).values_list('id')
 			personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee).values_list('id')
 			job_id = [j for i in job for j in i]
@@ -344,13 +344,13 @@ def employee_home(request):
 	alljobs = EmployerNewJobPost.objects.all().filter(status='active')
 	count = EmployerNewJobPost.objects.all().filter(status='active').count()
 	todaycount = EmployerNewJobPost.objects.all().filter(createddate__gt=datetime.date.today()).count()
-
+	employee_review = EmployeeReview.objects.all()
 	shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
 	shortlist = JobShortlists.objects.all().filter(employeeid=employee)
 	current_employee = EmployeeRegister.objects.all().filter(id=employee)
 	job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
 	personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
-	context = {'todaycount':todaycount,'jobcount':count,'jobs':alljobs,'count':shortlistcount,'shortlist':shortlist,'employee_reg':current_employee,'employee_per':personal,'employee_job':job}
+	context = {'review':employee_review,'todaycount':todaycount,'jobcount':count,'jobs':alljobs,'count':shortlistcount,'shortlist':shortlist,'employee_reg':current_employee,'employee_per':personal,'employee_job':job}
 	return render(request,'employee/employeehome.html',context)
 
 @unauthenticated_employee
@@ -425,6 +425,7 @@ def employee_profile_edit(request):
 		age = request.POST['age']
 		gender = request.POST['gender']
 		description = request.POST['desc']
+
 
 		if profilepic:
 			employee_details = EmployeeRegister.objects.get(id=employee)
@@ -817,13 +818,35 @@ def job_apply(request):
 	if jobremoveid:
 		JobApplication.objects.all().filter(id=jobremoveid,employeeid=employee).delete()
 		return redirect('/appliedjobs/')
-	employee_details = EmployeeRegister.objects.get(id=employee)
-	employee_personal = EmployeePersonalDetails.objects.get(employeeid=employee)
-	employee_job = EmployeeJobDetails.objects.get(employeeid=employee)
-	job_details = EmployerNewJobPost.objects.get(id=jobid)
-	application_details = JobApplication(employeepersonalid=employee_personal,employeejobdetails=employee_job,employeeid=employee_details,jobid=job_details,status='pending')
-	application_details.save()
-	return redirect('/appliedjobs/')
+	v1 = EmployeePersonalDetails.objects.all().filter(employeeid=employee).values_list('gender','education')
+	v2 = EmployerNewJobPost.objects.all().filter(id=jobid).values_list('gender','qualification')
+
+	details_in_emp = [i for j in v1 for i in j]
+	details_in_job = [i for j in v2 for i in j]
+	if details_in_job[0] == 'Both':
+		gender = ['Male','Female']
+	else:
+		gender = [details_in_job[0]]
+
+	if details_in_emp[0] in gender and details_in_emp[1] == details_in_job[1]:
+		employee_details = EmployeeRegister.objects.get(id=employee)
+		employee_personal = EmployeePersonalDetails.objects.get(employeeid=employee)
+		employee_job = EmployeeJobDetails.objects.get(employeeid=employee)
+		job_details = EmployerNewJobPost.objects.get(id=jobid)
+		application_details = JobApplication(employeepersonalid=employee_personal,employeejobdetails=employee_job,employeeid=employee_details,jobid=job_details,status='pending')
+		application_details.save()
+		return redirect('/appliedjobs/')
+	else:
+		totalapplication = JobApplication.objects.all().filter(jobid=jobid).count()
+		alljobs = EmployerNewJobPost.objects.all().filter(status='active').order_by('-id')
+		job_details = EmployerNewJobPost.objects.all().filter(id=jobid)
+		current_employee = EmployeeRegister.objects.all().filter(id=employee)
+		employee_job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
+		personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
+		context = {'applicationcount':totalapplication,'alljobs':alljobs,'job':job_details,'employee_reg':current_employee,'employee_per':personal,'employee_job':employee_job,'error':'Your not eligible to apply this job '}
+		return render(request,'employee/job.html',context)
+
+
 
 @unauthenticated_employee
 def applied_jobs(request):
@@ -1001,13 +1024,6 @@ def download_pdf(request):
         	return response
 
 @unauthenticated_employer
-def candidate_search(request):
-	value = request.GET.get('value')
-	details = CandidatesList.objects.all().filter(employeejobdetailsid__jobtitle__contain=value,status='failed')
-	context = {'candidate':details}
-	return JsonResponse(context)
-
-@unauthenticated_employer
 def search(request):
 	employer = request.session['employer-id']
 	current_employer = EmployerRegister.objects.all().filter(id=employer)
@@ -1024,6 +1040,19 @@ def search(request):
 @unauthenticated_employer
 def employerjob_manage(request):
 	employer = request.session['employer-id']
+	jobs = EmployerNewJobPost.objects.all().filter(employerid=employer).values_list('id')
+	jobsid = [i for j in jobs for i in j ]
+	for item in jobsid:
+		expire = EmployerNewJobPost.objects.all().filter(id=item,deadline=datetime.date.today())
+		position = EmployerNewJobPost.objects.all().filter(id=item,positionnumber=0)
+		if expire:
+			EmployerNewJobPost.objects.all().filter(id=item).update(status='inactive')
+			expire = False
+
+		if position:
+			EmployerNewJobPost.objects.all().filter(id=item).update(status='inactive')
+			position = False
+
 	current_employer = EmployerRegister.objects.all().filter(id=employer)
 	active_jobs = EmployerNewJobPost.objects.all().filter(employerid=employer,status='active').count()
 	totaljobs = EmployerNewJobPost.objects.all().filter(employerid=employer).count()
@@ -1063,16 +1092,16 @@ def job_edit(request):
 		positionno = request.POST['position']
 		level = request.POST['careerlevel']
 		experience = request.POST['experience']
+		qualification = request.POST['qual']
 		gender = request.POST['gender']
 		industry = request.POST['industry']
-		qualification = request.POST.get('qualification')
 		country = request.POST['country']
 		city = request.POST['city']
 		deadline = request.POST['deadline']
 		knowledge = request.POST['requiredknowledge']
 		educationandexperience = request.POST['edu+exp']
 		print(job_id)
-		EmployerNewJobPost.objects.all().filter(id=job_id).update(linkedinurl=linkedin,positionnumber=positionno,jobtitle=jobtitle,description=description,email=email,jobtype=jobtype,offerdsalary=salary,careerlevel=level,experience=experience,gender=gender,industry=industry,country=country,city=city,deadline=deadline,requiredknowledge=knowledge,educationandexperience=educationandexperience)
+		EmployerNewJobPost.objects.all().filter(id=job_id).update(qualification=qualification,linkedinurl=linkedin,positionnumber=positionno,jobtitle=jobtitle,description=description,email=email,jobtype=jobtype,offerdsalary=salary,careerlevel=level,experience=experience,gender=gender,industry=industry,country=country,city=city,deadline=deadline,requiredknowledge=knowledge,educationandexperience=educationandexperience)
 		return redirect('/employerjobmanage/')
 	else:
 		job_details = EmployerNewJobPost.objects.all().filter(id=jobid)
@@ -1212,3 +1241,25 @@ def employer_dashboard(request):
 	else:
 		return redirect('/employerprofile/')
 
+@unauthenticated_employee
+def employee_review(request):
+	if request.method == 'POST':
+		jobid = request.POST['jobid']
+		employee = request.session['employee-id']
+		company = request.POST.get('details')
+		review = request.POST['review']
+		employee_details = EmployeeRegister.objects.get(id=employee)
+		employeepersonal_details = EmployeePersonalDetails.objects.get(employeeid=employee)
+		review_exist = EmployeeReview.objects.all().filter(employeeid=employee)
+		if company:
+			details = EmployerNewJobPost.objects.all().filter(id=jobid).values_list('employerid__companyname','jobtitle')
+			value = [i for j in details for i in j]
+			EmployeeJobDetails.objects.all().filter(id=employee).update(jobtitle=value[1],company=value[0])
+
+		if review_exist:
+			EmployeeReview.objects.all().filter(employeeid=employee).update(review=review)
+			return redirect('/employeehome/')
+		else:
+			review_details = EmployeeReview(employeepersonalid=employeepersonal_details,employeeid=employee_details,review=review)
+			review_details.save()
+			return redirect('/employeehome/')

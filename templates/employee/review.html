@@ -1,0 +1,16 @@
+{% extends 'employee/base2.html' %}
+{% block content %}
+<div class="contactus-popup">
+    <div class="contact-popup">
+        <i class="la la-close close-contact"></i>
+        <h3>Review</h3>
+        <form method='POST' action='/employeereview/'>
+            <div class="popup-field">
+                <textarea name='review' placeholder="Review"></textarea>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+</div>
+{% endblock %}

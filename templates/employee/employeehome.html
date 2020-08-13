@@ -179,13 +179,13 @@
                             {% for item in jobs%}
                             <div class="job-listing">
                                 <div class="job-title-sec">
-                                    <div class="c-logo"> <img src="{{item.employerid.logo.url}}" alt="" /> </div>
+                                    <div class="c-logo"> <img src="{{item.employerid.logo.url}}" width="98px" height="51px" alt="" /> </div>
                                     <h3><a href="/employeejob/?id={{item.id}}" title="">{{item.jobtitle}}</a></h3>
                                     <span>{{item.employerid.companyname}}</span>
                                 </div>
                                 <span class="job-lctn"><i class="la la-map-marker"></i>{{item.country}}, {{item.city}}</span>
-                                <span class="fav-job"><i class="la la-heart-o"></i></span>
-                                <span class="job-is ft">{{item.jobtype}}</span>
+<!--                                 <span class="fav-job"><i class="la la-heart-o"></i></span>
+ -->                                <span class="job-is ft">{{item.jobtype}}</span>
                             </div><!-- Job -->
                             {% endfor %}
                         </div>
@@ -201,50 +201,31 @@
     </section>
 
     <section>
-        <div class="block">
-            <div data-velocity="-.1" style="background: url(/static/images/resource/parallax2.jpg) repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible layer color light"></div><!-- PARALLAX BACKGROUND IMAGE -->
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="heading light">
-                            <h2>Kind Words From Happy Candidates</h2>
-                            <span>What other people thought about the service provided by JobHunt</span>
-                        </div><!-- Heading -->
-                        <div class="reviews-sec" id="reviews-carousel">
-                            <div class="col-lg-6">
-                                <div class="reviews">
-                                    <img src="/static/images/resource/r1.jpg" alt="" />
-                                    <h3>Augusta Silva <span>Web designer</span></h3>
-                                    <p>Without JobHunt i’d be homeless, they found me a job and got me sorted out quickly with everything!  Can’t quite believe the service</p>
-                                </div><!-- Reviews -->
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="reviews">
-                                    <img src="/static/images/resource/r2.jpg" alt="" />
-                                    <h3>Ali Tufan <span>Web designer</span></h3>
-                                    <p>Without JobHunt i’d be homeless, they found me a job and got me sorted out quickly with everything!  Can’t quite believe the service</p>
-                                </div><!-- Reviews -->
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="reviews">
-                                    <img src="/static/images/resource/r1.jpg" alt="" />
-                                    <h3>Augusta Silva <span>Web designer</span></h3>
-                                    <p>Without JobHunt i’d be homeless, they found me a job and got me sorted out quickly with everything!  Can’t quite believe the service</p>
-                                </div><!-- Reviews -->
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="reviews">
-                                    <img src="/static/images/resource/r2.jpg" alt="" />
-                                    <h3>Ali Tufan <span>Web designer</span></h3>
-                                    <p>Without JobHunt i’d be homeless, they found me a job and got me sorted out quickly with everything!  Can’t quite believe the service</p>
-                                </div><!-- Reviews -->
+            <div class="block">
+                <div data-velocity="-.1" style="background: url(/static/images/resource/parallax2.jpg) repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible layer color light"></div><!-- PARALLAX BACKGROUND IMAGE -->
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="heading light">
+                                <h2>Kind Words From Happy Candidates</h2>
+                                <span>What other people thought about the service provided by JobHunt</span>
+                            </div><!-- Heading -->
+                            <div class="reviews-sec" id="reviews-carousel">
+                                {% for item in review %}
+                                <div class="col-lg-6">
+                                    <div class="reviews">
+                                        <img src="{{item.employeeid.profileimage.url}}" width="101px" height="101px" alt="" />
+                                        <h3>{{item.employeepersonalid.fullname}}</h3>
+                                        <p>{{item.review}}</p>
+                                    </div>
+                                </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
     <section>
         <div class="block">

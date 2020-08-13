@@ -339,7 +339,7 @@
                                         <h3>Overview</h3>
                                         <ul>
                                             {% for item in employee_job %}
-                                            {% if item.currentsalary != '0' %}
+                                            {% if item.currentsalary != ''%}
                                             <li><i class="la la-money"></i><h3>Salary</h3><span>{{item.currentsalary}}</span></li>
                                             {% else %}
                                             {% endif%}
@@ -350,7 +350,10 @@
                                             <li><i class="la la-line-chart "></i><h3>Qualification</h3><span>{{item.education}}</span></li>
                                             {% endfor %}
                                             {% for item in employee_job %}
+                                            {% if item.experience != ''%}
                                             <li><i class="la la-shield"></i><h3>Experience</h3><span>{{item.experience}}</span></li>
+                                            {% else %}
+                                            {% endif%}
                                             {% endfor %}
                                         </ul>
                                     </div><!-- Job Overview -->

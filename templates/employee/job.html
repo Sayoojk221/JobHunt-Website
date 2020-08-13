@@ -26,6 +26,11 @@
                             <div class="job-head-wide">
                                 <div class="row">
                                     <div class="col-lg-8">
+                                        {% if error %}
+                                        <div class="alert alert-danger">
+                                            <strong>Warning!</strong> {{error}}
+                                        </div>
+                                        {% endif%}
                                         {% for item in job %}
                                         <div class="job-single-head3">
                                             <div class="job-thumb"> <img src="{{item.employerid.logo.url}}" alt="" /><span>{{item.positionnumber}} Open Position</span> </div>
@@ -115,10 +120,14 @@
                                             <h3>Job Overview</h3>
                                             <ul>
                                                 <li><i class="la la-money"></i><h3>Offerd Salary</h3><span>{{item.offerdsalary}}</span></li>
+                                                {% if item.gender == 'Both'%}
+                                                <li><i class="la la-mars-double"></i><h3>Gender</h3><span>Male,Female</span></li>
+                                                {% else %}
                                                 <li><i class="la la-mars-double"></i><h3>Gender</h3><span>{{item.gender}}</span></li>
-                                                <li><i class="la la-thumb-tack"></i><h3>Career Level</h3><span>{{item.careerlevel}}</span></li>
+                                                {% endif %}                                                <li><i class="la la-thumb-tack"></i><h3>Career Level</h3><span>{{item.careerlevel}}</span></li>
                                                 <li><i class="la la-puzzle-piece"></i><h3>Industry</h3><span>{{item.industry}}</span></li>
                                                 <li><i class="la la-shield"></i><h3>Experience</h3><span>{{item.experience}}</span></li>
+                                                                                                <li><i class="la la-shield"></i><h3>Qualification</h3><span>{{item.qualification}}</span></li>
                                             </ul>
                                         </div>
                                             <!-- Job Overview -->

@@ -36,6 +36,11 @@
                                                 <span>{{item.date|date:'d-m-Y'}}</span><br />
                                             </td>
                                             <td>
+                                                <div class="action-center">
+                                                    <span><li class="open-contact"><a href="#" title="">Review</a></li></span>
+                                                </div>
+                                            </td>
+                                            <td>
                                                 <ul class="action_job">
                                                     <li><span>Delete</span><a href="/jobapply/?removeid={{item.id}}" title=""><i class="la la-trash-o"></i></a></li>
                                                 </ul>
@@ -51,4 +56,28 @@
             </div>
         </div>
     </section>
+    <div class="contactus-popup">
+    <div class="contact-popup">
+        <i class="la la-close close-contact"></i>
+        <h3>Review</h3>
+        <form method='POST' action='/employeereview/'>
+            {% csrf_token %}
+            {% for item in applied %}
+            {% if item.status == 'Passed' %}
+            <div class="select-user">
+                <h7><input type="radio" name="details" id="22"><label for="22">Add Company details on Profile</label></h7>
+                <br><br>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% for item in applied %}
+            <input type="hidden" name="jobid" value='{{item.jobid.id}}'>
+            <div class="popup-field">
+                <textarea name='review' placeholder=""></textarea>
+            </div>
+            {% endfor %}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    </div>
 {% endblock %}

@@ -28,7 +28,7 @@
                                         <div class="col-lg-12">
                                             <span class="pf-title">Job Title</span>
                                             <div class="pf-field">
-                                                <input type="text" input field required name='title' placeholder="Title" value={{item.jobtitle}}  />
+                                                <input type="text" input field required  name='title' value='{{item.jobtitle}}'/>
                                             </div>
                                         </div>
                                         <div class="col-lg-12">
@@ -90,6 +90,17 @@
                                                 <input type="text" input field required placeholder="work experience" value='{{item.experience}}' name='experience' />
                                             </div>
                                         </div>
+                                        <div class="col-lg-6">
+                                            <span class="pf-title">Qualification</span>
+                                            <div class="pf-field">
+                                                <select data-placeholder="Please Select Specialism" name='qual' input field required class="chosen">
+                                                    <option value='{{item.qualification}}'>{{item.qualification}}</option>
+                                                    <option value='Under Graduate'>Under Graduate</option>
+                                                    <option value='Graduate'>Graduate</option>
+                                                    <option value='Professional'>Professional</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                         <input type="hidden" name="job" value={{item.id}}>
                                         <div class="col-lg-6">
                                             <span class="pf-title">Gender</span>
@@ -98,6 +109,7 @@
                                                     <option value='{{item.gender}}'>{{item.gender}}</option>
                                                     <option value='Male'>Male</option>
                                                     <option value='Female'>Female</option>
+                                                    <option value='Both'>Both</option>
                                                     <option value='Other'>Other</option>
                                                 </select>
                                             </div>

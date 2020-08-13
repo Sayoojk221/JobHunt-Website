@@ -65,6 +65,7 @@ class EmployerNewJobPost(models.Model):
     offerdsalary = models.CharField(max_length=200,null='empty')
     careerlevel = models.CharField(max_length=200,null='empty')
     experience = models.CharField(max_length=200,null='empty')
+    qualification = models.CharField(max_length=200,null='empty')
     gender = models.CharField(max_length=200,null='empty')
     industry = models.CharField(max_length=200,null='empty')
     country = models.CharField(max_length=200,null='empty')
@@ -152,3 +153,8 @@ class EmployeeProfileShortlists(models.Model):
 class deletedcandidates(models.Model):
     employeeid = models.ForeignKey(EmployeeRegister,on_delete=models.CASCADE)
     employerid = models.ForeignKey(EmployerRegister,on_delete=models.CASCADE)
+
+class EmployeeReview(models.Model):
+    employeeid = models.ForeignKey(EmployeeRegister,on_delete=models.CASCADE)
+    employeepersonalid = models.ForeignKey(EmployeePersonalDetails,on_delete=models.CASCADE)
+    review = models.CharField(max_length=1000,default='')
