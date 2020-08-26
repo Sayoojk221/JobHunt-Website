@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'guhhx$bekt1v@pb2r=fholoif_y@845u4y23d5@web7yl9ww1p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['jobhunt-btrac.herokuapp.com','127.0.0.1']
 
 
 # Application definition
