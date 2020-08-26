@@ -1,0 +1,67 @@
+{% extends 'employer/base2.html' %}
+{% block content %}
+<div class="col-lg-9 column">
+                        <div class="padding-left">
+                            <div class="manage-jobs-sec">
+                                <!-- <div class="col-lg-12">
+                                        {% for item in job %}
+                                        <div class="action-inner">
+                                            <a href="/downloadpdf/?id={{item.employeeid.id}}" style="font-size: 16px;" title=""><i class="la la-paper-plane"></i>Save Profile</a>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                <br>
+                                <div class="sortby-sec">
+                                    <span>Filter by</span>
+                                    <div class="action-center">
+                                        <span>Job Code<i class="la la-angle-down"></i></span>
+                                        <ul>
+                                            {% for item in jobcode %}
+                                           <li><a href="/employerjobcodesearch/?value={{item.jobcode}}" style="font-size:15px;" title="">{{item.jobcode}}</a></li>
+                                           {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div> -->
+                                <h3 style="font-size:20px;">Interview Invitations</h3>
+
+                                <table>
+                                    <thead>
+                                        <tr>
+<!--                                             <td style="font-size:17px;;color:#8a99b3;">Job code</td>
+ -->                                        <td style="font-size:17px;;color:#8a99b3;">Job title</td>
+                                            <td style="font-size:17px;;color:#8a99b3;">Name</td>
+                                            <td style="font-size:17px;;color:#8a99b3;">Email</td>
+                                            <td style="font-size:17px;;color:#8a99b3;">Phone Number</td>
+                                            <td style="font-size:17px;;color:#8a99b3;">Location</td>
+                                            <td style="font-size:17px;;color:#8a99b3;">Action</td>
+                                        </tr>
+                                    </thead>
+                                    {% for item in invitation %}
+                                    <tbody>
+                                        <tr>
+<!--                                             <td style="font-size:16px;">{{item.jobid.jobcode}}</td>
+ -->                                        <td style="font-size:16px;">{{item.jobid.jobtitle}}</td>
+                                            <td style="font-size:16px;">{{item.employeepersonalid.fullname}}</td>
+                                            <td style="font-size:16px;">{{item.employeepersonalid.employeeid.email}}</td>
+                                            <td style="font-size:16px;">{{item.employeepersonalid.employeeid.phoneno}}</td>
+                                            <td style="font-size:16px;">{{item.employeepersonalid.state}}/{{item.employeepersonalid.country}}</td>
+                                            <td>
+                                                <ul class="action_job">
+                                                   <!--  <li><span>View profile</span><a href="/employeeprofileview/?id={{item.employeeid.id}}" title=""><i style="font-size:  17px;;" class="la la-eye"></i></a></li>
+                                                    <li class="open-contact"><span>Send message</span><a href="#" title=""><i style="font-size:  17px;;" class="la la-envelope"></i></a></li> -->
+                                                    <li><span>Accept</span><a href="/interviewselection/?id={{item.id}}" title=""><i style="font-size:  17px;" class="la la-check"></i></a></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

@@ -17,10 +17,11 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <!-- <div class="action-inner">
-                                            <a href="#" title=""><i class="la la-paper-plane"></i>Save Resume</a>
-                                            <a href="#" title=""><i class="la la-envelope-o"></i>Contact David</a>
-                                        </div> -->
+                                        {% for item in employee_per %}
+                                        <div class="action-inner">
+                                            <a href="/downloadpdf/?id={{item.employeeid.id}}" style="font-size: 16px;" title=""><i class="la la-paper-plane"></i>Save Profile</a>
+                                        </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
@@ -59,9 +60,12 @@
                                 <p><i class="la la-map-marker"></i>{{item.country}} / {{item.city}}</p>
                                 {% endfor %}
                             </div>
-                            {% for item in employee_job %}
+                            {% for item in resume%}
                             <div class="download-cv">
-                                <a href="/downloadpdf/?id={{item.employeeid.id}}" id='btn' title="">Download CV <i class="la la-download"></i></a>
+                                <br>
+                                <br>
+                                <br>
+                                <a href="{{item.resume.url}}/" title="">Download Resume<i class="la la-download"></i></a>
                             </div>
                             {% endfor %}
                         </div>
@@ -91,8 +95,8 @@
                                 <div class="col-lg-8 column">
                                     <div class="cand-details" id="about">
                                         <h2>Candidates About</h2>
-                                        {% for job in employee_job %}
-                                        <p>{{job.jobdescription}}</p>
+                                        {% for item in employee_per %}
+                                        <p>{{item.description}}</p>
                                         {% endfor %}
                                         <div class="edu-history-sec" id="education">
                                             {% if education %}
@@ -208,7 +212,7 @@
 
                                             {% for item in employee_per %}
                                             <li><i class="la la-mars-double"></i><h3>Gender</h3><span>{{item.gender}}</span></li>
-                                            <li><i class="la la-thumb-tack"></i><h3>Age</h3><span>{{item.age}} Years</span></li>
+                                            <li><i class="la la-thumb-tack"></i><h3>Age</h3><span>{{age}} Years</span></li>
                                             <li><i class="la la-line-chart "></i><h3>Qualification</h3><span>{{item.education}}</span></li>
                                             {% endfor %}
                                             {% for item in employee_job %}

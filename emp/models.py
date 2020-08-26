@@ -10,6 +10,8 @@ class EmployerRegister(models.Model):
     password = models.CharField(max_length=50,null='empty')
     phoneno = models.CharField(max_length=200,null='empty')
     country = models.CharField(max_length=200,null='empty')
+    address = models.CharField(max_length=500,null='empty')
+    city = models.CharField(max_length=200,null='empty')
     state = models.CharField(max_length=200,null='empty')
     since = models.CharField(max_length=200,null='empty')
     teamsize = models.CharField(max_length=200,null='empty')
@@ -20,10 +22,10 @@ class EmployerRegister(models.Model):
 
 class EmployerSocialDetails(models.Model):
     employerid = models.ForeignKey(EmployerRegister,on_delete=models.CASCADE)
-    facebook = models.URLField(max_length=200,null='empty')
-    twitter = models.URLField(max_length=200,null='empty')
-    linkedin = models.URLField(max_length=200,null='empty')
-    google = models.URLField(max_length=200,null='empty')
+    facebook = models.URLField(max_length=200,default='')
+    twitter = models.URLField(max_length=200,default='')
+    linkedin = models.URLField(max_length=200,default='')
+    google = models.URLField(max_length=200,default='')
 
 class EmployeeRegister(models.Model):
     profileimage = models.ImageField(upload_to='employeeimage',null='empty')
@@ -39,8 +41,11 @@ class EmployeePersonalDetails(models.Model):
     age = models.CharField(max_length=200,null='empty')
     education = models.CharField(max_length=200,null='empty')
     country = models.CharField(max_length=200,null='empty')
+    address = models.CharField(max_length=700,null='empty')
+    state = models.CharField(max_length=200,null='empty')
     city = models.CharField(max_length=200,null='empty')
     gender = models.CharField(max_length=200,null='empty')
+    description = models.CharField(max_length=10000,null='empty')
 
 class EmployeeJobDetails(models.Model):
     employeeid = models.ForeignKey(EmployeeRegister,on_delete=models.CASCADE)
@@ -48,7 +53,6 @@ class EmployeeJobDetails(models.Model):
     jobtitle = models.CharField(max_length=200,null='empty')
     experience = models.CharField(max_length=200,null='empty')
     currentsalary = models.CharField(max_length=200,null='empty')
-    jobdescription = models.CharField(max_length=1000,null='empty')
 
 class EmployeeSocialDetails(models.Model):
     employeeid = models.ForeignKey(EmployeeRegister,on_delete=models.CASCADE)
@@ -58,6 +62,7 @@ class EmployeeSocialDetails(models.Model):
 
 class EmployerNewJobPost(models.Model):
     employerid = models.ForeignKey(EmployerRegister,on_delete=models.CASCADE)
+    jobcode = models.CharField(max_length=200,null='empty')
     jobtitle = models.CharField(max_length=200,null='empty')
     description = models.CharField(max_length=2000,null='empty')
     email = models.CharField(max_length=200,null='empty')
@@ -130,6 +135,10 @@ class JobApplication(models.Model):
     employeejobdetails = models.ForeignKey(EmployeeJobDetails,on_delete=models.CASCADE,default='')
     jobid = models.ForeignKey(EmployerNewJobPost,on_delete=models.CASCADE)
     date = models.DateTimeField(default=now())
+    interviewdate = models.CharField(max_length=200,default='')
+    lettersenddate = models.CharField(max_length=200,default='')
+    acceptdate = models.CharField(max_length=200,default='')
+    rejectdate = models.CharField(max_length=200,default='')
     status = models.CharField(max_length=200,default='')
 
 class JobShortlists(models.Model):
@@ -148,6 +157,10 @@ class EmployeeProfileShortlists(models.Model):
     employeepersonalid = models.ForeignKey(EmployeePersonalDetails,on_delete=models.CASCADE,default='')
     employeejobid = models.ForeignKey(EmployeeJobDetails,on_delete=models.CASCADE,default='')
     date = models.DateTimeField(default=now())
+    interviewdate = models.CharField(max_length=200,default='')
+    lettersenddate = models.CharField(max_length=200,default='')
+    acceptdate = models.CharField(max_length=200,default='')
+    rejectdate = models.CharField(max_length=200,default='')
     status = models.CharField(max_length=200,default='')
 
 class deletedcandidates(models.Model):
@@ -158,3 +171,7 @@ class EmployeeReview(models.Model):
     employeeid = models.ForeignKey(EmployeeRegister,on_delete=models.CASCADE)
     employeepersonalid = models.ForeignKey(EmployeePersonalDetails,on_delete=models.CASCADE)
     review = models.CharField(max_length=1000,default='')
+
+class EmployeePersonalResume(models.Model):
+    employeeid = models.ForeignKey(EmployeeRegister,on_delete=models.CASCADE)
+    resume = models.FileField(upload_to='personalresume',null='empty')

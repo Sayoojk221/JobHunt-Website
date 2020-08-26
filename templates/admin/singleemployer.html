@@ -1,0 +1,103 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<section class="overlape">
+        <div class="block no-padding">
+            <div data-velocity="-.1" style="background: url(/static/images/resource/mslider1.jpg) repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible no-parallax"></div><!-- PARALLAX BACKGROUND IMAGE -->
+            <div class="container fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        {% for item in employer%}
+                        <div class="inner-header">
+                            <h3>{{item.companyname}}</h3>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="block">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 column">
+                        <div class="job-single-sec style3">
+                            <div class="job-wide-devider">
+
+                                <div class="job-overview divide">
+                                    {% for item in employer%}
+                                    <h3 style="font-size: 20px;" >Company Information</h3>
+                                    <ul>
+<!--                                         <li><i class="la la-user"></i><h3>Followers</h3><span>{{item.flowers}}</span></li>
+ -->                                        <li><i class="la la-file-text"></i><h3 style="font-size: 15px;">Posted Jobs</h3><span>{{count}}</span></li>
+                                        <li><i class="la la-map"></i><h3 style="font-size: 15px;">Locations</h3><span>{{item.country}}, {{item.state}}</span></li>
+                                    </ul>
+                                    <ul>
+                                        <li><i class="la la-bars"></i><h3 style="font-size: 15px;">Categories</h3><span>{{item.category}}</span></li>
+                                        <li><i class="la la-clock-o"></i><h3 style="font-size: 15px;">Since</h3><span>{{item.since}}</span></li>
+                                        <li><i class="la la-users"></i><h3 style="font-size: 15px;">Team Size</h3><span>{{item.teamsize}}</span></li>
+                                    </ul>
+
+                                </div><!-- Job Overview -->
+                                <div class="job-details">
+                                    <h3 style="font-size: 20px;">About</h3>
+                                    <p style="font-size: 16px;">{{item.description}}</p>
+                                </div>
+                                {% endfor %}
+                                <div class="recent-jobs">
+                                    {% if postedjobs%}
+                                    <h3 style="font-size: 20px;">Jobs from Business Network</h3>
+                                    {% endif%}
+                                    <div class="job-list-modern">
+                                        <div class="job-listings-sec no-border">
+                                            {% for item in postedjobs %}
+                                            <div class="job-listing wtabs noimg">
+
+                                                <div class="job-title-sec">
+                                                    <h3><a style="font-size: 18px;"  title="">{{item.jobtitle}}</a></h3>
+                                                    <span style="font-size: 16px;">{{item.employerid.companyname}}</span>
+                                                    <div style="font-size: 15px;" class="job-lctn"><i class="la la-map-marker"></i>{{item.country}}, {{item.state}}</div>
+                                                </div>
+                                                <div class="job-style-bx">
+                                                    <span style="font-size: 15px;" class="job-is ft">{{item.jobtype}}</span>
+<!--                                                     <span class="fav-job"><i class="la la-heart-o"></i></span>
+ -->                                                </div>
+
+                                            </div>
+                                             {% endfor %}
+                                        </div>
+                                     </div>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 column">
+                        {% for item in employer %}
+                        <div class="job-single-head style2">
+                            <div class="job-thumb"> <img src="{{item.logo.url}}" width="124px" height="124px" alt="" /> </div>
+                            <div class="job-head-info">
+                                <h4 style="font-size: 28px;">{{item.companyname}}</h4>
+                                <span style="font-size: 15px;">{{item.country}}, {{item.state}}</span>
+                                <p style="font-size: 14px;"><i class="la la-unlink"></i> {{item.website}}</p>
+                                <p style="font-size: 15px;"><i class="la la-phone"></i> {{item.phoneno}}</p>
+                                <p style="font-size: 15px;"><i class="la la-email-"></i> <a  class="__cf_email__" data-cfemail="67060b0e491312010609270d08050f1209134904080a">{{item.companyemail}}</a></p>
+                            </div>
+                            {% for social in employersocial %}
+                            <div class="share-bar">
+                                <a href="{{social.google}}" title="" class="share-google"><i class="la la-google"></i></a><a href="{{social.facebook}}" title="" class="share-fb"><i class="la la-facebook"></i></a><a href="{{social.twitter}}" title="" class="share-twitter"><i class="la la-twitter"></i></a>
+                            </div>
+                            {% endfor %}
+                            <div class="emply-btns">
+<!--                                 <a class="seemap" href="#" title=""><i class="la la-map-marker"></i> See On Map</a>
+ -->                                <!-- <a class="followus" href="#" title=""><i class="la la-paper-plane"></i> Follow us</a> -->
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

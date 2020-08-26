@@ -91,19 +91,23 @@
                             <div class="row" id="masonry">
                                 {% for item in employerdetails%}
                                 {% if item.id in employerlist %}
+                                {% for job in job_details %}
+                                {% if job.employerid.id == item.id %}
                                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                                     <div class="emply-list box">
                                         <div class="emply-list-thumb">
-                                            <a href="/employersingleprofile/?id={{item.id}}" title=""><img src="{{item.logo.url}}" height="80px" width="100px" alt="" /></a>
+                                            <a href="/employersingleprofile/?id={{job.employerid.id}}" title=""><img src="{{job.employerid.logo.url}}" height="80px" width="100px" alt="" /></a>
                                         </div>
                                         <div class="emply-list-info">
 <!--                                             <div class="emply-pstn">4 {{jobcount}}</div>
- -->                                            <h3><a href="/employersingleprofile/?id={{item.id}}" title="">{{item.companyname}}</a></h3>
-                                            <span>{{item.category}}</span>
-                                            <h6><i class="la la-map-marker"></i> {{item.country}},{{item.city}}</h6>
+ -->                                            <h3><a href="/employersingleprofile/?id={{job.employerid.id}}" title="">{{job.employerid.companyname}}</a></h3>
+                                            <span style="font-size:15px; color: #8a99b3;">{{job.employerid.category}}</span>
+                                            <h6><i class="la la-map-marker"></i> {{job.employerid.country}},{{job.employerid.city}}</h6>
                                         </div>
                                     </div><!-- Employe List -->
                                 </div>
+                                {% endif %}
+                                {% endfor %}
                                 {% endif %}
                                 {% endfor %}
                                 <!-- <div class="col-lg-12">

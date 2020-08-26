@@ -3,7 +3,12 @@
                 <div class="col-lg-9 column">
                     <div class="padding-left">
                         <div class="manage-jobs-sec">
-                            <div class="border-title"><h3>Portfolio</h3><a class="Back" href="/employeeresume/" title=""><i class="la la-close"></i> Back</a></div>
+                            {% if success %}
+                            <div style="text-align: center; padding: 10px;">
+                                <a class="btn btn-success">{{success}}</a>
+                            </div>
+                            {% endif%}
+                            <div class="border-title"><h3 style="font-size: 20px;">Portfolio</h3><a class="Back" href="/employeeresume/" style="color: #8a99b3;" title=""><i style=" background-color:#8a99b3;"  class="la la-undo"></i> Back</a></div>
                                 <div class="resumeadd-form">
                                     <form method="POST"  enctype='multipart/form-data'>
                                         {% csrf_token %}
@@ -22,13 +27,13 @@
                                                         <input id="file-upload"  input field required name='portfolio' value='{{item.image.url}}' type="file" style="display: none;" />
                                                     </div>
                                                     <div class="uploadfield">
-                                                        <span class="pf-title">Website URL</span>
+                                                        <span style="font-size: 14px;"class="pf-title">Website URL</span>
                                                         <div class="pf-field">
-                                                            <input name='url' input field required value='{{item.url}}' type="URL">
+                                                            <input style="font-size: 15px;"name='url' input field required value='{{item.url}}' type="URL">
                                                         </div>
                                                     </div>
                                                     <div class="uploadbutton">
-                                                        <button type="submit">Save</button>
+                                                        <button style="background-color: #8a99b3;border-color: #8a99b3;" type="submit">Save</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -53,13 +58,13 @@
                                                         <input id="file-upload"  name='portfolio' type="file" style="display: none;" />
                                                     </div>
                                                     <div class="uploadfield">
-                                                        <span class="pf-title">Website URL</span>
+                                                        <span style="font-size: 14px;" class="pf-title">Website URL</span>
                                                         <div class="pf-field">
-                                                            <input name='url' input field required type="URL">
+                                                            <input style="font-size: 15px;" name='url' input field required type="URL">
                                                         </div>
                                                     </div>
                                                     <div class="uploadbutton">
-                                                        <button type="submit">Save</button>
+                                                        <button style="background-color: #8a99b3;border-color: #8a99b3;" type="submit">Save</button>
                                                     </div>
                                                 </div>
                                             </div>

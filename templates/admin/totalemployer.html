@@ -1,0 +1,46 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+
+
+                    <div class="col-lg-15">
+                        <div class="padding-left">
+                            <div class="manage-jobs-sec">
+                                <h3>Total Employers</h3>
+                                <table>
+                                     <h3>Total Employers</h3>
+                                    <thead>
+                                        <tr>
+                                            <td style="color: #8a99b3;">Company Name</td>
+                                            <td style="color: #8a99b3;">Industry</td>
+                                            <td style="color: #8a99b3;">Email</td>
+                                            <td style="color: #8a99b3;">Phone Number</td>
+                                            <td style="color: #8a99b3;">Location</td>
+                                            <td></td>
+                                        </tr>
+                                    </thead>
+                                    {% for item in employers %}
+<!--  -->                           <tbody>
+                                        <tr>
+                                            <td>{{item.companyname}}</td>
+                                            <td>{{item.category}}</td>
+                                            <td>{{item.companyemail}}</td>
+                                            <td>{{item.phoneno}}</td>
+                                            <td>{{item.state}}/{{item.country}}</td>
+                                            <td>
+                                                <ul class="action_job">
+                                                    <li><span>View profile</span><a href="/admin/singleemployer/?id={{item.id}}" title=""><i style="font-size:  25px;" class="la la-eye"></i></a></li>
+
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

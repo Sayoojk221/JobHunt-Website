@@ -31,7 +31,14 @@
                     <div class="col-lg-12">
                         <div class="account-popup-area signup-popup-box static">
                             <div class="account-popup">
-                                <div style="color: red;">{{error}}</div>
+                                {% if error or success %}
+                                <div class="container mt-4">
+                                  <div class="alert alert-warning d-flex justify-items-center" role="alert">
+                                    <som-icon name="icon-alert" class="icon-lg my-auto"></som-icon>
+                                    <b  class="pl-3 my-2">{{error}}{{success}}</b>
+                                  </div>
+                                </div>
+                                {% endif %}
 <!--                                 <h3>Sign Up</h3>
  -->                                <form method='POST' action='/register/'>
                                     {% csrf_token %}
@@ -42,31 +49,31 @@
                                     </div>
 
                                     <div class="cfield">
-                                        <input type="text" placeholder="Name" name='name' input field required />
+                                        <input type="text" style="font-size: 14px;" placeholder="Name" name='name' input field required />
                                         <i class="la la-user"></i>
                                     </div>
                                     <div class="cfield">
-                                        <input type="password" placeholder="********" name='pass' input field required/>
+                                        <input  title="Password must contain at least 6 characters, including UPPER/lowercase and numbers" type="password" input field required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" style="font-size: 14px;" placeholder="********" name='pass' onchange="this.setCustomValidity(this.validity.patternMismatch ? this.title : ''); if(this.checkValidity()) form.pwd2.pattern = RegExp.escape(this.value);" />
                                         <i class="la la-key"></i>
                                     </div>
                                     <div class="cfield">
-                                        <input type="text" placeholder="Email" name='email' input field required/>
+                                        <input type="text" style="font-size: 14px;" placeholder="Email" name='email' input field required/>
                                         <i class="la la-envelope-o"></i>
                                     </div>
 
                                     <div class="cfield">
-                                        <input type="text" placeholder="Phone Number" name='phone' input field required />
+                                        <input type="text" style="font-size: 14px;" placeholder="Phone Number" name='phone' title="Phone number must contain 10 digit"  input field required  />
                                         <i class="la la-phone"></i>
                                     </div>
-                                    <button type="submit">Signup</button>
+                                    <button onmouseover="this.style.background='#141f72';" type="submit">Signup</button>
                                 </form>
-                                <div class="extra-login">
+                                <!-- <div class="extra-login">
                                     <span>Or</span>
                                     <div class="login-social">
                                         <a class="fb-login" href="#" title=""><i class="la la-facebook"></i></a>
                                         <a class="tw-login" href="#" title=""><i class="la la-twitter"></i></a>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div><!-- SIGNUP POPUP -->
                     </div>

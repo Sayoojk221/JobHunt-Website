@@ -9,6 +9,10 @@ from django.core.paginator import Paginator
 from emp.utils import render_to_pdf
 from django.http import JsonResponse
 import datetime
+import random
+import string
+import hashlib
+import urllib.request
 # Create your views here.
 
 def home(request):
@@ -26,11 +30,14 @@ def register_both(request):
 		email = request.POST['email']
 		password = request.POST['pass']
 		phone = request.POST['phone']
+		hashpass = hashlib.md5(password.encode('utf8')).hexdigest()
 		usertype = request.POST['usertype']
+
+
 		employer_existcheck = EmployerRegister.objects.all().filter(companyemail=email).count()
 		employee_existcheck = EmployeeRegister.objects.all().filter(email=email).count()
 		if usertype == 'Employer' and employer_existcheck == 0:
-			employer_details = EmployerRegister(logo='employerlogo/default.jpg',companyname=name,companyemail=email,password=password,phoneno=phone,authentication='pending')
+			employer_details = EmployerRegister(logo='static/images/default.jpg',companyname=name,companyemail=email,password=hashpass,phoneno=phone,authentication='success')
 			employer_details.save()
 			details = EmployerRegister.objects.filter(companyemail=email)
 			for item in details:
@@ -45,7 +52,7 @@ def register_both(request):
 			employer_existcheck = 0
 			return render(request,'login&register/login.html',{'success':"Successfully registered"})
 		elif usertype == 'Candidate' and employee_existcheck == 0:
-			employee_details = EmployeeRegister(profileimage='employeeimage/default.jpg',username=name,password=password,email=email,phoneno=phone,authentication='pending')
+			employee_details = EmployeeRegister(profileimage='static/images/default.jpg',username=name,password=hashpass,email=email,phoneno=phone,authentication='success')
 			employee_details.save()
 			details = EmployeeRegister.objects.filter(email=email)
 			for item in details:
@@ -61,10 +68,11 @@ def register_both(request):
 			return render(request,'login&register/login.html',{'success':"Successfully registered"})
 		else:
 			if employer_existcheck > 0:
-				return render(request,'login&register/register.html',{'error':name+"  already registered "})
+				return render(request,'login&register/register.html',{'error':email+"  already registered "})
 			elif employee_existcheck > 0:
-				return render(request,'login&register/register.html',{'error':name+"  already registered "})
+				return render(request,'login&register/register.html',{'error':email+"  already registered "})
 	else:
+
 	 	return render(request,'login&register/register.html')
 
 @unauthenticated
@@ -83,19 +91,35 @@ def login_both(request):
 	if request.method == 'POST':
 		email = request.POST['email']
 		password = request.POST['pass']
+		hashpass = hashlib.md5(password.encode('utf8')).hexdigest()
+		job_id = request.POST.get('id')
+		postjob_url = request.POST.get('next')
+		applied_url = request.POST.get('next2')
 		usertype = request.POST.get('usertype')
 		employer_existcheck = EmployerRegister.objects.all().filter(companyemail=email).count()
 		employee_existcheck = EmployeeRegister.objects.all().filter(email=email).count()
-		print(usertype)
 		if usertype == 'Employer' and employer_existcheck == 1:
 			employer_existcheck = 0
 			employer_details = EmployerRegister.objects.all().filter(companyemail=email,authentication='success')
 			if employer_details:
-				email_password_validation = EmployerRegister.objects.all().filter(companyemail=email,password=password)
+				email_password_validation = EmployerRegister.objects.all().filter(companyemail=email,password=hashpass)
 				if email_password_validation:
 					for item in employer_details:
 						request.session['employer-id']=item.id
-					return redirect('/employerprofile/')
+						employerid = item.id
+					employer_exist = EmployerSocialDetails.objects.all().filter(employerid=employerid).values_list('employerid')
+					empid = 0
+					for item in employer_exist:
+							empid = item
+					if empid == 0:
+						employer_foriegn_data = EmployerRegister.objects.get(id=employerid)
+						social = EmployerSocialDetails(employerid=employer_foriegn_data)
+						social.save()
+
+					if postjob_url:
+						return redirect(postjob_url)
+					else:
+						return redirect('/employerprofile/')
 				else:
 					return render(request,'login&register/login.html',{'passworderror':'Invalid  Passsword' })
 
@@ -107,7 +131,7 @@ def login_both(request):
 			for item in employee_details:
 				employeeid = item.id
 			if employee_details:
-				email_password_validation = EmployeeRegister.objects.all().filter(email=email,password=password)
+				email_password_validation = EmployeeRegister.objects.all().filter(email=email,password=hashpass)
 				if email_password_validation:
 					for item in employee_details:
 						request.session['employee-id']=item.id
@@ -123,9 +147,23 @@ def login_both(request):
 						personaldetails.save()
 						jobdetails.save()
 						socialdetails.save()
-						return redirect('/employeeprofile/')
+						if applied_url:
+							return redirect(applied_url)
+						else:
+							if job_id:
+								url = f'/employeejob/?id={job_id}'
+								return redirect(url)
+							else:
+								return redirect('/employeeprofile/')
 					else:
-						return redirect('/employeeprofile/')
+						if applied_url:
+							return redirect(applied_url)
+						else:
+							if job_id:
+								url = f'/employeejob/?id={job_id}'
+								return redirect(url)
+							else:
+								return redirect('/employeeprofile/')
 				else:
 					return render(request,'login&register/login.html',{'passworderror':'Invalid  Password'})
 
@@ -143,27 +181,19 @@ def login_both(request):
 def password_change(request):
 	employerid = request.GET.get('id')
 	employeeid = request.GET.get('id2')
-	print(employeeid)
-	print(employerid)
 	if employerid:
 		if request.method == 'POST':
-			print('post1')
 			newpassword = request.POST['new']
 			detail = EmployerRegister.objects.all().filter(id=employerid).update(password=newpassword)
-			print(post1)
 			return render(request,'login&register/login.html')
 		else:
-			print('else1')
 			return render(request,'login&register/changepassword.html')
 	elif employeeid:
 		if request.method == 'POST':
-			print('post2')
 			newpassword = request.POST['new']
-			print(newpassword)
 			EmployeeRegister.objects.all().filter(id=employeeid).update(password=newpassword)
 			return render(request,'login&register/login.html')
 		else:
-			print('else2')
 			return render(request,'login&register/changepassword.html')
 
 
@@ -215,9 +245,13 @@ def employer_home(request):
 	context = {'employer_reg':employer_details}
 	return render(request,'employer/employerhome.html',context)
 
+
+
+
 @unauthenticated_employer
 def employer_profile_edit(request):
 	employer = request.session['employer-id']
+	employerjob_manage(request)
 	if request.method == 'POST':
 		logo = request.FILES.get('logo')
 		name = request.POST['companyname']
@@ -225,73 +259,41 @@ def employer_profile_edit(request):
 		since = request.POST['since']
 		teamsize = request.POST['teamsize']
 		description = request.POST['description']
+		website = request.POST['website']
+		country = request.POST['country']
+		state = request.POST['state']
+		address = request.POST['address']
+		city = request.POST['city']
+		facebook = request.POST['facebook']
+		twitter = request.POST['twitter']
+		google = request.POST['google']
+		linkedin = request.POST['linkedin']
 		if logo:
 			employer_details = EmployerRegister.objects.get(id=employer)
 			employer_details.logo = logo
 			employer_details.save()
-		EmployerRegister.objects.all().filter(id=employer).update(companyname=name,category=category,since=since,teamsize=teamsize,description=description)
+
+		EmployerSocialDetails.objects.all().filter(employerid=employer).update(facebook=facebook,twitter=twitter,google=google,linkedin=linkedin)
+		EmployerRegister.objects.all().filter(id=employer).update(address=address,city=city,website=website,country=country,state=state,companyname=name,category=category,since=since,teamsize=teamsize,description=description)
 		current_employer = EmployerRegister.objects.all().filter(id=employer)
-		context = {'employer_reg':current_employer}
+		employer_social = EmployerSocialDetails.objects.all().filter(employerid=employer)
+		context = {'employer_reg':current_employer,'employer_social':employer_social,}
 		return render(request,'employer/profile.html',context)
 	else:
 		current_employer = EmployerRegister.objects.all().filter(id=employer)
 		current_employer_socialdetails = EmployerSocialDetails.objects.filter(employerid=employer)
-		if current_employer_socialdetails:
-			context = {'employer_reg':current_employer,'employer_social':current_employer_socialdetails}
-			return render(request,'employer/profile.html',context)
-		else:
-			context = {'employer_reg':current_employer}
-			return render(request,'employer/profile.html',context)
+		context = {'employer_reg':current_employer,'employer_social':current_employer_socialdetails}
+		return render(request,'employer/profile.html',context)
 
-
-@unauthenticated_employer
-def employer_contactdetails(request):
-	employer = request.session['employer-id']
-	if request.method == 'POST':
-		website = request.POST['website']
-		country = request.POST['country']
-		state = request.POST['state']
-		EmployerRegister.objects.all().filter(id=employer).update(website=website,country=country,state=state)
-		return redirect('/employerprofile/')
-	else:
-		return redirect('/employerprofile/')
-
-@unauthenticated_employer
-def employer_socialnetworksdetails(request):
-	employer = request.session['employer-id']
-	employerid = EmployerRegister.objects.get(id=employer)
-	employer_exist = EmployerSocialDetails.objects.all().filter(employerid=employer).values_list('employerid')
-	empid = 0
-	for item in employer_exist:
-			empid = item
-	if empid == 0:
-		if request.method == 'POST':
-			facebook = request.POST['facebook']
-			twitter = request.POST['twitter']
-			google = request.POST['google']
-			linkedin = request.POST['linkedin']
-			social_details = EmployerSocialDetails(employerid=employerid,facebook=facebook,twitter=twitter,google=google,linkedin=linkedin)
-			social_details.save()
-			return redirect('/employerprofile/')
-		else:
-			return redirect('/employerprofile/')
-	else:
-		if request.method == 'POST':
-			facebook = request.POST['facebook']
-			twitter = request.POST['twitter']
-			google = request.POST['google']
-			linkedin = request.POST['linkedin']
-			EmployerSocialDetails.objects.all().filter(employerid=employerid).update(facebook=facebook,twitter=twitter,google=google,linkedin=linkedin)
-			return redirect('/employerprofile/')
-		else:
-			return redirect('/employerprofile/')
 
 
 @unauthenticated_employer_postjob
 def postnew_job(request):
 	employer = request.session['employer-id']
+	company_details_null = EmployerRegister.objects.all().filter(id=employer,category__isnull=True,teamsize__isnull=True)
+	employerid = EmployerRegister.objects.get(id=employer)
 	if request.method == 'POST':
-		employerid = EmployerRegister.objects.get(id=employer)
+		code = request.POST['jobcode']
 		jobtitle = request.POST['title']
 		description = request.POST['descr']
 		email = request.POST['email']
@@ -309,27 +311,49 @@ def postnew_job(request):
 		deadline = request.POST['deadline']
 		knowledge = request.POST['requiredknowledge']
 		educationandexperience = request.POST['edu+exp']
-		job_detais = EmployerNewJobPost(employerid=employerid,qualification=qualification,linkedinurl=linkedin,positionnumber=positionno,jobtitle=jobtitle,description=description,email=email,jobtype=jobtype,offerdsalary=salary,careerlevel=level,experience=experience,gender=gender,industry=industry,country=country,city=city,deadline=deadline,requiredknowledge=knowledge,educationandexperience=educationandexperience,status='active')
+		job_detais = EmployerNewJobPost(jobcode=code,employerid=employerid,qualification=qualification,linkedinurl=linkedin,positionnumber=positionno,jobtitle=jobtitle,description=description,email=email,jobtype=jobtype,offerdsalary=salary,careerlevel=level,experience=experience,gender=gender,industry=industry,country=country,city=city,deadline=deadline,requiredknowledge=knowledge,educationandexperience=educationandexperience,status='active')
 		job_detais.save()
 		return redirect('/postnewjob/')
 	else:
+		if company_details_null:
+			message = 'Fill company details'
+		else:
+			message = False
+
+		exist = EmployerNewJobPost.objects.filter(employerid=employer).last()
+		if exist:
+			lastentry = exist
+		else:
+			lastentry = 1000
+		jobcode = lastentry.jobcode
+		code = jobcode[4:]
+		name = employerid.companyname
+		digit = int(code) + 1
+		jobcode = name[:4].upper()+str(digit)
 		current_employer =EmployerRegister.objects.all().filter(id=employer)
-		context = {'employer_reg':current_employer}
+		context = {'code':jobcode,'error':message,'employer_reg':current_employer}
 		return render(request,'employer/postnewjob.html',context)
 
 
 @unauthenticated_employee
 def employee_home(request):
 	employee = request.session['employee-id']
-	candidatelist = CandidatesList.objects.all().filter(employeeid=employee).values_list('employeeid')
-	value = [j for i in candidatelist for j in i]
-	if employee not in value:
+	candidatelist = CandidatesList.objects.all().filter(employeeid=employee)
+	if not candidatelist:
 		personal_data = EmployeePersonalDetails.objects.all().filter(employeeid=employee).values_list('fullname','country','city')
 		job_data = EmployeeJobDetails.objects.all().filter(employeeid=employee,jobtitle='',company='')
 
 		v1 = [i for j in personal_data for i in j]
 
-		if not None in v1 and not job_data :
+		job_details = EmployeeJobDetails.objects.get(employeeid=employee)
+		value = job_details.experience
+		number = [j for j in value if j.isdigit()]
+		if len(number) == 1:
+			experience = int(number[0])
+		elif len(number) == 2:
+			experience = int(number[0]+number[1])
+
+		if not None in v1 and not job_data and experience >= 2 :
 			job = EmployeeJobDetails.objects.all().filter(employeeid=employee).values_list('id')
 			personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee).values_list('id')
 			job_id = [j for i in job for j in i]
@@ -345,26 +369,31 @@ def employee_home(request):
 	count = EmployerNewJobPost.objects.all().filter(status='active').count()
 	todaycount = EmployerNewJobPost.objects.all().filter(createddate__gt=datetime.date.today()).count()
 	employee_review = EmployeeReview.objects.all()
-	shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
-	shortlist = JobShortlists.objects.all().filter(employeeid=employee)
+
 	current_employee = EmployeeRegister.objects.all().filter(id=employee)
 	job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
 	personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
-	context = {'review':employee_review,'todaycount':todaycount,'jobcount':count,'jobs':alljobs,'count':shortlistcount,'shortlist':shortlist,'employee_reg':current_employee,'employee_per':personal,'employee_job':job}
+	context = {'review':employee_review,'todaycount':todaycount,'jobcount':count,'jobs':alljobs,'employee_reg':current_employee,'employee_per':personal,'employee_job':job}
 	return render(request,'employee/employeehome.html',context)
 
-@unauthenticated_employee
+
 def category_search(request):
-	employee = request.session['employee-id']
 	key = request.GET.get('key')
-	query =  EmployerNewJobPost.objects.all().filter(industry__icontains=key,status='active')
-	shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
-	shortlist = JobShortlists.objects.all().filter(employeeid=employee)
-	current_employee = EmployeeRegister.objects.all().filter(id=employee)
-	job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
-	personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
-	context = {'alljobs':query,'count':shortlistcount,'shortlist':shortlist,'employee_reg':current_employee,'employee_per':personal,'employee_job':job}
-	return render(request,'employee/alljobs.html',context)
+	key2 = request.GET.get('key2')
+	if key2:
+		query =  EmployerNewJobPost.objects.all().filter(industry__icontains=key2,status='active')
+		context = {'alljobs':query,}
+		return render(request,'home/alljobs.html',context)
+	elif key:
+		employee = request.session['employee-id']
+		query =  EmployerNewJobPost.objects.all().filter(industry__icontains=key,status='active')
+		shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
+		shortlist = JobShortlists.objects.all().filter(employeeid=employee)
+		current_employee = EmployeeRegister.objects.all().filter(id=employee)
+		job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
+		personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
+		context = {'alljobs':query,'employee_reg':current_employee,'employee_per':personal,'employee_job':job}
+		return render(request,'employee/alljobs.html',context)
 
 @unauthenticated_employee
 def employee_search(request):
@@ -374,13 +403,33 @@ def employee_search(request):
 		location = request.POST['location']
 		query =  EmployerNewJobPost.objects.all().filter(jobtitle__icontains=key,country__icontains=location,status='active')
 		jobcount = EmployerNewJobPost.objects.all().filter(jobtitle__icontains=key,status='active').count()
-		shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
-		shortlist = JobShortlists.objects.all().filter(employeeid=employee)
 		current_employee = EmployeeRegister.objects.all().filter(id=employee)
 		job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
 		personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
-		context = {'alljobs':query,'count':jobcount,'count':shortlistcount,'shortlist':shortlist,'employee_reg':current_employee,'employee_per':personal,'employee_job':job}
+		context = {'alljobs':query,'count':jobcount,'employee_reg':current_employee,'employee_per':personal,'employee_job':job}
 		return render(request,'employee/alljobs.html',context)
+
+def job_search(request):
+	if request.method == 'POST':
+		key = request.POST['key']
+		location = request.POST['location']
+		query =  EmployerNewJobPost.objects.all().filter(jobtitle__icontains=key,country__icontains=location,status='active')
+		context = {'alljobs':query}
+		return render(request,'home/alljobs.html',context)
+	else:
+		jobs = EmployerNewJobPost.objects.all().filter(status='active')
+		context = {'alljobs':jobs}
+		return render(request,'home/alljobs.html',context)
+
+
+def total_employer(request):
+	details = EmployerNewJobPost.objects.all().values_list('employerid')
+	total_employer = [i for j in details for i in j]
+	employers = EmployerRegister.objects.all()
+	job_details = EmployerNewJobPost.objects.all().filter(status='active')
+	context = {'job_details':job_details,'employerlist':total_employer,'employerdetails':employers}
+	return render(request,'home/employers.html',context)
+
 
 @unauthenticated_employee
 def employee_logout(request):
@@ -390,26 +439,61 @@ def employee_logout(request):
 @unauthenticated_employee
 def employee_profile(request):
 	employee = request.session['employee-id']
-	details_check = EmployeePersonalDetails.objects.all().filter(employeeid=employee).values_list('fullname','age','education','city','country','gender')
+	details_check = EmployeePersonalDetails.objects.all().filter(employeeid=employee).values_list('fullname','age','education','city','country','gender','description','address')
 	education_detail = EmployeeEducation.objects.all().filter(employeeid=employee)
+	personal_resume = EmployeePersonalResume.objects.all().filter(employeeid=employee)
 	value = [i for j in details_check for i in j ]
-	if not None in value and education_detail:
-		shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
-		shortlist = JobShortlists.objects.all().filter(employeeid=employee)
+	if not None in value:
+		if education_detail and personal_resume:
+			shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
+			shortlist = JobShortlists.objects.all().filter(employeeid=employee)
+			current_employee = EmployeeRegister.objects.all().filter(id=employee)
+			employee_dob = EmployeePersonalDetails.objects.all().filter(employeeid=employee).values_list('age')
+			value = [i for j in employee_dob for i in j]
+			dob = str(value[0])
+			employee_age = datetime.date.today().year - int(dob[:4])
+			job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
+			social = EmployeeSocialDetails.objects.all().filter(employeeid=employee)
+			personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
+			education = EmployeeEducation.objects.all().filter(employeeid=employee)
+			workexperience = EmployeeWorkExperience.objects.all().filter(employeeid=employee)
+			portflio = EmployeePortfolio.objects.all().filter(employeeid=employee)
+			personal_resume = EmployeePersonalResume.objects.all().filter(employeeid=employee)
+			professionalskill = EmployeeProfessionalSkill.objects.all().filter(employeeid=employee)
+			languageskill = EmployeeLanguageSkill.objects.all().filter(employeeid=employee)
+			awards = EmployeeAwards.objects.all().filter(employeeid=employee)
+			context = {'resume':personal_resume,'age':employee_age,'employee_reg':current_employee,'employee_per':personal,'education':education,'workexperience':workexperience,'portflio':portflio,'professionalskill':professionalskill,'languageskill':languageskill,'awards':awards,'employee_job':job,'employee_social':social}
+			return render(request,'employee/singleprofile.html',context)
+		else:
+			message = 'Fill resume details'
+			personal_resume = EmployeePersonalResume.objects.all().filter(employeeid=employee)
+			if personal_resume:
+				value = EmployeePersonalResume.objects.all().filter(employeeid=employee).values_list('resume')
+				list1 = [i for j in value for i in j]
+				resumename = list1[0][15:]
+				exist = False
+			else:
+				exist = True
+				resumename = False
+			current_employee = EmployeeRegister.objects.all().filter(id=employee)
+			job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
+			personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
+			education = EmployeeEducation.objects.all().filter(employeeid=employee)
+			workexperience = EmployeeWorkExperience.objects.all().filter(employeeid=employee)
+			portflio = EmployeePortfolio.objects.all().filter(employeeid=employee)
+			professionalskill = EmployeeProfessionalSkill.objects.all().filter(employeeid=employee)
+			languageskill = EmployeeLanguageSkill.objects.all().filter(employeeid=employee)
+			awards = EmployeeAwards.objects.all().filter(employeeid=employee)
+			context = {'exist':exist,'resumename':resumename,'per_resume':personal_resume,'error':message,'employee_reg':current_employee,'employee_per':personal,'employee_job':job,'education':education,'workexperience':workexperience,'portflio':portflio,'professionalskill':professionalskill,'languageskill':languageskill,'awards':awards,}
+			return render(request,'employee/resume.html',context)
+	else:
+		message = 'Fill details above'
 		current_employee = EmployeeRegister.objects.all().filter(id=employee)
+		personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
 		job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
 		social = EmployeeSocialDetails.objects.all().filter(employeeid=employee)
-		personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
-		education = EmployeeEducation.objects.all().filter(employeeid=employee)
-		workexperience = EmployeeWorkExperience.objects.all().filter(employeeid=employee)
-		portflio = EmployeePortfolio.objects.all().filter(employeeid=employee)
-		professionalskill = EmployeeProfessionalSkill.objects.all().filter(employeeid=employee)
-		languageskill = EmployeeLanguageSkill.objects.all().filter(employeeid=employee)
-		awards = EmployeeAwards.objects.all().filter(employeeid=employee)
-		context = {'count':shortlistcount,'shortlist':shortlist,'employee_reg':current_employee,'employee_per':personal,'education':education,'workexperience':workexperience,'portflio':portflio,'professionalskill':professionalskill,'languageskill':languageskill,'awards':awards,'employee_job':job,'employee_social':social}
-		return render(request,'employee/singleprofile.html',context)
-	else:
-		return redirect('/employeeprofile/')
+		context = {'error':message,'employee_reg':current_employee,'employee_per':personal,'employee_job':job,'employee_social':social}
+		return render(request,'employee/profile.html',context)
 
 @unauthenticated_employee
 def employee_profile_edit(request):
@@ -424,62 +508,51 @@ def employee_profile_edit(request):
 		education = request.POST['edu']
 		age = request.POST['age']
 		gender = request.POST['gender']
-		description = request.POST['desc']
-
-
+		description = request.POST['description']
+		facebook = request.POST['facebook']
+		linkedin = request.POST['linkedin']
+		twitter = request.POST['twitter']
+		phone = request.POST['phone']
+		email = request.POST['email']
+		country = request.POST['country']
+		city = request.POST['city']
+		address = request.POST.get('address')
+		state = request.POST['state']
 		if profilepic:
 			employee_details = EmployeeRegister.objects.get(id=employee)
 			employee_details.profileimage = profilepic
 			employee_details.save()
 
-		EmployeePersonalDetails.objects.all().filter(employeeid=employee).update(fullname=fullname,age=age,education=education,gender=gender)
-		EmployeeJobDetails.objects.all().filter(employeeid=employee).update(company=company,jobtitle=jobtitle,experience=experience,currentsalary=salary,jobdescription=description)
+		EmployeeRegister.objects.all().filter(id=employee).update(phoneno=phone,email=email)
+		EmployeePersonalDetails.objects.all().filter(employeeid=employee).update(address=address,state=state,country=country,city=city,fullname=fullname,age=age,education=education,gender=gender,description=description)
+		EmployeeSocialDetails.objects.all().filter(employeeid=employee).update(facebook=facebook,linkedin=linkedin,twitter=twitter)
+		EmployeeJobDetails.objects.all().filter(employeeid=employee).update(company=company,jobtitle=jobtitle,experience=experience,currentsalary=salary)
 		return redirect('/employeeprofile/')
 
 	else:
-		shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
-		shortlist = JobShortlists.objects.all().filter(employeeid=employee)
 		current_employee = EmployeeRegister.objects.all().filter(id=employee)
 		personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
 		job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
 		social = EmployeeSocialDetails.objects.all().filter(employeeid=employee)
-		context = {'count':shortlistcount,'shortlist':shortlist,'employee_reg':current_employee,'employee_per':personal,'employee_job':job,'employee_social':social}
+		context = {'employee_reg':current_employee,'employee_per':personal,'employee_job':job,'employee_social':social}
 		return render(request,'employee/profile.html',context)
 
-@unauthenticated_employee
-def employeesocial_networks(request):
-	employee = request.session['employee-id']
-	if request.method == 'POST':
-		facebook = request.POST['facebook']
-		linkedin = request.POST['linkedin']
-		twitter = request.POST['twitter']
-
-		EmployeeSocialDetails.objects.all().filter(employeeid=employee).update(facebook=facebook,linkedin=linkedin,twitter=twitter)
-		return redirect('/employeeprofile/')
-	else:
-		return redirect('/employeeprofile/')
-
-@unauthenticated_employee
-def employee_contact(request):
-	employee = request.session['employee-id']
-	if request.method == 'POST':
-		phone = request.POST['phone']
-		email = request.POST['email']
-		country = request.POST['country']
-		city = request.POST['city']
-
-		EmployeeRegister.objects.all().filter(id=employee).update(phoneno=phone,email=email)
-		EmployeePersonalDetails.objects.all().filter(employeeid=employee).update(country=country,city=city)
-		return redirect('/employeeprofile/')
-	else:
-		return redirect('/employeeprofile/')
 
 @unauthenticated_employee
 def employee_resume(request):
 	employee = request.session['employee-id']
-	shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
-	shortlist = JobShortlists.objects.all().filter(employeeid=employee)
+
 	current_employee = EmployeeRegister.objects.all().filter(id=employee)
+	personal_resume = EmployeePersonalResume.objects.all().filter(employeeid=employee)
+	if personal_resume:
+		value = EmployeePersonalResume.objects.all().filter(employeeid=employee).values_list('resume')
+		list1 = [i for j in value for i in j]
+		resumename = list1[0][15:]
+		exist = False
+	else:
+		exist = True
+		resumename = False
+
 	job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
 	personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
 	education = EmployeeEducation.objects.all().filter(employeeid=employee)
@@ -488,18 +561,54 @@ def employee_resume(request):
 	professionalskill = EmployeeProfessionalSkill.objects.all().filter(employeeid=employee)
 	languageskill = EmployeeLanguageSkill.objects.all().filter(employeeid=employee)
 	awards = EmployeeAwards.objects.all().filter(employeeid=employee)
-	context = {'count':shortlistcount,'shortlist':shortlist,'employee_reg':current_employee,'employee_per':personal,'employee_job':job,'education':education,'workexperience':workexperience,'portflio':portflio,'professionalskill':professionalskill,'languageskill':languageskill,'awards':awards,}
+	context = {'exist':exist,'resumename':resumename,'per_resume':personal_resume,'employee_reg':current_employee,'employee_per':personal,'employee_job':job,'education':education,'workexperience':workexperience,'portflio':portflio,'professionalskill':professionalskill,'languageskill':languageskill,'awards':awards,}
 	return render(request,'employee/resume.html',context)
+
+@unauthenticated_employee
+def employeepersonal_resume(request):
+	employee = request.session['employee-id']
+	resumeid = request.GET.get('id')
+	resumeremoveid = request.GET.get('id2')
+
+	current_employee = EmployeeRegister.objects.all().filter(id=employee)
+	context={'employee_reg':current_employee}
+
+	if resumeid:
+		if request.method == 'POST':
+			exist_resume_details = EmployeePersonalResume.objects.get(id=resumeid)
+			resume = request.FILES.get('resume')
+			if resume:
+				exist_resume_details.resume = resume
+				exist_resume_details.save()
+			return redirect('/employeeresume/')
+		else:
+			update_details = EmployeePersonalResume.objects.all().filter(id=resumeid)
+			return render(request,'employee/personalresume.html',{'employee_reg':current_employee,'update':update_details})
+
+	elif resumeremoveid:
+		EmployeePersonalResume.objects.all().filter(id=resumeremoveid).delete()
+		return redirect('/employeeresume/')
+
+	elif not resumeid:
+		if request.method == 'POST':
+			employee_foriegn_data = EmployeeRegister.objects.get(id=employee)
+			resume = request.FILES.get('resume')
+			resume_details = EmployeePersonalResume(employeeid=employee_foriegn_data,resume=resume)
+			resume_details.save()
+			message = 'Successfully saved'
+			return render(request,'employee/personalresume.html',{'success':message,'employee_reg':current_employee})
+
+		else:
+			return render(request,'employee/personalresume.html',context)
+
 
 @unauthenticated_employee
 def employee_education(request):
 	employee = request.session['employee-id']
 	educationid = request.GET.get('id')
 	educationremoveid = request.GET.get('id2')
-	shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
-	shortlist = JobShortlists.objects.all().filter(employeeid=employee)
+
 	current_employee = EmployeeRegister.objects.all().filter(id=employee)
-	context={'count':shortlistcount,'shortlist':shortlist,'employee_reg':current_employee}
 	if educationid:
 		if request.method == 'POST':
 			title = request.POST['title']
@@ -527,10 +636,17 @@ def employee_education(request):
 			startyear = request.POST['startyear']
 			endyear = request.POST['endyear']
 			description = request.POST['description']
-			education_details = EmployeeEducation(employeeid=employee_foriegn_data,title=title,course=course,institute=institute,startyear=startyear,endyear=endyear,description=description)
-			education_details.save()
-			return redirect('/education/')
+			check_info = EmployeeEducation.objects.all().filter(employeeid=employee,title=title,course=course,institute=institute,startyear=startyear,endyear=endyear,description=description)
+			if check_info:
+				message = "Education Already Exist"
+				return render(request,'employee/addeducation.html',{'success':message,'employee_reg':current_employee})
+			else:
+				education_details = EmployeeEducation(employeeid=employee_foriegn_data,title=title,course=course,institute=institute,startyear=startyear,endyear=endyear,description=description)
+				education_details.save()
+				message = 'Successfully saved'
+				return render(request,'employee/addeducation.html',{'success':message,'employee_reg':current_employee})
 		else:
+			context={'employee_reg':current_employee}
 			return render(request,'employee/addeducation.html',context)
 
 @unauthenticated_employee
@@ -538,10 +654,9 @@ def employee_workexperience(request):
 	employee = request.session['employee-id']
 	experienceid = request.GET.get('id')
 	experienceremoveid = request.GET.get('id2')
-	shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
-	shortlist = JobShortlists.objects.all().filter(employeeid=employee)
+
 	current_employee = EmployeeRegister.objects.all().filter(id=employee)
-	context={'count':shortlistcount,'shortlist':shortlist,'employee_reg':current_employee}
+	context={'employee_reg':current_employee}
 	if experienceid:
 		if request.method == 'POST':
 			job = request.POST['job']
@@ -567,9 +682,15 @@ def employee_workexperience(request):
 			startyear = request.POST['startyear']
 			endyear = request.POST['endyear']
 			description = request.POST['desc']
-			experience_details = EmployeeWorkExperience(employeeid=employee_foriegn_data,job=job,company=company,startyear=startyear,endyear=endyear,jobdescription=description)
-			experience_details.save()
-			return redirect('/workexperience/')
+			check_info = EmployeeWorkExperience.objects.all().filter(employeeid=employee,job=job,company=company,startyear=startyear,endyear=endyear,jobdescription=description)
+			if check_info:
+				message = 'Workexperience Already Exist'
+				return render(request,'employee/addexperience.html',{'success':message,'employee_reg':current_employee})
+			else:
+				experience_details = EmployeeWorkExperience(employeeid=employee_foriegn_data,job=job,company=company,startyear=startyear,endyear=endyear,jobdescription=description)
+				experience_details.save()
+				message = 'Successfully saved'
+				return render(request,'employee/addexperience.html',{'success':message,'employee_reg':current_employee})
 		else:
 			return render(request,'employee/addexperience.html',context)
 
@@ -578,19 +699,18 @@ def employee_portfolio(request):
 	employee = request.session['employee-id']
 	portfolioid = request.GET.get('id')
 	portfolioremoveid = request.GET.get('id2')
-	shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
-	shortlist = JobShortlists.objects.all().filter(employeeid=employee)
+
 	current_employee = EmployeeRegister.objects.all().filter(id=employee)
-	context={'count':shortlistcount,'shortlist':shortlist,'employee_reg':current_employee}
+	context={'employee_reg':current_employee}
 
 	if portfolioid:
 		if request.method == 'POST':
-			exist_portfolio_details = EmployeePortfolio.objects.get(id=portfolioid)
+			portfolio_details = EmployeePortfolio.objects.get(id=portfolioid)
 			image = request.FILES.get('portfolio')
 			url = request.POST['url']
 			if image:
-				exist_portfolio_details.image = image
-				exist_portfolio_details.save()
+				portfolio_details.image = image
+				portfolio_details.save()
 			EmployeePortfolio.objects.all().filter(id=portfolioid).update(url=url)
 			return redirect('/employeeresume/')
 		else:
@@ -606,9 +726,15 @@ def employee_portfolio(request):
 			employee_foriegn_data = EmployeeRegister.objects.get(id=employee)
 			image = request.FILES.get('portfolio')
 			url = request.POST['url']
-			portfolio_details = EmployeePortfolio(employeeid=employee_foriegn_data,url=url,image=image)
-			portfolio_details.save()
-			return redirect('/portfolio/')
+			check_info = EmployeePortfolio.objects.all().filter(employeeid=employee,url=url)
+			if check_info:
+				message = 'Portfolio Already Exist'
+				return render(request,'employee/addportfolio.html',{'success':message,'employee_reg':current_employee})
+			else:
+				portfolio_details = EmployeePortfolio(employeeid=employee_foriegn_data,url=url,image=image)
+				portfolio_details.save()
+				message = 'Successfully saved'
+				return render(request,'employee/addportfolio.html',{'success':message,'employee_reg':current_employee})
 
 		else:
 			return render(request,'employee/addportfolio.html',context)
@@ -618,10 +744,9 @@ def employee_professionalskill(request):
 	employee = request.session['employee-id']
 	professionalid = request.GET.get('id')
 	professionalremoveid = request.GET.get('id2')
-	shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
-	shortlist = JobShortlists.objects.all().filter(employeeid=employee)
+
 	current_employee = EmployeeRegister.objects.all().filter(id=employee)
-	context={'count':shortlistcount,'shortlist':shortlist,'employee_reg':current_employee}
+	context={'employee_reg':current_employee}
 
 	if professionalid:
 		if request.method == 'POST':
@@ -642,9 +767,15 @@ def employee_professionalskill(request):
 			employee_foriegn_data = EmployeeRegister.objects.get(id=employee)
 			skill = request.POST['skill']
 			percentage = request.POST['percentage']
-			professional_details = EmployeeProfessionalSkill(employeeid=employee_foriegn_data,skillname=skill,percentage=percentage)
-			professional_details.save()
-			return redirect('/professionalskill/')
+			check_info = EmployeeProfessionalSkill.objects.all().filter(employeeid=employee,skillname=skill,percentage=percentage)
+			if check_info:
+				message = 'Skill Already Exist'
+				return render(request,'employee/addprofessionalskills.html',{'success':message,'employee_reg':current_employee})
+			else:
+				professional_details = EmployeeProfessionalSkill(employeeid=employee_foriegn_data,skillname=skill,percentage=percentage)
+				professional_details.save()
+				message = 'Successfully saved'
+				return render(request,'employee/addprofessionalskills.html',{'success':message,'employee_reg':current_employee})
 		else:
 			return render(request,'employee/addprofessionalskills.html',context)
 
@@ -653,10 +784,9 @@ def employee_languages(request):
 	employee = request.session['employee-id']
 	languageid = request.GET.get('id')
 	languageremoveid = request.GET.get('id2')
-	shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
-	shortlist = JobShortlists.objects.all().filter(employeeid=employee)
+
 	current_employee = EmployeeRegister.objects.all().filter(id=employee)
-	context={'count':shortlistcount,'shortlist':shortlist,'employee_reg':current_employee}
+	context={'employee_reg':current_employee}
 
 	if languageid:
 		if request.method == 'POST':
@@ -677,9 +807,15 @@ def employee_languages(request):
 			employee_foriegn_data = EmployeeRegister.objects.get(id=employee)
 			language = request.POST['language']
 			percentage = request.POST['percentage']
-			language_details = EmployeeLanguageSkill(employeeid=employee_foriegn_data,language=language,percentage=percentage)
-			language_details.save()
-			return redirect('/languages/')
+			check_info = EmployeeLanguageSkill.objects.all().filter(employeeid=employee,language=language,percentage=percentage)
+			if check_info:
+				message = 'Language Already Exist'
+				return render(request,'employee/addlanguages.html',{'success':message,'employee_reg':current_employee})
+			else:
+				language_details = EmployeeLanguageSkill(employeeid=employee_foriegn_data,language=language,percentage=percentage)
+				language_details.save()
+				message = 'Successfully saved'
+				return render(request,'employee/addlanguages.html',{'success':message,'employee_reg':current_employee})
 		else:
 			return render(request,'employee/addlanguages.html',context)
 
@@ -690,10 +826,9 @@ def employee_awards(request):
 	employee = request.session['employee-id']
 	awardid = request.GET.get('id')
 	awardremoveid = request.GET.get('id2')
-	shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
-	shortlist = JobShortlists.objects.all().filter(employeeid=employee)
+
 	current_employee = EmployeeRegister.objects.all().filter(id=employee)
-	context={'count':shortlistcount,'shortlist':shortlist,'employee_reg':current_employee}
+	context={'employee_reg':current_employee}
 
 	if awardid:
 		if  request.method == 'POST':
@@ -717,9 +852,15 @@ def employee_awards(request):
 			awardname = request.POST['name']
 			year = request.POST['year']
 			description = request.POST['description']
-			award_details = EmployeeAwards(employeeid=employee_foriegn_data,awardname=awardname,year=year,description=description)
-			award_details.save()
-			return redirect('/awards/')
+			check_info = EmployeeAwards.objects.all().filter(employeeid=employee,awardname=awardname,year=year,description=description)
+			if check_info:
+				message = 'Award Already Exist'
+				return render(request,'employee/addawards.html',{'success':message,'employee_reg':current_employee})
+			else:
+				award_details = EmployeeAwards(employeeid=employee_foriegn_data,awardname=awardname,year=year,description=description)
+				award_details.save()
+				message = 'Successfully saved'
+				return render(request,'employee/addawards.html',{'success':message,'employee_reg':current_employee})
 		else:
 			return render(request,'employee/addawards.html',context)
 
@@ -730,6 +871,8 @@ def candidates_list(request):
 	employer = request.session['employer-id']
 	details = deletedcandidates.objects.all().filter(employerid=employer).values_list('employeeid')
 	deleted_list = [i for j in details for i in j]
+	totalshortlists = EmployeeProfileShortlists.objects.all().filter(employerid=employer).values_list('employeeid')
+	shortlists = [i for j in totalshortlists for i in j]
 	current_employer = EmployerRegister.objects.all().filter(id=employer)
 	if request.method == 'POST':
 		key = request.POST['key']
@@ -741,42 +884,58 @@ def candidates_list(request):
 		return render(request,'employer/candidates.html',context)
 	else:
 		candidate_details = CandidatesList.objects.all().filter(status='failed')
-		context = {'list':deleted_list,'employer_reg':current_employer,'candidate':candidate_details}
+		context = {'list2':shortlists,'list':deleted_list,'employer_reg':current_employer,'candidate':candidate_details}
 		return render(request,'employer/candidates.html',context)
 
-@unauthenticated_employee
-def employee_jobsingle(request):
-	employee = request.session['employee-id']
-	job_id = request.GET.get('id')
 
-	jobid_exist = JobApplication.objects.all().filter(employeeid=employee,jobid=job_id)
-	if jobid_exist:
-		exist = True
+def employee_jobsingle(request):
+	job_id = request.GET.get('id')
+	job_id2 = request.GET.get('id2')
+	if job_id2:
+		totalapplication = JobApplication.objects.all().filter(jobid=job_id2).count()
+		alljobs = EmployerNewJobPost.objects.all().filter(status='active').order_by('-id')
+		job_details = EmployerNewJobPost.objects.all().filter(id=job_id2)
+		context = {'applicationcount':totalapplication,'alljobs':alljobs,'job':job_details}
+		return render(request,'home/singlejob.html',context)
+	if request.session.has_key('employee-id'):
+		employee = request.session['employee-id']
+		jobid_exist = JobApplication.objects.all().filter(employeeid=employee,jobid=job_id)
+		if jobid_exist:
+			exist = True
+		else:
+			exist = False
+
+		shortlistexist = JobShortlists.objects.all().filter(employeeid=employee,shortlistedjobid__id=job_id)
+		if shortlistexist:
+			shortlist = True
+		else:
+			shortlist = False
+
+		totalapplication = JobApplication.objects.all().filter(jobid=job_id).count()
+		alljobs = EmployerNewJobPost.objects.all().filter(status='active').order_by('-id')
+		job_details = EmployerNewJobPost.objects.all().filter(id=job_id)
+		current_employee = EmployeeRegister.objects.all().filter(id=employee)
+		employee_job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
+		personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
+		context = {'shortlist':shortlist,'applicationcount':totalapplication,'exist':exist,'alljobs':alljobs,'job':job_details,'employee_reg':current_employee,'employee_per':personal,'employee_job':employee_job}
+		return render(request,'employee/job.html',context)
 	else:
-		exist = False
-	totalapplication = JobApplication.objects.all().filter(jobid=job_id).count()
-	alljobs = EmployerNewJobPost.objects.all().filter(status='active').order_by('-id')
-	job_details = EmployerNewJobPost.objects.all().filter(id=job_id)
-	shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
-	shortlist = JobShortlists.objects.all().filter(employeeid=employee)
-	current_employee = EmployeeRegister.objects.all().filter(id=employee)
-	employee_job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
-	personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
-	context = {'applicationcount':totalapplication,'count':shortlistcount,'shortlist':shortlist,'exist':exist,'alljobs':alljobs,'job':job_details,'employee_reg':current_employee,'employee_per':personal,'employee_job':employee_job}
-	return render(request,'employee/job.html',context)
+		return render(request,'login&register/login.html',{'error':'Login please'})
 
 @unauthenticated_employee
 def employee_alljobs(request):
 	employee = request.session['employee-id']
 	current_employee = EmployeeRegister.objects.all().filter(id=employee)
 	alljobs = EmployerNewJobPost.objects.all().filter(status='active')
-
+	value = JobApplication.objects.filter(employeeid=employee).values_list('jobid__id')
+	appliedlist = [i for j in value for i in j]
 	jobcount = EmployerNewJobPost.objects.all().filter(status='active').count()
 	employee_job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
 	personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
-	shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
-	shortlist = JobShortlists.objects.all().filter(employeeid=employee)
-	context = {'count':shortlistcount,'shortlist':shortlist,'alljobs':alljobs,'count':jobcount,'employee_reg':current_employee,'employee_per':personal,'employee_job':employee_job}
+	value = JobShortlists.objects.all().filter(employeeid=employee).values_list('shortlistedjobid')
+	shortlist = [i for j in value for i in j]
+	print(shortlist)
+	context = {'shortlist':shortlist,'appliedjobs':appliedlist,'alljobs':alljobs,'count':jobcount,'employee_reg':current_employee,'employee_per':personal,'employee_job':employee_job}
 	return render(request,'employee/alljobs.html',context)
 
 @unauthenticated_employee
@@ -790,10 +949,18 @@ def employer_singleprofile(request):
 	employer_details = EmployerRegister.objects.all().filter(id=employerid)
 	employee_job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
 	personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
-	shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
-	shortlist = JobShortlists.objects.all().filter(employeeid=employee)
-	context = {'count':shortlistcount,'shortlist':shortlist,'employersocial':employersocial,'postedjobs':postedjobs,'count':postedjobcount,'employer':employer_details,'employee_reg':current_employee,'employee_per':personal,'employee_job':employee_job}
+	context = {'employersocial':employersocial,'postedjobs':postedjobs,'count':postedjobcount,'employer':employer_details,'employee_reg':current_employee,'employee_per':personal,'employee_job':employee_job}
 	return render(request,'employee/employerdetails.html',context)
+
+def employerprofile_sample(request):
+	employerid = request.GET.get('id')
+	employersocial = EmployerSocialDetails.objects.all().filter(employerid=employerid)
+	postedjobcount = EmployerNewJobPost.objects.all().filter(employerid=employerid).count()
+	postedjobs = EmployerNewJobPost.objects.all().filter(employerid=employerid,status='active')
+	employer_details = EmployerRegister.objects.all().filter(id=employerid)
+	context = {'employersocial':employersocial,'postedjobs':postedjobs,'count':postedjobcount,'employer':employer_details}
+	return render(request,'home/singleemployer.html',context)
+
 
 @unauthenticated_employee
 def total_employers(request):
@@ -805,48 +972,46 @@ def total_employers(request):
 	personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
 	totalemployercount = EmployerRegister.objects.all().count()
 	totalemployer_details = EmployerRegister.objects.all()
-	shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
-	shortlist = JobShortlists.objects.all().filter(employeeid=employee)
-	context = {'employerlist':total_employer,'count':shortlistcount,'shortlist':shortlist,'employercount':totalemployercount,'employerdetails':totalemployer_details,'employee_reg':current_employee,'employee_per':personal,'employee_job':employee_job}
+	job_details = EmployerNewJobPost.objects.all().filter(status='active')
+	context = {'job_details':job_details,'employerlist':total_employer,'employercount':totalemployercount,'employerdetails':totalemployer_details,'employee_reg':current_employee,'employee_per':personal,'employee_job':employee_job}
 	return render(request,'employee/employers.html',context)
 
 @unauthenticated_employee
 def job_apply(request):
 	employee = request.session['employee-id']
 	jobid = request.GET.get('id')
-	jobremoveid = request.GET.get('removeid')
-	if jobremoveid:
-		JobApplication.objects.all().filter(id=jobremoveid,employeeid=employee).delete()
+	employee_details = EmployeeRegister.objects.get(id=employee)
+	employee_personal = EmployeePersonalDetails.objects.get(employeeid=employee)
+	employee_job = EmployeeJobDetails.objects.get(employeeid=employee)
+	job_details = EmployerNewJobPost.objects.get(id=jobid)
+	employeeemail = employee_details.email
+	employeename = employee_personal.fullname
+
+	job = EmployerNewJobPost.objects.all().filter(id=jobid).values_list('jobtitle','employerid__companyname','employerid__companyemail')
+	values = [i for j in job for i in j]
+
+	applied_job_url ='http://localhost:8000/appliedjobs/?next2=/appliedjobs/'
+	subject = f'You applied for {values[0]} at {values[1]}'			#acKnowledgement message to employee Email
+	message = f'Your application was sent to {values[1]}, Total applied job details click link:{applied_job_url}'
+	email_from = settings.EMAIL_HOST_USER
+	recipient_list = [employeeemail]
+	send_mail(subject, message, email_from, recipient_list,fail_silently=False)
+
+	job_request_url = 'http://localhost:8000/incomingapplication/?next=/incomingapplication/'
+	subject = f'{employeename} applied for {values[0]}'			        #acKnowledgement message to employer Email
+	message = f'{employeename} application details link:{job_request_url}'
+	email_from = settings.EMAIL_HOST_USER
+	recipient_list = [values[2]]
+	send_mail(subject, message, email_from, recipient_list,fail_silently=False)
+
+	jobexist = JobApplication.objects.filter(employeeid=employee,jobid=jobid)
+
+	if jobexist:
 		return redirect('/appliedjobs/')
-	v1 = EmployeePersonalDetails.objects.all().filter(employeeid=employee).values_list('gender','education')
-	v2 = EmployerNewJobPost.objects.all().filter(id=jobid).values_list('gender','qualification')
-
-	details_in_emp = [i for j in v1 for i in j]
-	details_in_job = [i for j in v2 for i in j]
-	if details_in_job[0] == 'Both':
-		gender = ['Male','Female']
 	else:
-		gender = [details_in_job[0]]
-
-	if details_in_emp[0] in gender and details_in_emp[1] == details_in_job[1]:
-		employee_details = EmployeeRegister.objects.get(id=employee)
-		employee_personal = EmployeePersonalDetails.objects.get(employeeid=employee)
-		employee_job = EmployeeJobDetails.objects.get(employeeid=employee)
-		job_details = EmployerNewJobPost.objects.get(id=jobid)
 		application_details = JobApplication(employeepersonalid=employee_personal,employeejobdetails=employee_job,employeeid=employee_details,jobid=job_details,status='pending')
 		application_details.save()
 		return redirect('/appliedjobs/')
-	else:
-		totalapplication = JobApplication.objects.all().filter(jobid=jobid).count()
-		alljobs = EmployerNewJobPost.objects.all().filter(status='active').order_by('-id')
-		job_details = EmployerNewJobPost.objects.all().filter(id=jobid)
-		current_employee = EmployeeRegister.objects.all().filter(id=employee)
-		employee_job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
-		personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
-		context = {'applicationcount':totalapplication,'alljobs':alljobs,'job':job_details,'employee_reg':current_employee,'employee_per':personal,'employee_job':employee_job,'error':'Your not eligible to apply this job '}
-		return render(request,'employee/job.html',context)
-
-
 
 @unauthenticated_employee
 def applied_jobs(request):
@@ -855,41 +1020,47 @@ def applied_jobs(request):
 	current_employee = EmployeeRegister.objects.all().filter(id=employee)
 	personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
 	job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
-	shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
-	shortlist = JobShortlists.objects.all().filter(employeeid=employee)
-	context = {'count':shortlistcount,'shortlist':shortlist,'employee_job':job,'employee_reg':current_employee,'employee_per':personal,'applied':appliedjobs}
+	check_personal_null = EmployeePersonalDetails.objects.all().filter(employeeid=employee,fullname__isnull=True,age__isnull=True,education__isnull=True)
+	if check_personal_null:
+		message ='Fill your personal details'
+	else:
+		message =False
+	context = {'error':message,'employee_job':job,'employee_reg':current_employee,'employee_per':personal,'applied':appliedjobs}
 	return render(request,'employee/appliedjobs.html',context)
 
 @unauthenticated_employee
 def jobshortlist_apply(request):
 	employee = request.session['employee-id']
-	shortlistid = request.GET.get('id2')
+	shortlistid = request.GET.get('id')
+	shortlistid2 = request.GET.get('id2')
 	shorlistremoveid = request.GET.get('removeid')
 
 	if shorlistremoveid:
 		JobShortlists.objects.all().filter(id=shorlistremoveid,employeeid=employee).delete()
 		return redirect('/jobshortlist/')
 
-	shortlist_exist = JobShortlists.objects.all().filter(employeeid=employee,shortlistedjobid=shortlistid)
-	if shortlist_exist:
-		return redirect('/alljobs/')
-	else:
+	if shortlistid:
 		employee_details = EmployeeRegister.objects.get(id=employee)
 		job_details = EmployerNewJobPost.objects.get(id=shortlistid)
 		shortlist_details = JobShortlists(employeeid=employee_details,shortlistedjobid=job_details,status='shortlisted')
 		shortlist_details.save()
 		return redirect('/alljobs/')
 
+	employee_details = EmployeeRegister.objects.get(id=employee)
+	job_details = EmployerNewJobPost.objects.get(id=shortlistid2)
+	shortlist_details = JobShortlists(employeeid=employee_details,shortlistedjobid=job_details,status='shortlisted')
+	shortlist_details.save()
+	url = f'/employeejob/?id={shortlistid2}'
+	return redirect(url)
+
 @unauthenticated_employee
 def shortlisted_jobs(request):
 	employee = request.session['employee-id']
-	shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
-	shortlist = JobShortlists.objects.all().filter(employeeid=employee)
 	current_employee = EmployeeRegister.objects.all().filter(id=employee)
 	personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
 	job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
 	shortlists = JobShortlists.objects.all().filter(employeeid=employee,status='shortlisted')
-	context = {'count':shortlistcount,'shortlist':shortlist,'employee_job':job,'employee_reg':current_employee,'employee_per':personal,'shortlist':shortlists}
+	context = {'employee_job':job,'employee_reg':current_employee,'employee_per':personal,'shortlist':shortlists}
 	return render(request,'employee/jobshortlists.html',context)
 
 
@@ -934,6 +1105,9 @@ def resume_lists(request):
 @unauthenticated_employer
 def interview_message(request):
 	if request.method == 'POST':
+		jobid = request.POST['jobid']
+		employeeid = request.POST['employeeid']
+		interviewdate = request.POST['interviewdate']
 		incomingrequest = request.POST.get('test')
 		companyname = request.POST['company']
 		employeeemail = request.POST['email']
@@ -946,6 +1120,12 @@ def interview_message(request):
 		email_from = settings.EMAIL_HOST_USER
 		recipient_list = [employeeemail]
 		send_mail(subject, message, email_from, recipient_list,fail_silently=False)
+		now = datetime.date.today()
+
+		senddate = now.strftime("%d-%m-%Y")
+
+		JobApplication.objects.all().filter(jobid=jobid,employeeid=employeeid).update(interviewdate=interviewdate,lettersenddate=senddate)
+
 		if incomingrequest:
 			return redirect('/incomingapplication/')
 		else:
@@ -955,32 +1135,35 @@ def interview_message(request):
 @unauthenticated_employer
 def employeeprofile_view(request):
 	employeeid = request.GET.get('id')
-
 	employer = request.session['employer-id']
 	current_employer = EmployerRegister.objects.all().filter(id=employer)
+	employee_dob = EmployeePersonalDetails.objects.all().filter(employeeid=employeeid).values_list('age')
+	value = [i for j in employee_dob for i in j]
+	dob = str(value[0])
+	employee_age = datetime.date.today().year - int(dob[:4])
 	job = EmployeeJobDetails.objects.all().filter(employeeid=employeeid)
 	social = EmployeeSocialDetails.objects.all().filter(employeeid=employeeid)
 	personal = EmployeePersonalDetails.objects.all().filter(employeeid=employeeid)
 	education = EmployeeEducation.objects.all().filter(employeeid=employeeid)
+	personalresume = EmployeePersonalResume.objects.all().filter(employeeid=employeeid)
 	workexperience = EmployeeWorkExperience.objects.all().filter(employeeid=employeeid)
 	portflio = EmployeePortfolio.objects.all().filter(employeeid=employeeid)
 	professionalskill = EmployeeProfessionalSkill.objects.all().filter(employeeid=employeeid)
 	languageskill = EmployeeLanguageSkill.objects.all().filter(employeeid=employeeid)
 	awards = EmployeeAwards.objects.all().filter(employeeid=employeeid)
-	context = {'employer_reg':current_employer,'employee_per':personal,'education':education,'workexperience':workexperience,'portflio':portflio,'professionalskill':professionalskill,'languageskill':languageskill,'awards':awards,'employee_job':job,'employee_social':social}
+	context = {'resume':personalresume,'age':employee_age,'employer_reg':current_employer,'employee_per':personal,'education':education,'workexperience':workexperience,'portflio':portflio,'professionalskill':professionalskill,'languageskill':languageskill,'awards':awards,'employee_job':job,'employee_social':social}
 	return render(request,'employer/employeeprofile.html',context)
 
 
 @unauthenticated_employee
 def employee_cv(request):
 	employee = request.session['employee-id']
-	shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
-	shortlist = JobShortlists.objects.all().filter(employeeid=employee)
+
 	current_employee = EmployeeRegister.objects.all().filter(id=employee)
 	employee_job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
 	personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
 	cv_exist = EmployeeCoverLetter.objects.all().filter(employeeid=employee)
-	context = {'count':shortlistcount,'shortlist':shortlist,'cv':cv_exist,'employee_reg':current_employee,'employee_per':personal,'employee_job':employee_job}
+	context = {'cv':cv_exist,'employee_reg':current_employee,'employee_per':personal,'employee_job':employee_job}
 	if cv_exist:
 		if request.method == 'POST':
 			description = request.POST['cv']
@@ -1044,19 +1227,28 @@ def employerjob_manage(request):
 	jobsid = [i for j in jobs for i in j ]
 	for item in jobsid:
 		expire = EmployerNewJobPost.objects.all().filter(id=item,deadline=datetime.date.today())
-		position = EmployerNewJobPost.objects.all().filter(id=item,positionnumber=0)
-		if expire:
+		value = EmployerNewJobPost.objects.all().filter(id=item).values_list('positionnumber')
+		position = [i for j in value for i in j]
+
+		if int(position[0]) <= 0:
+			EmployerNewJobPost.objects.all().filter(id=item).update(status='inactive')
+			position = []
+		elif expire:
 			EmployerNewJobPost.objects.all().filter(id=item).update(status='inactive')
 			expire = False
+		elif int(position[0]) > 0:
+			EmployerNewJobPost.objects.all().filter(id=item).update(status='active')
+			position = []
+		elif not expire:
+			EmployerNewJobPost.objects.all().filter(id=item).update(status='active')
+			expire = False
 
-		if position:
-			EmployerNewJobPost.objects.all().filter(id=item).update(status='inactive')
-			position = False
+
 
 	current_employer = EmployerRegister.objects.all().filter(id=employer)
 	active_jobs = EmployerNewJobPost.objects.all().filter(employerid=employer,status='active').count()
 	totaljobs = EmployerNewJobPost.objects.all().filter(employerid=employer).count()
-	totalapplications = JobApplication.objects.all().filter(jobid__employerid__id=employer).count()
+	totalapplications = JobApplication.objects.all().filter(jobid__employerid__id=employer,status='pending').count()
 	job_details = EmployerNewJobPost.objects.all().filter(employerid=employer)
 	context = {'active':active_jobs,'details':job_details,'employer_reg':current_employer,'totaljobs':totaljobs,'applications':totalapplications}
 	return render(request,'employer/jobmanage.html',context)
@@ -1082,6 +1274,7 @@ def job_edit(request):
 	jobid = request.GET.get('id')
 	if request.method == 'POST':
 		job_id = request.POST['job']
+		code = request.POST['jobcode']
 		employerid = EmployerRegister.objects.get(id=employer)
 		jobtitle = request.POST['title']
 		description = request.POST['descr']
@@ -1101,7 +1294,7 @@ def job_edit(request):
 		knowledge = request.POST['requiredknowledge']
 		educationandexperience = request.POST['edu+exp']
 		print(job_id)
-		EmployerNewJobPost.objects.all().filter(id=job_id).update(qualification=qualification,linkedinurl=linkedin,positionnumber=positionno,jobtitle=jobtitle,description=description,email=email,jobtype=jobtype,offerdsalary=salary,careerlevel=level,experience=experience,gender=gender,industry=industry,country=country,city=city,deadline=deadline,requiredknowledge=knowledge,educationandexperience=educationandexperience)
+		EmployerNewJobPost.objects.all().filter(id=job_id).update(jobcode=code,qualification=qualification,linkedinurl=linkedin,positionnumber=positionno,jobtitle=jobtitle,description=description,email=email,jobtype=jobtype,offerdsalary=salary,careerlevel=level,experience=experience,gender=gender,industry=industry,country=country,city=city,deadline=deadline,requiredknowledge=knowledge,educationandexperience=educationandexperience)
 		return redirect('/employerjobmanage/')
 	else:
 		job_details = EmployerNewJobPost.objects.all().filter(id=jobid)
@@ -1117,8 +1310,20 @@ def incoming_application(request):
 		return redirect('/incomingapplication/')
 	current_employer = EmployerRegister.objects.all().filter(id=employer)
 	jobapplication = JobApplication.objects.all().filter(jobid__employerid=employer,status='pending')
-	context = {'employer_reg':current_employer,'job':jobapplication}
+	totaljobcode = EmployerNewJobPost.objects.all().filter(employerid=employer)
+	context = {'jobcode':totaljobcode,'employer_reg':current_employer,'job':jobapplication}
 
+	return render(request,'employer/incomingapplication.html',context)
+
+@unauthenticated_employer
+def employerjobcode_search(request):
+	employer = request.session['employer-id']
+	key = request.GET.get('value')
+	query = JobApplication.objects.all().filter(jobid__employerid=employer,jobid__jobcode=key,status='pending')
+	print(query)
+	current_employer = EmployerRegister.objects.all().filter(id=employer)
+	totaljobcode = EmployerNewJobPost.objects.all().filter(employerid=employer)
+	context = {'jobcode':totaljobcode,'employer_reg':current_employer,'job':query}
 	return render(request,'employer/incomingapplication.html',context)
 
 @unauthenticated_employer
@@ -1126,11 +1331,13 @@ def employerchange_password(request):
 	employer = request.session['employer-id']
 	if request.method == 'POST':
 		old= request.POST['old']
-		oldpassword  = EmployerRegister.objects.all().filter(id=employer,password=old)
+		hashpass = hashlib.md5(old.encode('utf8')).hexdigest()
+		oldpassword  = EmployerRegister.objects.all().filter(id=employer,password=hashpass)
 		if oldpassword:
-			new = request.POST['password']
-			EmployerRegister.objects.all().filter(id=employer).update(password=new)
-			return redirect('/employerchangepassword//')
+			new = request.POST['newpass']
+			hashpass = hashlib.md5(new.encode('utf8')).hexdigest()
+			EmployerRegister.objects.all().filter(id=employer).update(password=hashpass)
+			return redirect('/employerchangepassword/')
 		else:
 			current_employer = EmployerRegister.objects.all().filter(id=employer)
 			return render(request,'employer/changepassword.html',{'employer_reg':current_employer,'error':'old password mismatch'})
@@ -1144,10 +1351,12 @@ def employeechange_password(request):
 	employee = request.session['employee-id']
 	if request.method == 'POST':
 		old= request.POST['old']
-		oldpassword  = EmployeeRegister.objects.all().filter(id=employee,password=old)
+		hashpass = hashlib.md5(old.encode('utf8')).hexdigest()
+		oldpassword  = EmployeeRegister.objects.all().filter(id=employee,password=hashpass)
 		if oldpassword:
 			new = request.POST['newpass']
-			EmployeeRegister.objects.all().filter(id=employee).update(password=new)
+			hashpass = hashlib.md5(new.encode('utf8')).hexdigest()
+			EmployeeRegister.objects.all().filter(id=employee).update(password=hashpass)
 			return redirect('/employeechangepassword/')
 		else:
 			current_employee = EmployeeRegister.objects.all().filter(id=employee)
@@ -1156,7 +1365,7 @@ def employeechange_password(request):
 		shortlistcount = JobShortlists.objects.all().filter(employeeid=employee).count()
 		shortlist = JobShortlists.objects.all().filter(employeeid=employee)
 		current_employee = EmployeeRegister.objects.all().filter(id=employee)
-		context = {'count':shortlistcount,'shortlist':shortlist,'employee_reg':current_employee}
+		context = {'employee_reg':current_employee}
 		return render(request,'employee/changepassword.html',context)
 
 @unauthenticated_employee
@@ -1188,7 +1397,7 @@ def messageto_employer(request):
 		current_employee = EmployeeRegister.objects.all().filter(id=employee)
 		employee_job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
 		personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
-		context = {'alljobs':alljobs,'count':shortlistcount,'shortlist':shortlist,'exist':exist,'job':job_details,'employee_reg':current_employee,'employee_per':personal,'employee_job':employee_job}
+		context = {'alljobs':alljobs,'exist':exist,'job':job_details,'employee_reg':current_employee,'employee_per':personal,'employee_job':employee_job}
 		return render(request,'employee/job.html',context)
 
 
@@ -1209,6 +1418,9 @@ def interview_selection(request):
 		recipient_list = [allid[5],]
 		send_mail(subject, message, email_from, recipient_list,fail_silently=False)
 
+		now = datetime.date.today()
+		acceptdate = now.strftime("%d-%m-%Y")
+		JobApplication.objects.all().filter(employeeid__id=allid[0],jobid__id=allid[1]).update(acceptdate=acceptdate)
 
 		JobApplication.objects.all().filter(employeeid__id=allid[0],jobid__id=allid[1]).update(status='Passed')
 		value1 = EmployerNewJobPost.objects.all().filter(id=allid[1]).values_list('positionnumber')
@@ -1222,8 +1434,10 @@ def interview_selection(request):
 	elif rejectid:
 		value = JobApplication.objects.all().filter(id=rejectid).values_list('employeeid','jobid')
 		allid = [i for j in value for i in j]
-		JobApplication.objects.all().filter(employeeid=allid[0],jobid=allid[1]).update(status='Rejected')
-		return redirect('/incomingapplication/')
+		now = datetime.date.today()
+		rejectdate = now.strftime("%d-%m-%Y")
+		JobApplication.objects.all().filter(employeeid=allid[0],jobid=allid[1]).update(status='Rejected',rejectdate=rejectdate)
+		return redirect('/interviewinvitations/')
 
 @unauthenticated_employer
 def employer_dashboard(request):
@@ -1263,3 +1477,119 @@ def employee_review(request):
 			review_details = EmployeeReview(employeepersonalid=employeepersonal_details,employeeid=employee_details,review=review)
 			review_details.save()
 			return redirect('/employeehome/')
+
+@unauthenticated_employer
+def interview_invitations(request):
+	employer = request.session['employer-id']
+	current_employer = EmployerRegister.objects.all().filter(id=employer)
+	applications = JobApplication.objects.filter(status='Pending',jobid__employerid=employer,interviewdate=datetime.date.today())
+	context = {'invitation':applications,'employer_reg':current_employer}
+	return render(request,'employer/interviewinvitations.html',context)
+
+def terms_condition(request):
+	return render(request,'home/termscondition.html')
+
+def pricing_plans(request):
+	return render(request,'home/pricingplans.html')
+
+def howit_work(request):
+	return render(request,'home/howitwork.html')
+
+def about_us(request):
+	totaljobs = EmployerNewJobPost.objects.all().count()
+	totaljobfilled = JobApplication.objects.all().filter(status='Passed').count()
+	totalcompany = EmployerRegister.objects.all().count()
+	totalemployee = EmployeeRegister.objects.all().count()
+	context ={'jobs':totaljobs,'jobfilled':totaljobfilled,'company':totalcompany,'employee':totalemployee}
+	return render(request,'home/aboutus.html',context)
+
+def contact_us(request):
+	return render(request,'home/contactus.html')
+
+@unauthenticated_employee
+def terms_employee(request):
+	employee = request.session['employee-id']
+	current_employee = EmployeeRegister.objects.all().filter(id=employee)
+	personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
+	job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
+	context = {'employee_reg':current_employee,'employee_per':personal,'employee_job':job}
+	return render(request,'employee/termsemployee.html',context)
+
+@unauthenticated_employee
+def pricing_plansemployee(request):
+	employee = request.session['employee-id']
+	current_employee = EmployeeRegister.objects.all().filter(id=employee)
+	personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
+	job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
+	context = {'employee_reg':current_employee,'employee_per':personal,'employee_job':job}
+	return render(request,'employee/pricingplans.html',context)
+
+@unauthenticated_employee
+def howit_workemployee(request):
+	employee = request.session['employee-id']
+	current_employee = EmployeeRegister.objects.all().filter(id=employee)
+	personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
+	job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
+	context = {'employee_reg':current_employee,'employee_per':personal,'employee_job':job}
+	return render(request,'employee/howitworke.html',context)
+
+@unauthenticated_employee
+def about_usemployee(request):
+	totaljobs = EmployerNewJobPost.objects.all().count()
+	totaljobfilled = JobApplication.objects.all().filter(status='Passed').count()
+	totalcompany = EmployerRegister.objects.all().count()
+	totalemployee = EmployeeRegister.objects.all().count()
+	employee = request.session['employee-id']
+	current_employee = EmployeeRegister.objects.all().filter(id=employee)
+	personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
+	job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
+	context = {'employee_reg':current_employee,'employee_per':personal,'employee_job':job,'jobs':totaljobs,'jobfilled':totaljobfilled,'company':totalcompany,'employee':totalemployee}
+	return render(request,'employee/aboutus.html',context)
+
+@unauthenticated_employee
+def contact_employee(request):
+	employee = request.session['employee-id']
+	current_employee = EmployeeRegister.objects.all().filter(id=employee)
+	personal = EmployeePersonalDetails.objects.all().filter(employeeid=employee)
+	job = EmployeeJobDetails.objects.all().filter(employeeid=employee)
+	context = {'employee_reg':current_employee,'employee_per':personal,'employee_job':job}
+	return render(request,'employee/contact.html',context)
+
+@unauthenticated_employer
+def terms_employer(request):
+	employer = request.session['employer-id']
+	current_employer =EmployerRegister.objects.filter(id=employer)
+	context = {'employer_reg':current_employer}
+	return render(request,'employer/termsemployer.html',context)
+
+@unauthenticated_employer
+def pricing_plansemployer(request):
+	employer = request.session['employer-id']
+	current_employer =EmployerRegister.objects.filter(id=employer)
+	context = {'employer_reg':current_employer}
+	return render(request,'employer/pricingplansemployer.html',context)
+
+@unauthenticated_employer
+def howit_workemployer(request):
+	employer = request.session['employer-id']
+	current_employer =EmployerRegister.objects.filter(id=employer)
+	context = {'employer_reg':current_employer}
+	return render(request,'employer/howit_work.html',context)
+
+@unauthenticated_employer
+def about_usemployer(request):
+	totaljobs = EmployerNewJobPost.objects.all().count()
+	totaljobfilled = JobApplication.objects.all().filter(status='Passed').count()
+	totalcompany = EmployerRegister.objects.all().count()
+	totalemployee = EmployeeRegister.objects.all().count()
+	employer = request.session['employer-id']
+	current_employer =EmployerRegister.objects.filter(id=employer)
+	context = {'employer_reg':current_employer,'jobs':totaljobs,'jobfilled':totaljobfilled,'company':totalcompany,'employee':totalemployee}
+	return render(request,'employer/aboutus.html',context)
+
+@unauthenticated_employer
+def contact_employer(request):
+	employer = request.session['employer-id']
+	current_employer =EmployerRegister.objects.filter(id=employer)
+	context = {'employer_reg':current_employer}
+	return render(request,'employer/contact.html',context)

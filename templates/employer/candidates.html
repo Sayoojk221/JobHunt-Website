@@ -79,12 +79,13 @@
                             {% if candidate %}
                             {% for item in candidate %}
                             {% if item.employeeid.id not in list %}
+                            {% if item.employeeid.id not in list2 %}
                             <div class="emply-resume-list">
                                 <div class="emply-resume-thumb">
                                     <img src="{{item.employeepersonalid.employeeid.profileimage.url}}" width="90px" height="90px" alt="" />
                                 </div>
                                 <div class="emply-resume-info">
-                                    <h3><a href="#" title="">{{item.employeepersonalid.fullname}}</a></h3>
+                                    <h3><a href="/employeeprofileview/?id={{item.employeeid.id}}" title="">{{item.employeepersonalid.fullname}}</a></h3>
                                     <span><i>{{item.employeejobdetailsid.jobtitle}}</i> at {{item.employeejobdetailsid.company}}</span>
                                     <p><i class="la la-map-marker"></i>{{item.employeepersonalid.country}} / {{item.employeepersonalid.city}}</p>
                                 </div>
@@ -92,6 +93,7 @@
                                     <a href="/employeeprofileshortlist/?id={{item.employeepersonalid.employeeid.id}}" title="">Shortlist <i class="la la-plus"></i></a>
                                 </div>
                             </div>
+                            {% endif %}
                             {% endif %}
                             {% endfor %}
                             {% else %}

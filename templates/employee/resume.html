@@ -2,12 +2,19 @@
 {% block content %}
                 <div class="col-lg-9 column">
                     <div class="padding-left">
+                        {% if error%}
+                        <div style="text-align: center; padding: 10px;">
+                            <a class="btn btn-info" class='close' onclick="">{{error}}</a>
+                        </div>
+                        {% endif%}
                         <div class="manage-jobs-sec">
-                            <div class="border-title"><h3>Education</h3><a href="/education/" title=""><i class="la la-plus"></i> Add Education</a></div>
+
+
+                            <div class="border-title"><h3>Education</h3><a href="/education/" style="color: #8a99b3;" title=""><i style=" background-color:#8a99b3;" class="la la-plus"></i> Add Education</a></div>
                             <div class="edu-history-sec">
                                 {% for item in education %}
                                 <div class="edu-history">
-                                    <i class="la la-graduation-cap"></i>
+                                    <i style="color: #98C86B;" class="la la-graduation-cap"></i>
                                     <div class="edu-hisinfo">
                                         <h3>{{item.title}}</h3>
                                         <i>{{item.startyear}} - {{item.endyear}}</i>
@@ -21,7 +28,7 @@
                                 </div>
                                 {% endfor %}
                             </div>
-                            <div class="border-title"><h3>Work Experience</h3><a href="/workexperience/" title=""><i class="la la-plus"></i> Add Experience</a></div>
+                            <div class="border-title"><h3>Work Experience</h3><a href="/workexperience/" style="color: #8a99b3;" title=""><i style=" background-color:#8a99b3;" class="la la-plus"></i> Add Experience</a></div>
                             <div class="edu-history-sec">
                                 {% for item in workexperience %}
                                 <div class="edu-history style2">
@@ -38,7 +45,7 @@
                                 </div>
                                 {% endfor %}
                             </div>
-                            <div class="border-title"><h3>Portfolio</h3><a href="/portfolio/" title=""><i class="la la-plus"></i> Add Portfolio</a></div>
+                            <div class="border-title"><h3>Portfolio</h3><a href="/portfolio/" style="color: #8a99b3;" title=""><i style=" background-color:#8a99b3;" class="la la-plus"></i> Add Portfolio</a></div>
                             <div class="mini-portfolio">
                                 <div class="mp-row">
                                     {% for item in portflio %}
@@ -52,12 +59,12 @@
                                     {% endfor %}
                                 </div>
                             </div>
-                            <div class="border-title"><h3>Professional Skills</h3><a href="/professionalskill/" title=""><i class="la la-plus"></i> Add Skills</a></div>
+                            <div class="border-title"><h3>Professional Skills</h3><a href="/professionalskill/" style="color: #8a99b3;" title=""><i style=" background-color:#8a99b3;" class="la la-plus"></i> Add Skills</a></div>
                             <div class="progress-sec">
                                 {% for item in professionalskill%}
                                 <div class="progress-sec with-edit">
                                     <span>{{item.skillname}}</span>
-                                    <div class="progressbar"> <div class="progress" style="width: {{item.percentage}}%;"><span>{{item.percentage}}%</span></div> </div>
+                                    <div class="progressbar"> <div class="progress"  style="background-color: #84E627; width: {{item.percentage}}%;"><span>{{item.percentage}}%</span></div> </div>
                                     <ul class="action_job">
                                         <li><span>Edit</span><a href="/professionalskill/?id={{item.id}}" title=""><i class="la la-pencil"></i></a></li>
                                         <li><span>Delete</span><a href="/professionalskill/?id2={{item.id}}" title=""><i class="la la-trash-o"></i></a></li>
@@ -65,12 +72,12 @@
                                 </div>
                                 {% endfor %}
                             </div>
-                            <div class="border-title"><h3>Language Skills</h3><a href="/languages/" title=""><i class="la la-plus"></i> Add Language</a></div>
+                            <div class="border-title"><h3>Language Skills</h3><a href="/languages/" style="color: #8a99b3;" title=""><i style=" background-color:#8a99b3;" class="la la-plus"></i> Add Language</a></div>
                             <div class="progress-sec">
                                 {% for item in languageskill %}
                                 <div class="progress-sec with-edit">
                                     <span>{{item.language}}</span>
-                                    <div class="progressbar"> <div class="progress" style="width: {{item.percentage}}%;"><span>{{item.percentage}}%</span></div> </div>
+                                    <div class="progressbar"> <div class="progress" style="background-color: #84E627;width: {{item.percentage}}%;"><span>{{item.percentage}}%</span></div> </div>
                                     <ul class="action_job">
                                         <li><span>Edit</span><a href="/languages/?id={{item.id}}" title=""><i class="la la-pencil"></i></a></li>
                                         <li><span>Delete</span><a href="/lanquages/?id2={{item.id}}" title=""><i class="la la-trash-o"></i></a></li>
@@ -78,7 +85,7 @@
                                 </div>
                                 {% endfor %}
                             </div>
-                            <div class="border-title"><h3>Awards</h3><a href="/awards/" title=""><i class="la la-plus"></i> Add Skills</a></div>
+                            <div class="border-title"><h3>Awards</h3><a href="/awards/" style="color: #8a99b3;" title=""><i style=" background-color:#8a99b3;" class="la la-plus"></i> Add Skills</a></div>
                             <div class="edu-history-sec">
                                 {% for item in awards %}
                                 <div class="edu-history style2">
@@ -94,6 +101,22 @@
                                     </ul>
                                 </div>
                                 {% endfor %}
+                            </div>
+                            <div class="border-title"><h3>Personal Resume</h3>{% if exist %}<a href="/personalresume/" style="color: #8a99b3;" title=""><i style=" background-color:#8a99b3;" class="la la-plus"></i> Add resume</a>{% endif%}</div>
+                            <div class="mini-portfolio">
+                                <div class="mp-row">
+                                    {% for item in per_resume %}
+                                    <div class="edu-history">
+                                        <div class="edu-hisinfo">
+                                            <h3>{{resumename}}</h3>
+                                        </div>
+                                        <ul class="action_job">
+                                            <li><span>Edit</span><a href="/personalresume/?id={{item.id}}" title=""><i class="la la-pencil"></i></a></li>
+                                            <li><span>Delete</span><a href="/personalresume/?id2={{item.id}}" title=""><i class="la la-trash-o"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
                     </div>

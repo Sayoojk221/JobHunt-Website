@@ -4,7 +4,12 @@
                     <div class="col-lg-9 column">
                         <div class="padding-left">
                             <div class="profile-title">
-                                <h3>Post A New Job</h3>
+                                {% if error%}
+                                <div style="text-align: center; padding: 10px;">
+                                <a class="btn btn-info" class='close' onclick="">{{error}}</a>
+                                </div>
+                                {% endif%}
+                                <h3 style="font-size: 20px;">Post A New Job</h3>
 <!--                                 <div class="steps-sec">
                                     <div class="step active">
                                         <p><i class="la la-info"></i></p>
@@ -24,95 +29,102 @@
                                 <form method='POST' action='/postnewjob/'>
                                     {% csrf_token %}
                                     <div class="row">
-                                        <div class="col-lg-12">
-                                            <span class="pf-title">Job Title</span>
+                                        <div class="col-lg-3">
+                                            <span style="font-size: 14px;"class="pf-title">Code</span>
                                             <div class="pf-field">
-                                                <input type="text" input field required name='title' placeholder="Designer" />
+                                                <input type="hidden"  value='{{code}}' name='jobcode' />
+                                                <input style="font-size: 15px;" type="text" disabled inputmode="disable" value='{{code}}' name='jobcode' />
                                             </div>
                                         </div>
                                         <div class="col-lg-12">
-                                            <span class="pf-title">Description</span>
+                                            <span style="font-size: 14px;" class="pf-title">Job Title</span>
                                             <div class="pf-field">
-                                                <textarea name='descr' input field required placeholder="Job Description"></textarea>
+                                                <input style="font-size: 15px;" type="text" input field required name='title' placeholder="Designer" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <span style="font-size: 14px;" class="pf-title">Description</span>
+                                            <div class="pf-field">
+                                                <textarea style="font-size: 15px;" name='descr' input field required placeholder="Job Description"></textarea>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <span class="pf-title">Email</span>
+                                            <span style="font-size: 14px;" class="pf-title">Email</span>
                                             <div class="pf-field">
-                                                <input type="text" input field required placeholder="Company Email" name='email' />
+                                                <input style="font-size: 15px;" type="text" input field required placeholder="Company Email" name='email' />
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <span class="pf-title">Linkedin</span>
+                                            <span style="font-size: 14px;" class="pf-title">Linkedin</span>
                                             <div class="pf-field">
-                                                <input type="url" input field required placeholder="Company linkedin" name='linkedin' />
+                                                <input style="font-size: 15px;" type="url" input field required placeholder="Company linkedin" name='linkedin' />
                                             </div>
                                         </div>
 
                                         <div class="col-lg-6">
-                                            <span class="pf-title">Job Type</span>
+                                            <span style="font-size: 14px;" class="pf-title">Job Type</span>
                                             <div class="pf-field">
                                                 <select  name='jobtype'  class="chosen">
 
-                                                    <option value='Full Time'>Full Time</option>
-                                                    <option value='Part Time'>Part Time</option>
-                                                    <option value='Freelance'>Freelance</option>
+                                                    <option style="font-size: 15px;" value='Full Time'>Full Time</option>
+                                                    <option style="font-size: 15px;" value='Part Time'>Part Time</option>
+                                                    <option style="font-size: 15px;" value='Freelance'>Freelance</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <span class="pf-title">No Of Position</span>
+                                            <span style="font-size: 14px;" class="pf-title">No Of Position</span>
                                             <div class="pf-field">
-                                                <input type="text" placeholder="" input field required  name='position' />
+                                                <input style="font-size: 15px;" type="text" placeholder="" input field required  name='position' />
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <span class="pf-title">Offerd Salary</span>
+                                            <span style="font-size: 14px;" class="pf-title">Offerd Salary</span>
                                             <div class="pf-field">
-                                                <input type="text" placeholder="£0 - £0"  input field required  name='salary' />
+                                                <input style="font-size: 15px;" type="text" placeholder="£0 - £0"  input field required  name='salary' />
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <span class="pf-title">Career Level</span>
+                                            <span style="font-size: 14px;" class="pf-title">Career Level</span>
                                             <div class="pf-field">
                                                 <select name='careerlevel' input field required class="chosen">
-                                                    <option value="">Select Option</option>
-                                                    <option value="Entry Level">Entry Level</option>
-                                                    <option value="Intermediate">Intermediate</option>
-                                                    <option value="Senior Level">Senior Level</option>
+                                                    <option style="font-size: 15px;"value="">Select Option</option>
+                                                    <option style="font-size: 15px;"value="Entry Level">Entry Level</option>
+                                                    <option style="font-size: 15px;"value="Intermediate">Intermediate</option>
+                                                    <option style="font-size: 15px;"value="Senior Level">Senior Level</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <span class="pf-title">Experience</span>
+                                            <span style="font-size: 14px;" class="pf-title">Experience</span>
                                             <div class="pf-field">
-                                                <input type="text" placeholder="work experience" input field required  name='experience' />
+                                                <input style="font-size: 15px;" type="text" placeholder="work experience" input field required  name='experience' />
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <span class="pf-title">Qualification</span>
+                                            <span style="font-size: 14px;" class="pf-title">Qualification</span>
                                             <div class="pf-field">
                                                 <select data-placeholder="Please Select Specialism" name='qual' input field required class="chosen">
-                                                    <option value='Under Graduate'>Under Graduate</option>
-                                                    <option value='Graduate'>Graduate</option>
-                                                    <option value='Professional'>Professional</option>
+                                                    <option style="font-size: 15px;"value='Under Graduate'>Under Graduate</option>
+                                                    <option style="font-size: 15px;"value='Graduate'>Graduate</option>
+                                                    <option style="font-size: 15px;"value='Professional'>Professional</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <span class="pf-title">Gender</span>
+                                            <span style="font-size: 14px;"class="pf-title">Gender</span>
                                             <div class="pf-field">
                                                 <select name='gender'  class="chosen">
-                                                    <option value=''>Select Option</option>
-                                                    <option value='Male'>Male</option>
-                                                    <option value='Female'>Female</option>
-                                                    <option value='Both'>Both</option>
-                                                    <option value='Other'>Other</option>
+                                                    <option style="font-size: 15px;"value=''>Select Option</option>
+                                                    <option style="font-size: 15px;"value='Male'>Male</option>
+                                                    <option style="font-size: 15px;"value='Female'>Female</option>
+                                                    <option style="font-size: 15px;"value='Both'>Both</option>
+                                                    <option style="font-size: 15px;"value='Other'>Other</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <span class="pf-title">Industry</span>
+                                            <span style="font-size: 14px;"class="pf-title">Industry</span>
                                             <div class="pf-field">
                                                 <select name='industry'  class="chosen">
                                                     <option value=''>Select Option</option>
@@ -131,7 +143,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <span class="pf-title">Country</span>
+                                            <span style="font-size: 14px;"class="pf-title">Country</span>
                                             <div class="pf-field">
                                                 <select name='country' class="chosen">
                                                     <option value=''>Select Option</option>
@@ -377,27 +389,27 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <span class="pf-title">City</span>
+                                            <span style="font-size: 14px;"class="pf-title">City</span>
                                             <div class="pf-field">
-                                                <input type="text"  name='city' placeholder="city" input field required class="form-control datepicker" />
+                                                <input style="font-size: 15px;"type="text"  name='city' placeholder="city" input field required class="form-control datepicker" />
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <span class="pf-title">Application Deadline Date</span>
+                                            <span style="font-size: 14px;" class="pf-title">Application Deadline Date</span>
                                             <div class="pf-field">
-                                                <input type="date" name='deadline' placeholder="date" input field required  class="form-control datepicker" />
+                                                <input style="font-size: 15px;" type="date" name='deadline' placeholder="date" input field required  class="form-control datepicker" />
                                             </div>
                                         </div>
                                         <div class="col-lg-12">
-                                            <span class="pf-title">Required Knowledge, Skills, and Abilities</span>
+                                            <span style="font-size: 14px;"class="pf-title">Required Knowledge, Skills, and Abilities</span>
                                             <div class="pf-field">
-                                                <textarea input field required name='requiredknowledge'></textarea>
+                                                <textarea style="font-size: 15px;"input field required name='requiredknowledge'></textarea>
                                             </div>
                                         </div>
                                         <div class="col-lg-12">
-                                            <span class="pf-title">Education + Experience</span>
+                                            <span style="font-size: 14px;"class="pf-title">Education + Experience</span>
                                             <div class="pf-field">
-                                                <textarea input field required name='edu+exp'></textarea>
+                                                <textarea style="font-size: 15px;" input field required name='edu+exp'></textarea>
                                             </div>
                                         </div>
 
@@ -408,7 +420,7 @@
                                             </div>
                                         </div> -->
                                         <div class="col-lg-12">
-                                            <button type="submit">Upload</button>
+                                            <button style="background-color: #8a99b3;border-color: #8a99b3;" type="submit">Upload</button>
                                         </div>
                                         <div class="col-lg-6">
                                             <span class="pf-title"></span>

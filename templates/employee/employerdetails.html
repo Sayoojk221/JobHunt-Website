@@ -8,7 +8,7 @@
                     <div class="col-lg-12">
                         {% for item in employer%}
                         <div class="inner-header">
-                            <h3>{{item.companyname}}</h3>
+                            <h3 style="font-size: 30px;">{{item.companyname}}</h3>
                         </div>
                         {% endfor %}
                     </div>
@@ -27,43 +27,44 @@
 
                                 <div class="job-overview divide">
                                     {% for item in employer%}
-                                    <h3>Company Information</h3>
+                                    <h3 style="font-size: 20px;">Company Information</h3>
                                     <ul>
-                                        <li><i class="la la-user"></i><h3>Followers</h3><span>{{item.flowers}}</span></li>
-                                        <li><i class="la la-file-text"></i><h3>Posted Jobs</h3><span>{{count}}</span></li>
-                                        <li><i class="la la-map"></i><h3>Locations</h3><span>{{item.country}}, {{item.state}}</span></li>
+                                        <li><i class="la la-file-text"></i><h3 style="font-size: 15px;">Posted Jobs</h3><span>{{count}}</span></li>
+                                        <li><i class="la la-map"></i><h3 style="font-size: 15px;">Locations</h3><span>{{item.country}}, {{item.state}}</span></li>
                                     </ul>
                                     <ul>
-                                        <li><i class="la la-bars"></i><h3>Categories</h3><span>{{item.category}}</span></li>
-                                        <li><i class="la la-clock-o"></i><h3>Since</h3><span>{{item.since}}</span></li>
-                                        <li><i class="la la-users"></i><h3>Team Size</h3><span>{{item.teamsize}}</span></li>
+                                        <li><i class="la la-bars"></i><h3 style="font-size: 15px;">Categories</h3><span>{{item.category}}</span></li>
+                                        <li><i class="la la-clock-o"></i><h3 style="font-size: 15px;">Since</h3><span>{{item.since}}</span></li>
+                                        <li><i class="la la-users"></i><h3 style="font-size: 15px;">Team Size</h3><span>{{item.teamsize}}</span></li>
                                     </ul>
 
                                 </div><!-- Job Overview -->
                                 <div class="job-details">
-                                    <h3>Company Information</h3>
-                                    <p>{{item.description}}</p>
+                                    <h3 style="font-size: 20px;">About</h3>
+                                    <p style="font-size: 15px;">{{item.description}}</p>
                                 </div>
                                 {% endfor %}
                                 <div class="recent-jobs">
-                                    <h3>Jobs from Business Network</h3>
+                                    <h3 style="font-size: 20px;">Jobs from Business Network</h3>
                                     <div class="job-list-modern">
                                         <div class="job-listings-sec no-border">
                                             {% for item in postedjobs %}
+                                            {% if item.status == 'active' %}
                                             <div class="job-listing wtabs noimg">
 
                                                 <div class="job-title-sec">
-                                                    <h3><a href="/employeejob/?id={{item.id}}" title="">{{item.jobtitle}}</a></h3>
-                                                    <span>{{item.employerid.companyname}}</span>
-                                                    <div class="job-lctn"><i class="la la-map-marker"></i>{{item.country}}, {{item.state}}</div>
+                                                    <h3><a style="font-size: 18px;"href="/employeejob/?id={{item.id}}" title="">{{item.jobtitle}}</a></h3>
+                                                    <span style="font-size: 16px;">{{item.employerid.companyname}}</span>
+                                                    <div style="font-size: 15px;" class="job-lctn"><i class="la la-map-marker"></i>{{item.country}}, {{item.state}}</div>
                                                 </div>
                                                 <div class="job-style-bx">
-                                                    <span class="job-is ft">{{item.jobtype}}</span>
+                                                    <span style="font-size: 15px;"class="job-is ft">{{item.jobtype}}</span>
                                                     <!-- <span class="fav-job"><i class="la la-heart-o"></i></span> -->
                                                 </div>
 
                                             </div>
-                                             {% endfor %}
+                                            {% endif %}
+                                            {% endfor %}
                                         </div>
                                      </div>
                                 </div>
@@ -76,11 +77,11 @@
                         <div class="job-single-head style2">
                             <div class="job-thumb"> <img src="{{item.logo.url}}" width="124px" height="124px" alt="" /> </div>
                             <div class="job-head-info">
-                                <h4>{{item.companyname}}</h4>
-                                <span>{{item.country}}, {{item.state}}</span>
-                                <p><i class="la la-unlink"></i> {{item.website}}</p>
-                                <p><i class="la la-phone"></i> {{item.phoneno}}</p>
-                                <p><i class="la la-email-"></i> <a href="{{item.companyemail}}" class="__cf_email__" data-cfemail="67060b0e491312010609270d08050f1209134904080a">{{item.companyemail}}</a></p>
+                                <h4 style="font-size: 28px;">{{item.companyname}}</h4>
+                                <span style="font-size: 15px;">{{item.country}}, {{item.state}}</span>
+                                <p style="font-size: 14px;"><i class="la la-unlink"></i> {{item.website}}</p>
+                                <p style="font-size: 15px;"><i class="la la-phone"></i> {{item.phoneno}}</p>
+                                <p style="font-size: 15px;"><i class="la la-email-"></i> <a  class="__cf_email__" data-cfemail="67060b0e491312010609270d08050f1209134904080a">{{item.companyemail}}</a></p>
                             </div>
                             {% for social in employersocial %}
                             <div class="share-bar">

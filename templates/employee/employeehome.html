@@ -33,10 +33,10 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <div class="or-browser">
+                                    <!-- <div class="or-browser">
                                         <span>Browse job offers by</span>
                                         <a href="//" title="">Category</a>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <div class="scroll-to">
@@ -63,7 +63,7 @@
                                 <div class="col-lg-3 col-md-3 col-sm-6">
                                     <div class="p-category">
                                         <a href="/categorysearch/?key=Design, Art & Multimedia" title="">
-                                            <i class="la la-bullhorn"></i>
+                                            <i style="color:#98C86B;" class="la la-bullhorn"></i>
                                             <span>Design, Art & Multimedia</span>
                                             <!-- <p>(22 open positions)</p> -->
                                         </a>
@@ -72,7 +72,7 @@
                                 <div class="col-lg-3 col-md-3 col-sm-6">
                                     <div class="p-category">
                                         <a href="/categorysearch/?key=Education Training" title="">
-                                            <i class="la la-graduation-cap"></i>
+                                            <i style="color:#98C86B;"class="la la-graduation-cap"></i>
                                             <span>Education Training</span>
                                             <!-- <p>(6 open positions)</p> -->
                                         </a>
@@ -81,7 +81,7 @@
                                 <div class="col-lg-3 col-md-3 col-sm-6">
                                     <div class="p-category">
                                         <a href="/categorysearch/?key=Software Developer" title="">
-                                            <i class="la la-line-chart "></i>
+                                            <i style="color:#98C86B;" class="la la-line-chart "></i>
                                             <span>It Developement</span>
                                             <!-- <p>(3 open positions)</p> -->
                                         </a>
@@ -90,7 +90,7 @@
                                 <div class="col-lg-3 col-md-3 col-sm-6">
                                     <div class="p-category">
                                         <a href="/categorysearch/?key=Human Resource" title="">
-                                            <i class="la la-users"></i>
+                                            <i style="color:#98C86B;"class="la la-users"></i>
                                             <span>Human Resource</span>
                                             <!-- <p>(3 open positions)</p> -->
                                         </a>
@@ -103,7 +103,7 @@
                                 <div class="col-lg-3 col-md-3 col-sm-6">
                                     <div class="p-category">
                                         <a href="/categorysearch/?key=Telecommunications" title="">
-                                            <i class="la la-phone"></i>
+                                            <i style="color:#98C86B;"class="la la-phone"></i>
                                             <span>Telecommunications</span>
                                             <p><!-- (22 open positions) --></p>
                                         </a>
@@ -112,7 +112,7 @@
                                 <div class="col-lg-3 col-md-3 col-sm-6">
                                     <div class="p-category">
                                         <a href="/categorysearch/?key=Restaurant / Food Service" title="">
-                                            <i class="la la-cutlery"></i>
+                                            <i style="color:#98C86B;"class="la la-cutlery"></i>
                                             <span>Restaurant / Food Service</span>
                                             <!-- <p>(6 open positions)</p> -->
                                         </a>
@@ -121,7 +121,7 @@
                                 <div class="col-lg-3 col-md-3 col-sm-6">
                                     <div class="p-category">
                                         <a href="/categorysearch/?key=Construction / Facilities" title="">
-                                            <i class="la la-building"></i>
+                                            <i style="color:#98C86B;"class="la la-building"></i>
                                             <span>Construction / Facilities</span>
                                            <!--  <p>(3 open positions)</p> -->
                                         </a>
@@ -130,7 +130,7 @@
                                 <div class="col-lg-3 col-md-3 col-sm-6">
                                     <div class="p-category">
                                         <a href="/categorysearch/?key=Health" title="">
-                                            <i class="la la-user-md"></i>
+                                            <i style="color:#98C86B;"class="la la-user-md"></i>
                                             <span>Health</span>
                                             <!-- <p>(3 open positions)</p> -->
                                         </a>
@@ -180,19 +180,19 @@
                             <div class="job-listing">
                                 <div class="job-title-sec">
                                     <div class="c-logo"> <img src="{{item.employerid.logo.url}}" width="98px" height="51px" alt="" /> </div>
-                                    <h3><a href="/employeejob/?id={{item.id}}" title="">{{item.jobtitle}}</a></h3>
-                                    <span>{{item.employerid.companyname}}</span>
+                                    <h3><a style="font-size: 20px;" href="/employeejob/?id={{item.id}}" title="">{{item.jobtitle}}</a></h3>
+                                    <span style="font-size:15px;color: #8a99b3;">{{item.employerid.companyname}}</span>
                                 </div>
                                 <span class="job-lctn"><i class="la la-map-marker"></i>{{item.country}}, {{item.city}}</span>
 <!--                                 <span class="fav-job"><i class="la la-heart-o"></i></span>
- -->                                <span class="job-is ft">{{item.jobtype}}</span>
+ -->                                <span style="font-size:15px;"class="job-is ft">{{item.jobtype}}</span>
                             </div><!-- Job -->
                             {% endfor %}
                         </div>
                     </div>
                     <div class="col-lg-12">
                         <div class="browse-all-cat">
-                            <a href="/alljobs/" title="">Load more listings</a>
+                            <a style="border-color:#8a99b3;" onmouseover="this.style.background='#8a99b3';" onmouseout="this.style.background='white';"href="/alljobs/" title="">Load more listings</a>
                         </div>
                     </div>
                 </div>
@@ -200,32 +200,52 @@
         </div>
     </section>
 
-    <section>
+    <!-- <section>
             <div class="block">
-                <div data-velocity="-.1" style="background: url(/static/images/resource/parallax2.jpg) repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible layer color light"></div><!-- PARALLAX BACKGROUND IMAGE -->
+                <div data-velocity="-.1" style="background: url(/static/images/resource/parallax2.jpg) repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible layer color light"></div>
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="heading light">
                                 <h2>Kind Words From Happy Candidates</h2>
                                 <span>What other people thought about the service provided by JobHunt</span>
-                            </div><!-- Heading -->
+                            </div>
                             <div class="reviews-sec" id="reviews-carousel">
-                                {% for item in review %}
+
                                 <div class="col-lg-6">
-                                    <div class="reviews">
-                                        <img src="{{item.employeeid.profileimage.url}}" width="101px" height="101px" alt="" />
-                                        <h3>{{item.employeepersonalid.fullname}}</h3>
-                                        <p>{{item.review}}</p>
-                                    </div>
+                                <div class="reviews">
+                                    <img src="/static/images/resource/r1.jpg" alt="" />
+                                    <h3>Augusta Silva <span>Web designer</span></h3>
+                                    <p>Without JobHunt i’d be homeless, they found me a job and got me sorted out quickly with everything!  Can’t quite believe the service</p>
                                 </div>
-                                {% endfor %}
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="reviews">
+                                    <img src="/static/images/resource/r2.jpg" alt="" />
+                                    <h3>Ali Tufan <span>Web designer</span></h3>
+                                    <p>Without JobHunt i’d be homeless, they found me a job and got me sorted out quickly with everything!  Can’t quite believe the service</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="reviews">
+                                    <img src="/static/images/resource/r1.jpg" alt="" />
+                                    <h3>Augusta Silva <span>Web designer</span></h3>
+                                    <p>Without JobHunt i’d be homeless, they found me a job and got me sorted out quickly with everything!  Can’t quite believe the service</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="reviews">
+                                    <img src="/static/images/resource/r2.jpg" alt="" />
+                                    <h3>Ali Tufan <span>Web designer</span></h3>
+                                    <p>Without JobHunt i’d be homeless, they found me a job and got me sorted out quickly with everything!  Can’t quite believe the service</p>
+                                </div>
+                            </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
     <section>
         <div class="block">
@@ -259,75 +279,8 @@
         </div>
     </section>
 
-    <section>
-        <div class="block">
-            <div data-velocity="-.1" style="background: url(/static/images/resource/parallax3.jpg) repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible no-parallax"></div><!-- PARALLAX BACKGROUND IMAGE -->
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="heading">
-                            <h2>Quick Career Tips</h2>
-                            <span>Found by employers communicate directly with hiring managers and recruiters.</span>
-                        </div><!-- Heading -->
-                        <div class="blog-sec">
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="my-blog">
-                                        <div class="blog-thumb">
-                                            <a href="#" title=""><img src="/static/images/resource/b1.jpg" alt="" /></a>
-                                            <div class="blog-metas">
-                                                <a href="#" title="">March 29, 2017</a>
-                                                <a href="#" title="">0 Comments</a>
-                                            </div>
-                                        </div>
-                                        <div class="blog-details">
-                                            <h3><a href="#" title="">Attract More Attention Sales And Profits</a></h3>
-                                            <p>A job is a regular activity performed in exchange becoming an employee, volunteering, </p>
-                                            <a href="#" title="">Read More <i class="la la-long-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="my-blog">
-                                        <div class="blog-thumb">
-                                            <a href="#" title=""><img src="/static/images/resource/b2.jpg" alt="" /></a>
-                                            <div class="blog-metas">
-                                                <a href="#" title="">March 29, 2017</a>
-                                                <a href="#" title="">0 Comments</a>
-                                            </div>
-                                        </div>
-                                        <div class="blog-details">
-                                            <h3><a href="#" title="">11 Tips to Help You Get New Clients</a></h3>
-                                            <p>A job is a regular activity performed in exchange becoming an employee, volunteering, </p>
-                                            <a href="#" title="">Read More <i class="la la-long-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="my-blog">
-                                        <div class="blog-thumb">
-                                            <a href="#" title=""><img src="/static/images/resource/b3.jpg" alt="" /></a>
-                                            <div class="blog-metas">
-                                                <a href="#" title="">March 29, 2017</a>
-                                                <a href="#" title="">0 Comments</a>
-                                            </div>
-                                        </div>
-                                        <div class="blog-details">
-                                            <h3><a href="#" title="">An Overworked Newspaper Editor</a></h3>
-                                            <p>A job is a regular activity performed in exchange becoming an employee, volunteering, </p>
-                                            <a href="#" title="">Read More <i class="la la-long-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <section>
+    <!-- <section>
         <div class="block no-padding">
             <div class="container fluid">
                 <div class="row">
@@ -340,5 +293,5 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 {% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+
+                    <div class="col-lg-15">
+                        <div class="padding-left">
+                            <div class="manage-jobs-sec">
+                                <h3>Active log</h3>
+                                <table>
+                                    <h3>Active log</h3>
+                                    <thead>
+                                        <tr>
+                                            <td style="color: #8a99b3;">Job Name</td>
+                                            <td style="color: #8a99b3;">Employee Name</td>
+                                            <td style="color: #8a99b3;">Company Name</td>
+                                            <td style="color: #8a99b3;">Interview </td>
+                                            <td style="color: #8a99b3;">Letter Send </td>
+                                            <td style="color: #8a99b3;">Accept </td>
+                                            <td style="color: #8a99b3;">Reject </td>
+                                        </tr>
+                                    </thead>
+                                    {% for item in jobrequest %}
+<!--  -->                           <tbody>
+                                        <tr>
+                                            <td>{{item.jobid.jobtitle}}</td>
+                                            <td>{{item.employeepersonalid.fullname}}</td>
+                                            <td>{{item.jobid.employerid.companyname}}</td>
+                                            {% if item.interviewdate %}
+                                            <td>{{item.interviewdate}}</td>
+                                            {% else %}
+                                            <td>-</td>
+                                            {% endif %}
+                                            {% if item.lettersenddate %}
+                                            <td>{{item.lettersenddate}}</td>
+                                            {% else %}
+                                            <td>-</td>
+                                            {% endif %}
+                                            {% if item.acceptdate %}
+                                            <td>{{item.acceptdate}}</td>
+                                            {% else %}
+                                            <td>-</td>
+                                            {% endif %}
+                                            {% if item.rejectdate %}
+                                            <td>{{item.rejectdate}}</td>
+                                            {% else %}
+                                            <td>-</td>
+                                            {% endif %}
+                                        </tr>
+                                    </tbody>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

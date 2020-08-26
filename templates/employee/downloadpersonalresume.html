@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>resume</title>
+</head>
+<body>
+    {% for item in data %}
+    <embed src="{{item.resume.url}}" type="application/pdf"   height="100%" width="100%">
+    {% endfor %}
+</body>
+</html>

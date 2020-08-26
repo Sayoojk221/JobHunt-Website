@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'jobhuntadmin',
+
 ]
 
 MIDDLEWARE = [
@@ -119,6 +121,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.core.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.request",
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
@@ -128,7 +137,6 @@ STATICFILES_DIRS = [
    ]
 STATIC_URL = '/static/'
 
-#
 MEDIA_ROOT  = os.path.join(BASE_DIR, 'images')
 MEDIA_URL = '/images/'
 

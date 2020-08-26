@@ -2,39 +2,65 @@
 {% block content %}
 <div class="col-lg-9 column">
                         <div class="padding-left">
-                            <div class="emply-resume-sec">
-                                <h3>Application Request</h3>
-                                {% for item in job %}
-
-                                <div class="emply-resume-list">
-
-                                    <div class="emply-resume-thumb">
-                                        <img src="{{item.employeeid.profileimage.url}}" alt="" />
+                            <div class="manage-jobs-sec">
+                                <div class="col-lg-12">
+                                        {% for item in job %}
+                                        <!-- <div class="action-inner">
+                                            <a href="/downloadpdf/?id={{item.employeeid.id}}" style="font-size: 16px;" title=""><i class="la la-paper-plane"></i>Save Profile</a>
+                                        </div> -->
+                                        {% endfor %}
                                     </div>
-                                    <div class="emply-resume-info">
-                                        <h3><a href="/employeeprofileview/?id={{item.employeeid.id}}" title="">{{item.employeepersonalid.fullname}}</a></h3>
-                                        {% if item.jobid.jobtitle %}
-                                        <span><i>{{item.jobid.jobtitle}}</i> </span>
-                                        {% else %}
-                                        <span><i>Fresher</i> </span>
-                                        {% endif%}
-                                        <span><i>{{item.employeeid.email}}</i></span>
-                                        <p><i class="la la-map-marker"></i>{{item.employeepersonalid.country}} / {{item.employeepersonalid.city}}</p>
-                                    </div>
-                                    <div class="action-resume">
-                                        <div class="action-center">
-                                            <span>Action <i class="la la-angle-down"></i></span>
-                                            <ul>
-
-                                               <li class="open-contact"><a href="#" title="">Send a Message</a></li>
-                                                <li><a href="/employeeprofileview/?id={{item.employeeid.id}}" title="">View Profile</a></li>
-                                                <li class=""><a href="/interviewselection/?id={{item.id}}" title="">Pass</a></li>
-                                                 <li class=""><a href="/interviewselection/?id1={{item.id}}" title="">Reject</a></li>
-                                            </ul>
-                                        </div>
+                                <br>
+                                <div class="sortby-sec">
+<!--                                     <span>Filter by</span>
+ -->                                    <div class="action-center">
+                                        <span>Job Code<i class="la la-angle-down"></i></span>
+                                        <ul>
+                                            {% for item in jobcode %}
+                                           <li><a href="/employerjobcodesearch/?value={{item.jobcode}}" style="font-size:15px;" title="">{{item.jobcode}}</a></li>
+                                           {% endfor %}
+                                        </ul>
                                     </div>
                                 </div>
-                                {% endfor %}
+                                <h3 style="font-size:20px;">Applications</h3>
+
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td style="font-size:17px;color:#8a99b3;">Job Code</td>
+                                            <td style="font-size:17px;color:#8a99b3;">Job title</td>
+                                            <td style="font-size:17px;color:#8a99b3;">Job Status</td>
+                                            <td style="font-size:17px;color:#8a99b3;">Employee Name</td>
+                                            <td style="font-size:17px;color:#8a99b3;">Location</td>
+                                            <td style="font-size:17px;color:#8a99b3;">Action</td>
+                                        </tr>
+                                    </thead>
+                                    {% for item in job %}
+                                    <tbody>
+                                        <tr>
+                                            <td style="font-size:16px;">{{item.jobid.jobcode}}</td>
+                                            <td style="font-size:16px;">{{item.jobid.jobtitle}}</td>
+                                            <td style="font-size:16px;">
+                                                {% if item.jobid.status == 'active' %}
+                                                <span style="font-size:16px;" class="status active">Active</span>
+                                                {% else %}
+                                                <span style="font-size:16px;" class="status">Inactive</span>
+                                                {% endif %}
+                                            </td>
+                                            <td style="font-size:16px;">{{item.employeepersonalid.fullname}}</td>
+                                            <td >{{item.employeepersonalid.city}}/{{item.employeepersonalid.state}}</td>
+                                            <td>
+                                                <ul class="action_job">
+                                                    <li><span>View profile</span><a href="/employeeprofileview/?id={{item.employeeid.id}}" title=""><i style="font-size:  17px;" class="la la-eye"></i></a></li>
+                                                    <li class="open-contact"><span>Send message</span><a href="#" title=""><i style="font-size:  17px;" class="la la-envelope"></i></a></li>
+<!--                                                     <li><span>Accept</span><a href="/interviewselection/?id={{item.id}}" title=""><i style="font-size:  17px;" class="la la-check"></i></a></li>
+ -->                                                    <li><span>Reject</span><a href="/interviewselection/?id1={{item.id}}" title=""><i style="font-size:  17px;" class="la la-close"></i></a></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    {% endfor %}
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -42,6 +68,7 @@
             </div>
         </div>
     </section>
+
     <!-- <div class="coverletter-popup">
         <div class="cover-letter">
             <i class="la la-close close-letter"></i>
@@ -66,6 +93,8 @@
             {% endfor %}
             <div class="popup-field">
                 <input type="text" name='email' required="" value={{item.employeeid.email}} />
+                <input type="hidden" name="employeeid" value={{item.employeeid.id}}>
+                <input type="hidden" name="jobid" value={{item.jobid.id}}>
                 <i class="la la-envelope-o"></i>
             </div>
             {% for i in employer_reg %}
@@ -74,6 +103,10 @@
                 <i class="la la-phone"></i>
             </div>
             {% endfor %}
+            <div class="popup-field">
+                <input type="date" name='interviewdate' placeholder="dd-mm-yyy" />
+<!--                 <i class="la la-calendar"></i>
+ -->            </div>
             <div class="popup-field">
                 <textarea name='message' placeholder="Message"></textarea>
             </div>

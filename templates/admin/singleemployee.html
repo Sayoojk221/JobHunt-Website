@@ -1,0 +1,241 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<section class="overlape">
+        <div class="block no-padding">
+            <div data-velocity="-.1" style="background: url(/static/images/resource/mslider1.jpg) repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible no-parallax"></div><!-- PARALLAX BACKGROUND IMAGE -->
+            <div class="container fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="inner-header">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="skills-btn">
+                                            {% for skill in professionalskill %}
+                                            <a href="" title="">{{skill.skillname}}</a>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        {% for item in employee_per %}
+                                        <!-- <div class="action-inner">
+                                            <a href="/downloadpdf/?id={{item.employeeid.id}}" style="font-size: 16px;" title=""><i class="la la-paper-plane"></i>Save Profile</a>
+                                        </div> -->
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="overlape">
+        <div class="block remove-top">
+            <div class="container">
+                <div id='content' class="row">
+                    <div class="col-lg-12">
+                        <div class="cand-single-user">
+                            {% for item in employee_social %}
+                            <div class="share-bar circle">
+                                <a href="{{item.linkedin}}" title="" class="share-linkedin"><i class="la la-linkedin"></i></a><a href="{{item.facebook}}" title="" class="share-fb"><i class="la la-facebook"></i></a><a href="{{item.twitter}}" title="" class="share-twitter"><i class="la la-twitter"></i></a>
+                            </div>
+                            {% endfor %}
+                            <div class="can-detail-s">
+                                {% for item in employee_per %}
+                                <div class="cst"><img src="{{item.employeeid.profileimage.url}}" width="145px" height="145px" alt="" /></div>
+                                <h3>{{item.fullname}}</h3>
+                                {% endfor %}
+                                {% for job in employee_job%}
+                                {% if job.jobtitle%}
+                                <span><i>{{job.jobtitle}}</i> at {{job.company}}</span>
+                                {% else %}
+                                <span><i>Fresher</span>
+                                {% endif%}
+                                <p><a href="" class="__cf_email__" data-cfemail="2744554246534e51424b465e425554171f1f67404a464e4b0944484a">{{job.employeeid.email}}</a></p>
+                                {% endfor %}
+                                {% for item in employee_per %}
+                                <p><i class="la la-map-marker"></i>{{item.country}} / {{item.city}}</p>
+                                {% endfor %}
+                            </div>
+                            {% for item in resume%}
+                            <div class="download-cv">
+                                <!-- <br>
+                                <a href="{{item.resume.url}}/" title="">Download Resume<i class="la la-download"></i></a> -->
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <ul class="cand-extralink">
+                            <li><a href="#about" title="">About</a></li>
+                            {% if education %}
+                            <li><a href="#education" title="">Education</a></li>
+                            {% endif%}
+                            {% if workexperience %}
+                            <li><a href="#experience" title="">Work Experience</a></li>
+                            {% endif %}
+                            {% if portflio %}
+                            <li><a href="#portfolio" title="">Portfolio</a></li>
+                            {% endif %}
+                            {% if professionalskill%}
+                            <li><a href="#skills" title="">Professional Skills</a></li>
+                            {% endif %}
+                            {% if languageskill %}
+                            <li><a href="#skills" title="">Languages</a></li>
+                            {% endif %}
+                            {% if awards %}
+                            <li><a href="#awards" title="">Awards</a></li>
+                            {% endif %}
+                        </ul>
+                        <div class="cand-details-sec">
+                            <div class="row">
+                                <div class="col-lg-8 column">
+                                    <div class="cand-details" id="about">
+                                        <h2>Candidates About</h2>
+                                        {% for job in employee_job %}
+                                        <p>{{job.jobdescription}}</p>
+                                        {% endfor %}
+                                        <div class="edu-history-sec" id="education">
+                                            {% if education %}
+                                            <h2>Education</h2>
+                                            {% for edu in education %}
+                                            <div class="edu-history">
+                                                <i class="la la-graduation-cap"></i>
+                                                <div class="edu-hisinfo">
+                                                    <h3>{{edu.title}}</h3>
+                                                    <i>{{edu.startyear}} - {{edu.endyear}}</i>
+                                                    <span>{{edu.institute}}<i>{{edu.course}}</i></span>
+                                                    <p>{{edu.description}}</p>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                        <div class="edu-history-sec" id="experience">
+                                            {% if workexperience %}
+                                            <h2>Work & Experience</h2>
+                                            {% for exp in workexperience%}
+                                            <div class="edu-history style2">
+                                                <i></i>
+                                                <div class="edu-hisinfo">
+                                                    <h3>{{exp.job}} <span>{{exp.company}}</span></h3>
+                                                    <i>{{exp.startyear}} - {{exp.endyear}}</i>
+                                                    <p>{{exp.jobdescription}}</p>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                        <div class="mini-portfolio" id="portfolio">
+                                            {% if portflio %}
+                                            <h2>Portfolio</h2>
+                                            {% for item in portflio %}
+                                            <div class="mp-row">
+                                                <div class="mp-col">
+                                                    <div class="mportolio"><img src="{{item.image.url}}" alt="" /><a href="{{item.url}}" title=""><i class="la la-search"></i></a></div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                        <div class="progress-sec" id="skills">
+                                            {% if professionalskill %}
+                                            <h2>Professional Skills</h2>
+                                            {% for skill in professionalskill%}
+                                            <div class="progress-sec">
+                                                <span>{{skill.skillname}}</span>
+                                                <div class="progressbar"> <div class="progress" style="width: {{skill.percentage}}%;"><span>{{skill.percentage}}%</span></div> </div>
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                        <div class="progress-sec" id="skills">
+                                            {% if languageskill %}
+                                            <h2>Lanquages</h2>
+                                            {% for skill in languageskill%}
+                                            <div class="progress-sec">
+                                                <span>{{skill.language}}</span>
+                                                <div class="progressbar"> <div class="progress" style="width: {{skill.percentage}}%;"><span>{{skill.percentage}}%</span></div> </div>
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                        <div class="edu-history-sec" id="awards">
+                                            {% if awards %}
+                                            <h2>Awards</h2>
+                                            {% for item in awards%}
+                                            <div class="edu-history style2">
+                                                <i></i>
+                                                <div class="edu-hisinfo">
+                                                    <h3>{{item.awardname}}</h3>
+                                                    <i>{{item.year}}</i>
+                                                    <p>{{item.description}}</p>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                        <div class="companyies-fol-sec">
+                                            <!-- <h2>Companies Followed By</h2>
+                                            <div class="cmp-follow">
+                                                <div class="row">
+                                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                                                        <a href="#" title=""><img src="/static/images/resource/em1.jpg" alt="" /><span>King LLC</span></a>
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                                                        <a href="#" title=""><img src="/static/images/resource/em2.jpg" alt="" /><span>Telimed</span></a>
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                                                        <a href="#" title=""><img src="/static/images/resource/em3.jpg" alt="" /><span>Ucesas</span></a>
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                                                        <a href="#" title=""><img src="/static/images/resource/em4.jpg" alt="" /><span>TeraPlaner</span></a>
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                                                        <a href="#" title=""><img src="/static/images/resource/em5.jpg" alt="" /><span>Cubico</span></a>
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                                                        <a href="#" title=""><img src="/static/images/resource/em6.jpg" alt="" /><span>Airbnb</span></a>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 column">
+                                    <div class="job-overview">
+                                        <h3>Overview</h3>
+                                        <ul>
+
+                                            {% for item in employee_per %}
+                                            <li><i class="la la-mars-double"></i><h3>Gender</h3><span>{{item.gender}}</span></li>
+                                            <li><i class="la la-thumb-tack"></i><h3>Age</h3><span>{{age}} Years</span></li>
+                                            <li><i class="la la-line-chart "></i><h3>Qualification</h3><span>{{item.education}}</span></li>
+                                            {% endfor %}
+                                            {% for item in employee_job %}
+                                            <li><i class="la la-shield"></i><h3>Experience</h3><span>{{item.experience}}</span></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div><!-- Job Overview -->
+                                    <!-- <div class="quick-form-job">
+                                        <h3>Contact</h3>
+                                        <form>
+                                            <input type="text" placeholder="Enter your Name *" />
+                                            <input type="text" placeholder="Email Address*" />
+                                            <input type="text" placeholder="Phone Number" />
+                                            <textarea placeholder="Message should have more than 50 characters"></textarea>
+                                            <button class="submit">Send Email</button>
+                                            <span>You accepts our <a href="#" title="">Terms and Conditions</a></span>
+                                        </form>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

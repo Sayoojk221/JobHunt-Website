@@ -3,7 +3,7 @@
 }
 
 @media (max-width:1300px){
-
+    
 }
 
 @media (max-width:1200px){
@@ -12,7 +12,7 @@
 .job-search-sec{
     width: 95%;
 }
-
+    
 .error-sec {
     width: 100%;
     padding: 0 100px;
@@ -91,7 +91,7 @@ header {
 }
 .job-search-sec .job-search > h3 {
     font-size: 30px;
-
+   
 }
 .how-to-sec > .how-to::before {
     display: none;
@@ -147,7 +147,7 @@ header {
 
 @media (max-width:980px){
 
-.block{padding: 15px 0px;}
+.block{padding: 15px 0px;}    
 .column {
     float: left;
     width: 100%;
@@ -243,7 +243,7 @@ header {
     float: left;
     width: 100%;
     padding: 0;
-
+    
     -webkit-border-radius: 0 0;
     -moz-border-radius: 0 0;
     -ms-border-radius: 0 0;
@@ -292,18 +292,18 @@ select {
     -ms-border-radius: 8px;
     -o-border-radius: 8px;
     border-radius: 8px;
-
+   
 }
 
 .job-field select{border: none;}
 
 .job-search .job-field {
     margin: 0 0 15px 0;
-
+   
 }
 
 .job-field .chosen-container-single .chosen-single {
-
+    
 }
 .job-search form button {
     height: 50px;
@@ -352,7 +352,7 @@ select {
 .search-job2.style2 form div button {
     float: left;
     width: 100%;
-
+    
     -webkit-border-radius: 0 0 !important;
     -moz-border-radius: 0 0 !important;
     -ms-border-radius: 0 0 !important;
@@ -364,7 +364,7 @@ select {
 .search-job2.style2 form div button {
     float: left;
     width: 100%;
-
+    
     -webkit-border-radius: 0 0 !important;
     -moz-border-radius: 0 0 !important;
     -ms-border-radius: 0 0 !important;
@@ -396,7 +396,7 @@ select {
     padding-top: 100px;
 }
 .inner-header.wform .job-field {
-
+    
     -webkit-border-radius: 0 0;
     -moz-border-radius: 0 0;
     -ms-border-radius: 0 0;
@@ -484,7 +484,7 @@ select {
     position: static;
     float: left;
     width: 100%;
-
+    
     -webkit-transform: none;
     -moz-transform: none;
     -ms-transform: none;
@@ -729,7 +729,7 @@ select {
     margin: 0;
 }
 .search-job2 form {
-
+    
     -webkit-border-radius: 0 0;
     -moz-border-radius: 0 0;
     -ms-border-radius: 0 0;
@@ -738,7 +738,7 @@ select {
 
 }
 .search-job2 {
-
+    
     -webkit-border-radius: 0 0;
     -moz-border-radius: 0 0;
     -ms-border-radius: 0 0;
@@ -747,7 +747,7 @@ select {
 
 }
 .search-job2 form .row > div:last-child button {
-
+    
     -webkit-border-radius: 0 0;
     -moz-border-radius: 0 0;
     -ms-border-radius: 0 0;
@@ -784,7 +784,7 @@ select {
     opacity: 0.1;
 }
 .job-listing.rounded {
-
+    
     -webkit-border-radius: 0 0 !important;
     -moz-border-radius: 0 0 !important;
     -ms-border-radius: 0 0 !important;
@@ -793,7 +793,7 @@ select {
 
 }
 .job-listing.rounded:hover {
-
+    
     -webkit-border-radius: 0 0 !important;
     -moz-border-radius: 0 0 !important;
     -ms-border-radius: 0 0 !important;
@@ -937,7 +937,7 @@ select {
 .account-popup-area.static .account-popup {
     width: 100%;
     left: 0;
-
+    
     -webkit-transform: none;
     -moz-transform: none;
     -ms-transform: none;
@@ -955,7 +955,7 @@ select {
 
 }
 
-@media (max-width:520px){
+@media (max-width:520px){	
  .error-sec form > input {
     float: left;
     width: 100%;
@@ -1216,7 +1216,7 @@ select {
 
 
 .job-search-sec {
-
+    
 }
 .job-search-sec .job-search > h3 {
     line-height: 30px;

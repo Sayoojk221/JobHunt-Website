@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from grandetest.com/theme/jobhunt-html/index4.html by HTTrack Website Copier/3.x [XR&CO'2017], Sat, 23 May 2020 13:14:38 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+    <title>Job Hunt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="CreativeLayers">
+
+    <!-- Styles -->
+
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap-grid.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/icons.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/responsive.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/chosen.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/colors/colors.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/html" href="../../../maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+
+</head>
+<body class="newbg">
+
+<div class="page-loading">
+    <img src="/static/images/loader.gif" alt="" />
+</div>
+
+<div class="theme-layout" id="scrollup">
+
+    <div class="responsive-header">
+        <div class="responsive-menubar">
+            <div class="res-logo"><a href="/admin/home/" title=""><img src="/static/images/resource/logo.png" alt="" /></a></div>
+            <div class="menu-resaction">
+                <div class="res-openmenu">
+                    <img src="/static/images/icon.png" alt="" /> Menu
+                </div>
+                <div class="res-closemenu">
+                    <img src="/static/images/icon2.png" alt="" /> Close
+                </div>
+            </div>
+        </div>
+        <div class="responsive-opensec">
+            <form class="res-search">
+                <input type="text" placeholder="Job title, keywords or company name" />
+                <button type="submit"><i class="la la-search"></i></button>
+            </form>
+
+            <div class="responsivemenu">
+                <ul>
+                    <li class="menu">
+                        <a  style="font-size: 20px;" href="/admin/home/" title="">Home</a>
+                    </li>
+                    <li class="menu">
+                        <a style="font-size: 20px;" href="/admin/activelog/" title="">Active log</a>
+                    </li>
+                    <li class="menu">
+                        <a style="font-size: 20px;" href="/admin/totalemployer/" title="">Employers</a>
+                    </li>
+                    <li class="menu">
+                        <a style="font-size: 20px;" href="/admin/totalemployee/" title="">Employees</a>
+                    </li>
+                    <li class="menu">
+                        <a style="font-size: 20px;" href="/admin/logout/" title="">Logout</a>
+                    </li>
+                    <!-- <li class="menu">
+                        <a href="#" title="">Blog</a> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <header class="stick-top forsticky new-header">
+        <div class="menu-sec">
+            <div class="container">
+                <div class="logo">
+                    <a href="/admin/home/" title=""><img class="hidesticky" src="/static/images/resource/logo.png" alt="" /><img class="showsticky" src="/static/images/resource/logo10.png" alt="" /></a>
+                </div><!-- Logo -->
+
+               <!--  <div class="wishlist-dropsec ">
+                    <span><i "></i><strong>{{count}}</strong></span>
+                    <div class="wishlist-dropdown">
+                        <ul class="scrollbar">
+                            {% for item in shortlist%}
+                            <li>
+                                <div class="job-listing">
+                                    <div class="job-title-sec">
+                                        <div class="c-logo"> <img src="{{item.shortlistedjobid.employerid.logo.url}}" alt="" /> </div>
+                                        <h3><a href="/employeejob/?id={{item.shortlistedjobid.id}}" title="">{{item.shortlistedjobid.jobtitle}}</a></h3>
+                                        <span>{{item.shortlistedjobid.employerid.companyname}}</span>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div> -->
+
+
+
+                <nav>
+                    <ul>
+                        <li class="menu">
+                            <a  style="font-size: 20px;" href="/admin/home/" title="">Home</a>
+                        </li>
+                        <li class="menu">
+                            <a style="font-size: 20px;" href="/admin/activelog/" title="">Active log</a>
+                        </li>
+                        <li class="menu">
+                            <a style="font-size: 20px;" href="/admin/totalemployer/" title="">Employers</a>
+                        </li>
+                        <li class="menu">
+                            <a style="font-size: 20px;" href="/admin/totalemployee/" title="">Employees</a>
+                        </li>
+                        <li class="menu">
+                            <a style="font-size: 20px;" href="/admin/logout/" title="">Logout</a>
+                        </li>
+                        <!-- <li class="menu">
+                            <a href="#" title="">Blog</a>
+                        </li> -->
+                    </ul>
+                </nav><!-- Menus -->
+            </div>
+        </div>
+    </header>
+    {% block content %}
+    {% endblock %}
+    <footer>
+        <div class="block">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 column">
+                        <div class="widget">
+                            <div class="about_widget">
+                                <div class="logo">
+                                    <a href="/admin/home/" title=""><img src="/static/images/resource/logo.png" alt="" /></a>
+                                </div>
+                                <span>Collin Street West, Victor 8007, Australia.</span>
+                                <span>+1 246-345-0695</span>
+                                <span><a href="../../../external.html?link=https://grandetest.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="076e696168476d68656f7269732964686a">[email&#160;protected]</a></span>
+                                <div class="social">
+                                    <a href="#" title=""><i class="fa fa-facebook"></i></a>
+                                    <a href="#" title=""><i class="fa fa-twitter"></i></a>
+                                    <a href="#" title=""><i class="fa fa-linkedin"></i></a>
+                                    <a href="#" title=""><i class="fa fa-pinterest"></i></a>
+                                    <a href="#" title=""><i class="fa fa-behance"></i></a>
+                                </div>
+                            </div><!-- About Widget -->
+                        </div>
+                    </div>
+                    <div class="col-lg-4 column">
+                        <div class="widget">
+                            <h3 class="footer-title">Frequently Asked Questions</h3>
+                            <div class="link_widgets">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <a href="#" title="">Privacy & Seurty </a>
+                                        <a href="#" title="">Terms of Serice</a>
+                                        <a href="#" title="">Communications </a>
+                                        <a href="#" title="">Referral Terms </a>
+                                        <a href="#" title="">Lending Licnses </a>
+                                        <a href="#" title="">Disclaimers </a>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <a href="#" title="">Support </a>
+                                        <a href="#" title="">How It Works </a>
+                                        <a href="#" title="">For Employers </a>
+                                        <a href="#" title="">Underwriting </a>
+                                        <a href="#" title="">Contact Us</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 column">
+                        <div class="widget">
+                            <h3 class="footer-title">Find Jobs</h3>
+                            <div class="link_widgets">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <a href="#" title="">US Jobs</a>
+                                        <a href="#" title="">Canada Jobs</a>
+                                        <a href="#" title="">UK Jobs</a>
+                                        <a href="#" title="">Emplois en Fnce</a>
+                                        <a href="#" title="">Jobs in Deuts</a>
+                                        <a href="#" title="">Vacatures China</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 column">
+                        <div class="widget">
+                            <div class="download_widget">
+                                <a href="#" title=""><img src="/static/images/resource/dw1.png" alt="" /></a>
+                                <a href="#" title=""><img src="/static/images/resource/dw2.png" alt="" /></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-line">
+            <span>© 2020 Jobhunt All rights reserved. Design by Creative Layers</span>
+            <a href="#scrollup" class="scrollup" title=""><i class="la la-arrow-up"></i></a>
+        </div>
+    </footer>
+
+</div>
+
+<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="/static/js/jquery.min.js" type="text/javascript"></script>
+<script src="/static/js/modernizr.js" type="text/javascript"></script>
+<script src="/static/js/script.js" type="text/javascript"></script>
+<script src="/static/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/static/js/wow.min.js" type="text/javascript"></script>
+<script src="/static/js/slick.min.js" type="text/javascript"></script>
+<script src="/static/js/parallax.js" type="text/javascript"></script>
+<script src="/static/js/select-chosen.js" type="text/javascript"></script>
+<script src="/static/js/jquery.scrollbar.min.js" type="text/javascript"></script>
+<script src="/static/js/circle-progress.min.js" type="text/javascript"></script>
+<script src="/static/js/tag.js" type="text/javascript"></script>
+<script src="/static/js/maps3.js" type="text/javascript"></script>
+<script src="../../../external.html?link=https://maps.googleapis.com/maps/api/js?key=AIzaSyCYc537bQom7ajFpWE5sQaVyz1SQa9_tuY&amp;sensor=true&amp;libraries=places"></script>
+
+</body>
+
+<!-- Mirrored from grandetest.com/theme/jobhunt-html/index4.html by HTTrack Website Copier/3.x [XR&CO'2017], Sat, 23 May 2020 13:14:42 GMT -->
+</html>
+

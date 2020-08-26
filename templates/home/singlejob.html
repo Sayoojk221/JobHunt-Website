@@ -1,0 +1,152 @@
+{% extends 'home/base.html'%}
+{% block content %}
+<section class="overlape">
+        <div class="block no-padding">
+            <div data-velocity="-.1" style="background: url(/static/images/resource/mslider1.jpg) repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible no-parallax"></div><!-- PARALLAX BACKGROUND IMAGE -->
+            <div class="container fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        {% for item in job %}
+                        <div class="inner-header">
+                            <h3 style="font-size: 30px">{{item.jobtitle}}</h3>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="block">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 column">
+                        <div class="job-single-sec style3">
+                            <div class="job-head-wide">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        {% for item in job %}
+                                        <div class="job-single-head3">
+                                            <div class="job-thumb"> <img  src="{{item.employerid.logo.url}}" alt="" /><span style="font-size: 15px;color: #8a99b3;">{{item.positionnumber}} Open Position</span> </div>
+
+                                            <div class="job-single-info3">
+                                                <h3 style="font-size: 25px">{{item.employerid.companyname}}</h3>
+                                                <span style="font-size: 14px"><i class="la la-map-marker"></i>{{item.employerid.country}}, {{item.employerid.city}}</span><span style="font-size: 14px"class="job-is ft">{{item.jobtype}}</span>
+                                                <ul class="tags-jobs">
+                                                    <li style="font-size: 14px"><i class="la la-file-text"></i> Applications {{applicationcount}}</li>
+                                                    <li style="font-size: 14px"><i class="la la-calendar-o"></i> End Date: {{item.deadline}}</li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                        <!-- Job Head -->
+                                    </div>
+                                    <div class="col-lg-4">
+
+                                        <a class="apply-thisjob" href="/employeejob/?id={{item.id}}" title=""><i class="la la-paper-plane"></i>Apply</a>
+<!--                                         <a href="{{item.linkedinurl}}" title=""><i class="la la-linkedin"></i> Apply with Linkedin</a> -->
+
+                                       <!--  <div class="apply-alternative">
+
+                                            {% if not shortlistexist%}
+                                            <a href="/jobshortlistapply/?id2={{item.id}}" title=""><i class="la la-heart-o"></i> Shortlist</a>
+                                            {% else %}
+                                            <a href="/jobshortlistapply/?id2={{item.id}}" title=""><i class="la la-heart"></i> Shortlist</a>
+                                            {% endif %}
+                                        </div> -->
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="job-wide-devider">
+                                <div class="row">
+                                    <div class="col-lg-8 column">
+                                        <div class="job-details">
+                                            <h3 style="font-size: 25px">Job Description</h3>
+                                            <p style="font-size: 13px">{{item.description}}</p>
+                                            <h3 style="font-size: 25px">Required Knowledge, Skills, and Abilities</h3>
+                                            <ul>
+                                                <p style="font-size: 13px">{{item.requiredknowledge}}</p>
+
+                                            </ul>
+                                            <h3 style="font-size: 25px">Education + Experience</h3>
+                                            <ul>
+                                                <p style="font-size: 13px">{{item.educationandexperience}}</p>
+                                            </ul>
+                                        </div>
+                                        <!-- <div class="share-bar">
+                                            <span>Share</span><a href="#" title="" class="share-fb"><i class="la la-facebook"></i></a><a href="#" title="" class="share-twitter"><i class="la la-twitter"></i></a>
+                                        </div> -->
+                                        <!-- <div class="extra-job-info">
+                                            <span><i class="la la-clock-o"></i><strong>35</strong> Days</span>
+                                            <span><i class="la la-file-text"></i><strong>300-500</strong> Application</span>
+                                            <span><i class="la la-search-plus"></i><strong>35697</strong> Displayed</span>
+                                        </div> -->
+                                        <div class="recent-jobs">
+                                            <h3 style="font-size: 20px;">Recent Jobs</h3>
+
+                                            <div class="job-list-modern">
+                                                <div class="job-listings-sec no-border">
+                                                    {% for item in alljobs %}
+                                                    <div class="job-listing wtabs">
+                                                        <div class="job-title-sec">
+                                                            <div class="c-logo"> <img src="{{item.employerid.logo.url}}" width="98px" height="51px" alt="" /> </div>
+                                                            <h3><a style="font-size: 18px;" href="/employeejob/?id2={{item.id}}" title="">{{item.jobtitle}}</a></h3>
+                                                            <span style="font-size: 13px;">{{item.employerid.companyname}}</span>
+                                                            <div  class="job-lctn"><i class="la la-map-marker"></i>{{item.country}}, {{item.state}}</div>
+                                                        </div>
+                                                        <div class="job-style-bx">
+                                                            <span style="font-size: 15px;" class="job-is ft">{{item.jobtype}}</span>
+                                                           <!--  <span name='heart' class="fav-job"><i class="la la-heart-o"></i></span> -->
+                                                          <!--   <i>5 months ago</i> -->
+                                                        </div>
+
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
+                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 column">
+                                        <div class="job-overview">
+                                            <h3 style="font-size: 22px;">Job Overview</h3>
+                                            <ul>
+                                                <li><i class="la la-money"></i><h3 style="font-size: 15px;">Offerd Salary</h3><span style="font-size: 14px;">{{item.offerdsalary}}</span></li>
+                                                {% if item.gender == 'Both'%}
+                                                <li><i class="la la-mars-double"></i><h3 style="font-size: 15px;">Gender</h3><span style="font-size: 14px;">Male,Female</span></li>
+                                                {% else %}
+                                                <li><i class="la la-mars-double"></i><h3 style="font-size: 15px;">Gender</h3><span style="font-size: 14px;">{{item.gender}}</span></li>
+                                                {% endif %}
+                                                <li><i class="la la-thumb-tack"></i><h3 style="font-size: 14px;">Career Level</h3><span style="font-size: 14px;">{{item.careerlevel}}</span></li>
+                                                <li><i class="la la-puzzle-piece"></i><h3 style="font-size: 15px;">Industry</h3><span style="font-size: 14px;">{{item.industry}}</span></li>
+                                                <li><i class="la la-shield"></i><h3 style="font-size: 15px;">Experience</h3><span style="font-size: 14px;">{{item.experience}}</span></li>
+                                                                                                <li><i class="la la-shield"></i><h3 style="font-size: 15px;">Qualification</h3><span style="font-size: 14px;">{{item.qualification}}</span></li>
+                                            </ul>
+                                        </div>
+                                            <!-- Job Overview -->
+                                        <!-- <div class="quick-form-job">
+                                            <h3>Contact</h3>
+                                            <form method='POST' action="/messagetoemployer/">
+                                                {% csrf_token %}
+                                                 <input type="hidden" name='jobid' value={{item.id}}>
+                                                <input type="hidden" name='companymail' value={{item.employerid.companyemail}}>
+                                                <input type="text" name='name' input field required placeholder="Enter your Name *" />
+                                                <input type="text" name='email' input field required placeholder="Email Address*" />
+                                                <input type="text" name='phone' input field required placeholder="Phone Number" />
+                                                <textarea name='message' input field required placeholder="Message should have more than 50 characters"></textarea>
+                                                <button class="submit">Send Email</button>
+                                                <span>You accepts our <a href="#" title="">Terms and Conditions</a></span>
+                                            </form>
+                                        </div> -->
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
